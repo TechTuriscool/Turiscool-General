@@ -1,0 +1,38 @@
+custom-toast {
+    display: none;
+    position: fixed;
+    bottom: -10px;
+    right: 20px;
+    z-index: 9999;
+    width: 300px;
+    height: 80px;
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding: 20px;
+    animation: none;
+    border: solid 2px #000;
+}
+
+@keyframes showToast {
+    from {
+        transform: translateY(100%);
+        
+    }
+
+    to {
+        transform: translateY(0);
+      
+    }
+}
+
+@keyframes hideToast {
+    from {
+        transform: translateY(0);
+       
+    }
+
+    to {
+        transform: translateY(100%);
+        
+    }
+}

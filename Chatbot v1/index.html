@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot</title>
+  <style>
+    body {
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        box-shadow: 0 0 14px 1px #05BFAD;
+      }
+
+      50% {
+        box-shadow: none;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .chat-container {
+        display: none;
+      }
+
+      .chat-widget {
+        display: none;
+      }
+
+    }
+
+    .loader {
+      font-weight: bold;
+      font-family: monospace;
+      white-space: pre;
+      font-size: 14px;
+      line-height: 1em;
+      height: 1em;
+      overflow: hidden;
+    }
+
+    .loader:before {
+      content: "Loading...";
+      white-space: pre;
+      display: inline-block;
+      animation: blinkText 2s infinite;
+    }
+
+    @keyframes blinkText {
+      50% {
+        opacity: 0;
+      }
+    }
+
+
+    @keyframes l39 {
+      100% {
+        transform: translateY(-100%)
+      }
+    }
+
+    @keyframes l1 {
+      to {
+        opacity: 0
+      }
+    }
+
+    @keyframes l39 {
+      100% {
+        transform: translateY(-100%)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-button ">Hola!</div>
+
+    <div class="chat-widget">
+      <div id="image-container"></div>
+      <div class="chat-header">
+        <span class="close-button">&times;</span>
+        Haz click para cerrar el chat
+      </div>
+      <div class="chat-body"></div>
+      <div class="chat-input">
+        <input type="text" placeholder="Escribe tu mensaje..." />
+        <button>Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let loading = false;
+
+    function initializeChat() {
+      const imageContainer = document.getElementById("image-container");
+      const imageRobotito = new Image();
+      imageRobotito.src =
+        "https://i.ibb.co/R6rC0WQ/Mini-Robot.png";
+      imageRobotito.onload = () => {
+        imageRobotito.id = "image-robotito";
+
+        imageRobotito.style.width = "150px";
+        imageContainer.appendChild(imageRobotito);
+
+        const styleElement = document.createElement("style");
+        styleElement.textContent = `
+    
+          	#image-container{
+				display: flex;
+                height:300px;
+				justify-content:center;
+				align-items:center;
+        padding:40px
+                }
+          
+            .chat-container {
+              position: fixed;
+              bottom: 20px;
+              left: 20px;
+              z-index: 1000;
+              font-size: 14px;
+            }
+
+            .chat-button {
+              background-color: #006791;
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 90px;
+              height: 90px;
+              font-size: 20px;
+              cursor: pointer;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              box-shadow: 0 0 14px 1px #05BFAD;
+              animation: blink 2s ease-in-out infinite;
+            }
+
+            .chat-widget {
+              display: none;
+              flex-direction: column;
+              background-color: #f1f1f1;
+              border: 1px solid #ccc;
+              width: 300px;
+              border-radius: 10px;
+              overflow: hidden;
+            }
+
+            .chat-header {
+              background-color: #006791;
+              color: white;
+              padding: 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            .close-button {
+              cursor: pointer;
+              font-size: 30px;
+            }
+
+            .chat-body {
+              padding: 10px;
+              max-height: 500px;
+              overflow-y: auto;
+            }
+
+            .chat-message {
+              background-color: #05bfad;
+              color: #ffffff;
+              border-radius: 5px;
+              padding: 8px 5%;
+              margin-bottom: 8px;
+              max-width: 90%;
+              word-wrap: break-word;
+              line-height: 1.5;
+            }
+
+            .chat-message.question {
+              background-color: white;
+              text-align: right;
+              color: black;
+            }
+
+            .chat-input {
+              padding: 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            .chat-input input {
+              flex: 1;
+              padding: 8px;
+              margin-right: 10px;
+              border-radius: 5px;
+              border: 1px solid #ccc;
+            }
+
+            .chat-input button {
+              background-color: #006791;
+              color: white;
+              border: none;
+              padding: 8px 15px;
+              border-radius: 5px;
+              cursor: pointer;
+            }
+
+            @keyframes floating {
+              0% {
+                transform: translateY(0);
+              }
+              50% {
+                transform: translateY(-30px);
+              }
+              100% {
+                transform: translateY(0);
+              }
+            }
+
+            #image-robotito {
+              animation: floating 2s ease-in-out infinite;
+              transform:scale(0.8);
+              
+            }
+          `;
+        document.head.appendChild(styleElement);
+      };
+
+      const chatButton = document.querySelector(".chat-button");
+      const chatWidget = document.querySelector(".chat-widget");
+      const closeButton = document.querySelector(".close-button");
+      const chatInput = document.querySelector(".chat-input input");
+      const chatBody = document.querySelector(".chat-body");
+      const chatContainer = document.querySelector(".chat-container");
+
+      chatContainer.addEventListener("mouseout", () => {
+
+        chatContainer.style.transition = "transform 0.3s";
+        chatContainer.style.transform = "scale(0.6) translateX(-35%) translateY(35%)"; 
+        chatContainer.style.justifyContent = "flex-start";
+      });
+
+
+      chatContainer.addEventListener("mouseover", () => {
+        chatContainer.style.transform = "scale(1)";
+
+      });
+
+
+      chatButton.addEventListener("click", () => {
+        chatWidget.style.display = "flex";
+        chatButton.style.display = "none";
+        clearChat();
+        createChat(
+          "Hola! Soy BOT-oNES tu ayudante virtual. Dime, ¿en qué puedo ayudarte hoy?"
+        );
+      });
+
+      closeButton.addEventListener("click", () => {
+        chatWidget.style.display = "none";
+        chatButton.style.display = "flex";
+      });
+
+      chatInput.addEventListener("keypress", async (e) => {
+        if (e.key === "Enter") {
+          const message = chatInput.value.trim();
+          chatInput.value = ""
+          e.preventDefault();
+          await sendMessage(message);
+        }
+
+      });
+
+      document
+        .querySelector(".chat-input button")
+        .addEventListener("click", async () => {
+          await sendMessage();
+        });
+
+      async function sendMessage(message) {
+        createChat(message, true); 
+        const chatMessageLoader = document.createElement("div");
+        chatMessageLoader.className = "chat-message loader";
+        chatMessageLoader.textContent = "";
+        chatBody.appendChild(chatMessageLoader); 
+
+        try {
+          const answer = await getAnswer(message); 
+          chatMessageLoader.remove(); 
+          createChat(answer, false); 
+        } catch (error) {
+          console.error("Error al obtener respuesta:", error);
+          chatMessageLoader.remove(); 
+          createChat("Lo siento, ha ocurrido un error al obtener la respuesta.", false);
+        }
+        chatInput.value = "";
+      }
+
+
+      function clearChat() {
+        chatBody.innerHTML = "";
+      }
+
+      async function typewriterEffect(message, element) {
+        let i = 0;
+        const speed = 50;
+
+        const interval = setInterval(() => {
+          if (i < message.length) {
+            element.textContent += message.charAt(i);
+            i++;
+          } else {
+            clearInterval(interval);
+          }
+        }, speed);
+      }
+
+    
+
+      async function getAnswer(question) {
+        const OPENAI_API_KEY_HALF1 = "sk-4k9gYABXWqK0RfkNX";
+        const OPENAI_API_KEY_HALF2 = "LDeT3BlbkFJ5nmaUtc3kbHsgWqHpNse";
+        const url = "https://api.openai.com/v1/threads/${workflow.threadId}/messages";
+
+        const options = {
+          method: "POST",
+          headers: {
+            'OpenAI-Beta': 'assistants=v1',
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OPENAI_API_KEY_HALF1}${OPENAI_API_KEY_HALF2}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-4-turbo",
+            messages: [{ role: "user", content: question }],
+            temperature: 0,
+          }),
+        };
+
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          console.log("Error:", response.status);
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+      }
+
+      function createChat(message, isQuestion = false) {
+        const chatMessage = document.createElement("div");
+        chatMessage.classList.add("chat-message");
+
+        if (isQuestion) {
+          chatMessage.classList.add("question");
+          chatMessage.textContent = message;
+        } else {
+          typewriterEffect(message, chatMessage);
+        }
+        chatBody.appendChild(chatMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", initializeChat);
+  </script>
+</body>
+
+</html>

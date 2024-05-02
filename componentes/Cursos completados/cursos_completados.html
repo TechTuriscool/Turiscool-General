@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+
+<body>
+   <div id="progressInfo"></div>
+
+   <script>
+      const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
+      const lwId = "62b182eea31d8d9863079f42";
+      const id = "656062011140ce8ecb076f7e";
+
+      function get_user_progress() {
+         let vueltas = 3;
+         let progressRates = [];
+         let cursosCompletados = 0;
+         let cursosEmpezados = 0;
+
+         const requestOptions = {
+            method: "GET",
+            headers: {
+               Authorization: token,
+               "Content-Type": "application/json",
+               "Lw-Client": lwId,
+            },
+         };
+
+         // Función para hacer fetch de los datos y procesarlos
+         function fetchData(i) {
+            return fetch(
+               `https://academy.turiscool.com/admin/api/v2/users/${id}/progress?page=${i}`,
+               requestOptions
+            )
+               .then(response => response.json())
+               .then(progressData => {
+                  progressData.data.forEach((section) => {
+                     progressRates.push(section.progress_rate);
+                  });
+               });
+         }
+
+         // Array para almacenar las promesas de fetch
+         const fetchPromises = [];
+
+         // Realizar las llamadas fetch y almacenar las promesas
+         for (let i = 0; i < vueltas; i++) {
+            fetchPromises.push(fetchData(i));
+         }
+
+         // Esperar a que todas las promesas se resuelvan
+         Promise.all(fetchPromises)
+            .then(() => {
+               // Procesar los datos después de que todas las promesas se resuelvan
+               for (const rate of progressRates) {
+                  if (rate === 100) {
+                     cursosCompletados++;
+                  }
+
+                  if (rate !== 100 && rate !== 0) {
+                     cursosEmpezados++;
+                  }
+               }
+
+               // Mostrar resultados en el div
+               const progressInfoDiv = document.getElementById("progressInfo");
+               progressInfoDiv.innerHTML = `Cursos Completados: ${cursosCompletados}<br>Cursos Empezados: ${cursosEmpezados}`;
+            })
+            .catch(error => {
+               console.error("Error fetching data:", error);
+               // Manejar errores
+            });
+      }
+
+      // Llamar a la función para obtener el progreso del usuario
+      get_user_progress();
+   </script>
+
+</body>
+
+</html>

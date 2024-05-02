@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./customToast.css"">
+</head>
+
+<body>
+    <h1>hola</h1>
+    <button>Show/hide toast</button>
+    <custom-toast text=" Hola, soy un toast de notificacion" color="black"></custom-toast>
+    <script src="customToast.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('button');
+            const toast = document.querySelector('custom-toast');
+            let isToastVisible = false;
+
+            button.addEventListener('click', () => {
+                if (!isToastVisible) {
+                    isToastVisible = true;
+                    toast.style.display = "block";
+                    toast.style.animation = "showToast 1s ease forwards";
+                    setTimeout(() => {
+                        toast.style.animation = "hideToast 1s ease forwards";
+                        setTimeout(() => {
+                            toast.style.display = "none";
+                            isToastVisible = false;
+                        }, 1000);
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+    </body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barra lateral fija con botones</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      .button1 {
+        margin-top: 180px;
+      }
+
+      .botonera {
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 260px);
+      }
+
+      .logo {
+        margin: 20px;
+        width: 200px;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+
+      .textoboton {
+        display: block;
+        text-decoration: none;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #efefef;
+        padding-top: 20px;
+        color: #121212;
+      }
+
+      .sidebar button {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 0 3px transparent, 0 6px 20px rgba(18, 18, 18, 0.1);
+        margin-bottom: 40px;
+        color: #05bfad;
+        cursor: pointer;
+        font-size: 2rem;
+        font-weight: 700;
+        justify-content: center;
+        outline: none;
+        width: 200px;
+        height: 80px;
+        text-align: center;
+        text-decoration: none;
+        transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
+        border: 0;
+      }
+
+      #progressInfo,
+      .progressInfo {
+        background-color: #fff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: black;
+        font-size: 4rem;
+        font-weight: 700;
+        justify-content: center;
+        font-family: system-ui;
+        width: 200px;
+        height: 200px;
+      }
+
+      .sidebar button:hover {
+        box-shadow: #05bfad 0 0 0 3px, transparent 0 0 0 0;
+      }
+
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+      }
+
+      @media screen and (max-width: 1000px) {
+        .logo {
+          width: 100px;
+        }
+
+        .sidebar {
+          width: 120px;
+        }
+
+        .sidebar button {
+          width: 80px;
+          font-size: 4rem;
+        }
+
+        .textoboton {
+          display: none;
+        }
+
+        #progressInfo,
+        .progressInfo {
+          font-size: 3rem;
+          padding: 0px;
+          width: 80px;
+          height: 200px;
+        }
+      }
+
+      @media screen and (max-width: 500px) {
+        .sidebar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <img
+        class="logo"
+        src="https://i.ibb.co/jvdgT0F/2-Logo-Promotora-Hotolera-Santos-de-Piedra.png"
+        alt="logo del hotel"
+      />
+
+      <div class="botonera">
+        <a
+          href="https://academy.turiscool.com/profile"
+          target="_blank"
+          class="button1"
+        >
+          <button>👥 <span class="textoboton">MI PERFIL</span></button>
+        </a>
+        <a href="https://academy.turiscool.com/courses" target="_blank">
+          <button>📚 <span class="textoboton">MIS CURSOS</span></button>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function get_user_progress(id) {
+        console.log("Obteniendo progreso del usuario...");
+        const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
+        const lwId = "62b182eea31d8d9863079f42";
+        let vueltas = 3;
+        let progressRates = [];
+        let cursosCompletados = 0;
+        let cursosEmpezados = 0;
+
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+            "Lw-Client": lwId,
+          },
+        };
+
+        function fetchData(i) {
+          return fetch(
+            `https://academy.turiscool.com/admin/api/v2/users/${id}/progress?page=${i}`,
+            requestOptions
+          )
+            .then((response) => response.json())
+            .then((progressData) => {
+              console.log("Datos del progreso del usuario:", progressData);
+              progressData.data.forEach((section) => {
+                progressRates.push(section.progress_rate);
+              });
+            });
+        }
+
+        const fetchPromises = [];
+
+        for (let i = 0; i < vueltas; i++) {
+          fetchPromises.push(fetchData(i));
+        }
+
+        Promise.all(fetchPromises).then(() => {
+          for (const rate of progressRates) {
+            if (rate === 100) {
+              cursosCompletados++;
+            }
+
+            if (rate !== 100 && rate !== 0) {
+              cursosEmpezados++;
+            }
+          }
+        });
+      }
+
+      setTimeout(function () {
+        const idElement = document.getElementById("el_1711991419236_451");
+        if (idElement) {
+          const id = idElement.textContent.trim();
+          console.log("ID de usuario:", id);
+          get_user_progress(id);
+        } else {
+          console.error("Elemento de ID no encontrado");
+        }
+      }, 2000);
+    </script>
+  </body>
+</html>

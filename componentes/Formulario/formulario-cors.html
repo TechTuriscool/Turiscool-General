@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+
+    <style>
+      /* PRUEBA 2 */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+
+      form,
+      .estrecho,
+      .progresoUsuario {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .loadingImg {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin: 15px 0 5px;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 20px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      #mensajeError1,
+      #mensajeError2 {
+        color: red;
+        font-size: 12px;
+        margin: 0 20px 0px 10px;
+      }
+
+      #etiqueta,
+      #etiqueta2 {
+        margin: 10px 0 10px 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 20px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .tablaDatos th:first-child,
+      .tablaDatos td:first-child {
+        width: 1%;
+        white-space: nowrap;
+      }
+
+      .primeraFila th {
+        color: #d5dde5;
+        background: #1b1e24;
+        border-bottom: 4px solid #9ea7af;
+        border-right: 1px solid #343a45;
+        font-size: 16px;
+        font-weight: 100;
+        text-align: center;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        vertical-align: middle;
+      }
+
+      td {
+        background: #ffffff;
+        padding: 20px;
+        vertical-align: middle;
+        font-weight: 300;
+        font-size: 18px;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        border-right: 1px solid #c1c3d1;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      label {
+        font-size: 21px;
+        font-weight: 600;
+        color: #1b1e24;
+        display: block;
+      }
+
+      .ancho {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 600px) {
+        form {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      let url = "https://academy.turiscool.com/admin/api/";
+      let token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
+      let lwId = "62b182eea31d8d9863079f42";
+      let userId = "65d3763f741db932c906da1c";
+
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+          "Lw-Client": lwId,
+        },
+      };
+
+      let paginas = 0;
+      let etiqueta = "";
+      let curseID = "";
+      let selectorCursos = "";
+      let usuarios = [];
+      let objetoUser = {};
+      let usuariosFiltrados = [];
+      let cursos = [];
+      let listadoCursosPorUsuario = [];
+      let listadoFinalDelUsuario = [];
+      let arrayDefinitivo = [];
+      let usuariosConCursos = [];
+      let alumnosConCurso = [];
+      let resuiltadosImpresos = false;
+      let arrayTagsBusqueda = [];
+      let datosRecibidos = false;
+
+
+      function crearListaCursos() {
+        let select = document.getElementById("selectorCursos");
+        for (let i = 0; i < cursos.length; i++) {
+          let option = document.createElement("option");
+          option.value = cursos[i];
+          option.textContent = cursos[i];
+          select.appendChild(option);
+        }
+      }
+
+
+      function botonEnviar() {
+        usuariosFiltrados = [];
+
+        let divProgreso = document.getElementById("resultado");
+        let loadingImg = document.createElement("img");
+        loadingImg.classList.add("loadingImg");
+
+        divProgreso.innerHTML = "";
+
+        usuariosFiltrados = [];
+        usuariosConCursos = [];
+        alumnosConCurso = [];
+        arrayDefinitivo = [];
+
+        document.getElementById("etiqueta").style.borderColor = "#ccc";
+        document.getElementById("etiqueta2").style.borderColor = "#ccc";
+        document.getElementById("mensajeError1").textContent = "";
+        document.getElementById("mensajeError2").textContent = "";
+
+        let tabla = document.getElementById("tablaDatos");
+        tabla.innerHTML = "";
+
+        divProgreso.appendChild(loadingImg);
+        etiqueta = document.getElementById("etiqueta").value.toUpperCase();
+        etiqueta2 = document.getElementById("etiqueta2").value.toUpperCase();
+
+        arrayTagsBusqueda.push(etiqueta, etiqueta2);
+
+        selectorCursos = document.getElementById("selectorCursos").value;
+        selectorCursos =
+          selectorCursos.charAt(0).toLowerCase() +
+          selectorCursos.replaceAll(" ", "-").slice(1);
+        console.log(selectorCursos);
+
+        if (etiqueta === "" && etiqueta2 === "") {
+          // Bordes rojos
+          document.getElementById("etiqueta").style.borderColor = "red";
+          document.getElementById("etiqueta2").style.borderColor = "red";
+          document.getElementById("mensajeError1").textContent =
+            "Campo obligatorio";
+          document.getElementById("mensajeError2").textContent =
+            "Campo obligatorio";
+          return;
+        } else if (etiqueta === "") {
+          // Bordes rojos
+          document.getElementById("etiqueta").style.borderColor = "red";
+          document.getElementById("mensajeError1").textContent =
+            "Campo obligatorio";
+          return;
+        } else if (etiqueta2 === "") {
+          // Bordes rojos
+          document.getElementById("etiqueta2").style.borderColor = "red";
+          document.getElementById("mensajeError2").textContent =
+            "Campo obligatorio";
+          return;
+        } else {
+          // Bloquear el botón mientras se realiza la búsqueda
+          document.querySelector("button").disabled = true;
+          loadingImg.src = "./loading.gif";
+          searchUser();
+        }
+      }
+
+      // hace fetch al meta para saber cuantas vueltas tiene que dar para traer todos los usuarios
+
+      function fetchMeta() {
+        fetch(`${url}/v2/users?items_per_page=200`, requestOptions)
+          .then((response) => response.json())
+          .then((metaData) => {
+            paginas = metaData.meta.totalPages;
+            fetchAlumnos();
+          });
+      }
+
+      //hace fetch a la lista de usuarios y los guarda en un array
+
+      function fetchAlumnos() {
+        let fetchPromises = [];
+
+        for (let i = 0; i < paginas; i++) {
+          fetchPromises.push(
+            fetch(
+              `${url}/v2/users?items_per_page=200&page=${i}`,
+              requestOptions
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                for (let j = 0; j < data.data.length; j++) {
+                  let nombre = data.data[j].username;
+                  let tags = data.data[j].tags;
+                  let id = data.data[j].id;
+
+                  let objetoUsuario = {
+                    nombre: nombre,
+                    tags: tags,
+                    id: id,
+                  };
+
+                  usuarios.push(objetoUsuario);
+                }
+              })
+          );
+        }
+
+        Promise.allSettled(fetchPromises).then(() => {});
+      }
+
+      // hace fetch a la lista de cursos y los guarda en un array
+
+      function crearListadoDeCursos() {
+        let promises = [];
+        for (let i = 0; i < 6; i++) {
+          let promise = fetch(`${url}/v2/courses?page=${i}`, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+              for (let j = 0; j < data.data.length; j++) {
+                let curso = data.data[j].id;
+                if (!cursos.includes(curso)) {
+                  cursos.push(curso);
+                }
+              }
+            });
+          promises.push(promise);
+        }
+        Promise.allSettled(promises).then(() => {
+          añadirCursoAlaLista();
+        });
+      }
+
+      // añade los cursos al select
+
+      function añadirCursoAlaLista() {
+        let select = document.getElementById("selectorCursos");
+
+        for (let i = 0; i < cursos.length; i++) {
+          let option = document.createElement("option");
+          option.value = cursos[i]; // Debes usar cursos[i] en lugar de curso
+          option.textContent =
+            cursos[i].charAt(0).toUpperCase() +
+            cursos[i].replaceAll("-", " ").slice(1); // Debes usar cursos[i] en lugar de curso
+          select.appendChild(option);
+        }
+
+        //organizar los cursos de manera alfabetica
+
+        let options = Array.from(select.options);
+        options.sort((a, b) => a.text.localeCompare(b.text));
+        select.innerHTML = "";
+        options.forEach((option) => select.appendChild(option));
+      }
+
+      // busca los usuarios que tengan la etiqueta que se le pasa por parametro y se imprimen por consola
+      function searchUser() {
+        usuarios.filter((user) => {
+          if (user.tags.includes(etiqueta) && user.tags.includes(etiqueta2)) {
+            usuariosFiltrados.push(user);
+          }
+        });
+
+        console.log(usuariosFiltrados);
+        buscarCursosDeUsuariosFiltrados();
+      }
+      // función para simular un retraso en la ejecución de una tarea asíncrona
+
+      function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      // busca los cursos de cada uno de los usuarios filtrados
+
+      async function buscarCursosDeUsuariosFiltrados() {
+        // Array para almacenar los objetos de usuario con sus cursos
+
+        for (let i = 0; i < usuariosFiltrados.length; i++) {
+          await delay(1);
+
+          try {
+            let response = await fetch(
+              `${url}/v2/users/${usuariosFiltrados[i].id}/courses`,
+              requestOptions
+            );
+            if (!response.ok) {
+              throw new Error("La respuesta de la red no fue ok.");
+            }
+            let data = await response.json();
+            let listadoCursosPorUsuario = []; // Inicializar aquí para cada usuario
+
+            // Recorrer cada curso y extraer la información necesaria
+            data.data.filter((cursoData) => {
+              let curso = cursoData.course.id;
+              listadoCursosPorUsuario.push(curso);
+            });
+
+            let objetoUsuarioCursos = {
+              id: usuariosFiltrados[i].id,
+              nombre: usuariosFiltrados[i].nombre,
+              cursos: listadoCursosPorUsuario,
+            };
+            usuariosConCursos.push(objetoUsuarioCursos);
+          } catch (error) {
+            console.error("Hubo un problema con la operación fetch: ", error);
+          }
+        }
+
+        console.log(usuariosConCursos);
+        mostrarAlumnosConCurso();
+      }
+
+      //funcion para mostrar solo los alumnos que tienen algun curso en su array de cursos que coincide con el curso del buscador
+
+      function mostrarAlumnosConCurso() {
+        for (let i = 0; i < usuariosConCursos.length; i++) {
+          for (let j = 0; j < usuariosConCursos[i].cursos.length; j++) {
+            if (usuariosConCursos[i].cursos[j] === selectorCursos) {
+              alumnosConCurso.push(usuariosConCursos[i]);
+            }
+          }
+        }
+        console.log(alumnosConCurso);
+        buscarProgreso();
+      }
+
+      //funcion que busca el progreso de ese usuario en el curso concreto que se le pasa por parametro
+
+      async function buscarProgreso() {
+        let divProgreso = document.getElementById("resultado");
+        let progreso = [];
+
+        for (let i = 0; i < alumnosConCurso.length; i++) {
+          await delay(1); // Esperar 100ms entre cada solicitud
+          try {
+            let response = await fetch(
+              `${url}/v2/users/${alumnosConCurso[i].id}/courses/${selectorCursos}/progress`,
+              requestOptions
+            );
+            if (!response.ok) throw new Error("Respuesta de red no fue ok");
+            let data = await response.json();
+
+            let completado = convertTimestampToDate(data.completed_at);
+            let objetoProgreso = {
+              nombre: alumnosConCurso[i].nombre,
+              info: {
+                status: data.status,
+                completado: completado,
+                progreso: data.progress_rate,
+                puntuacion: data.average_score_rate,
+                tiempo: data.time_on_course,
+              },
+            };
+            progreso.push(objetoProgreso);
+          } catch (error) {
+            console.error("Hubo un problema con la operación fetch: ", error);
+          }
+        }
+
+        // Una vez todas las solicitudes se han completado y procesado, actualizar el DOM
+        divProgreso.innerHTML = ""; // Limpiar el contenido previo
+
+        if (progreso.length === 0) {
+          divProgreso.innerHTML = "<p>No se encontraron resultados</p>";
+        } else {
+          let tableSelect = document.getElementById("tablaDatos");
+          let numeroResultados = 1;
+          divProgreso.innerHTML =
+            "<h2>Se han encontrado " + progreso.length + " resultados</h2>";
+
+          // Crear la primera fila de la tabla
+          let primeraFila = document.createElement("tr");
+          primeraFila.classList.add("primeraFila");
+          primeraFila.innerHTML = `
+               <th></th>
+               <th>Nombre</th>
+               <th>Status</th>
+               <th>Progreso</th>
+               <th>Puntuación</th>
+               <th>Tiempo en curso</th>
+               <th>Fecha de finalización</th>
+            `;
+          tableSelect.appendChild(primeraFila);
+
+          // Crear una fila por cada usuario
+          progreso.forEach((user) => {
+            let divUsuario = document.createElement("tr");
+            divUsuario.classList.add("tablaDatos");
+            divUsuario.innerHTML = `
+                  <th>${numeroResultados}</th>
+                  <th>${user.nombre}</th>
+                  <th>${user.info.status}</th>
+                  <th>${user.info.progreso}%</th>
+                  <th>${user.info.puntuacion}</th>
+                  <th>${Math.trunc(user.info.tiempo / 60)} min</th>
+                  <th>${user.info.completado}</th>
+         `;
+            numeroResultados++;
+            tableSelect.appendChild(divUsuario);
+          });
+          datosRecibidos = true;
+        }
+
+        // Desbloquear el botón una vez se han mostrado los resultados
+        document.querySelector("button").disabled = false;
+
+        if (datosRecibidos) {
+          let resultado = document.getElementById("resultado");
+          let tablaDatos = document.getElementById("tablaDatos");
+          let formulario = document.querySelector("form");
+
+          tablaDatos.classList.remove("estrecho");
+
+          formulario.classList.remove("estrecho");
+
+          tablaDatos.classList.add("ancho");
+          formulario.classList.add("ancho");
+        }
+      }
+      //funcion para convertir el timestamp a fecha
+
+      function convertTimestampToDate(timestamp) {
+        if (timestamp === null) {
+          return "No completado";
+        }
+
+        const date = new Date(timestamp * 1000);
+
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
+
+        return formattedDate;
+      }
+
+      crearListadoDeCursos();
+      fetchMeta();
+    </script>
+    <form action="formularioPrincipal" method="POST" class="estrecho">
+      <div class="estrecho">
+        <label for="etiqueta">Etiquetas:</label>
+        <input type="text" name="etiqueta" id="etiqueta" />
+        <p id="mensajeError1"></p>
+        <input type="text" name="etiqueta2" id="etiqueta2" />
+        <p id="mensajeError2"></p>
+        <label for="selectorCursos">Lista de Cursos:</label>
+        <select name="selectorCursos" id="selectorCursos">
+          <option value="default">Default</option>
+        </select>
+        <br />
+        <button type="button" onclick="botonEnviar()">Buscar</button>
+      </div>
+
+      <div id="resultado" class="estrecho"></div>
+      <!-- Aquí se mostrarán los resultados en una tabla -->
+      <table id="tablaDatos" class="estrecho"></table>
+    </form>
+  </body>
+</html>
+<!--  -->

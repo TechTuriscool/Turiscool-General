@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      #fecha {
+        text-align: center;
+        font-size: 20px;
+        color: #888;
+        margin-bottom: 20px;
+      }
+
+      .time-blocks {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .block {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(
+          circle farthest-corner at 120px 120px,
+          #05bfac6b 60%,
+          #f3f8ff 50%
+        );
+        text-align: center;
+      }
+
+      .side-text {
+        position: absolute;
+        bottom: -20px;
+        left: 0px;
+        transform: rotate(270deg);
+        transform-origin: 0 0;
+        font-weight: 500;
+        font-size: 12px;
+        color: #f4b95d;
+      }
+
+      .time-text {
+        display: flex; /* Agregado */
+        align-items: center;
+        justify-content: center; /* Agregado */
+        font-weight: 500;
+        font-size: 45px;
+        color: #006791;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Timer</h1>
+
+    <h2 id="fecha"></h2>
+    <div class="time-blocks">
+      <div class="block">
+        <span class="side-text">DIAS</span
+        ><span class="time-text" id="days">--</span>
+      </div>
+      <div class="block">
+        <span class="side-text">HORAS</span
+        ><span class="time-text" id="hours">--</span>
+      </div>
+      <div class="block">
+        <span class="side-text">MINUTOS</span
+        ><span class="time-text" id="minutes">--</span>
+      </div>
+      <div class="block">
+        <span class="side-text">SEGUNDOS</span
+        ><span class="time-text" id="seconds">--</span>
+      </div>
+    </div>
+    <script>
+      const pages = 3;
+      let datos = [];
+
+      let fechaPlace = document.getElementById("fecha");
+
+      function get_user_enroll_date(token, id, lwId) {
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Lw-Client": lwId,
+          },
+        };
+
+        const fetchPromises = [];
+        for (let i = 1; i <= pages; i++) {
+          fetchPromises.push(
+            fetch(
+              `https://academy.turiscool.com/admin/api/v2/users/${id}/courses?page=${i}`,
+              requestOptions
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                datos = datos.concat(data.data);
+              })
+              .catch((error) => console.error("An error occurred:", error))
+          );
+        }
+
+        Promise.all(fetchPromises).then(() => {
+          const nombreCursos = datos.map((course) => course.course.id);
+          const findedCourse = datos.find(
+            (course) => course.course.id === "fundae-start"
+          );
+          if (findedCourse) {
+            const endTime = new Date(
+              findedCourse.created * 1000 + 30 * 24 * 60 * 60 * 1000
+            );
+
+            const day = endTime.getDate();
+            const month = endTime.getMonth() + 1;
+            const year = endTime.getFullYear();
+            fechaPlace.textContent = `Fecha de finalización: ${day}/${month}/${year}`;
+
+            startTimer(endTime);
+          }
+          console.log(nombreCursos);
+        });
+      }
+
+      function startTimer(endTime) {
+        const updateCountdown = () => {
+          const currentTime = new Date();
+          const difference = endTime - currentTime;
+
+          const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (difference % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+          document.getElementById("days").textContent = days;
+          document.getElementById("hours").textContent = hours;
+          document.getElementById("minutes").textContent = minutes;
+          document.getElementById("seconds").textContent = seconds;
+        };
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+
+      get_user_enroll_date(
+        "17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45",
+        "65d3763f741db932c906da1c",
+        "62b182eea31d8d9863079f42"
+      );
+    </script>
+  </body>
+</html>

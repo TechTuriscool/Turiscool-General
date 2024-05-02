@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frases Motivadoras</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: "Arial", sans-serif;
+      }
+
+      #boxImage {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .comillas {
+        font-size: 48px;
+        color: #555;
+      }
+
+      .author {
+        font-size: 20px;
+        text-align: right;
+        color: #888;
+        margin-top: 20px;
+        margin-left: 200px;
+      }
+
+      .quote-img {
+        max-width: 100px;
+        margin: 0 20px;
+      }
+
+      .quote-container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .quote-text {
+        flex: 1;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="boxImage">
+      <div class="quote-container">
+        <img
+          class="quote-img"
+          src="https://i.ibb.co/jy6fVsJ/comillas-izq.png"
+          alt="Inicio de cita"
+        />
+        <div class="quote-text" id="quoteText"></div>
+        <img
+          class="quote-img"
+          src="https://i.ibb.co/bKmp6YF/comillas-dch.png"
+          alt="Fin de cita"
+        />
+      </div>
+    </div>
+
+    <script>
+      function showRandomMotivationalQuote() {
+        let frases_motivadoras = [
+          {
+            frase:
+              "La felicidad no es algo ya hecho. Viene de tus propias acciones.",
+            autor: "Dalai Lama",
+          },
+          {
+            frase:
+              "El momento presente es el único momento disponible para nosotros, y es la puerta de entrada a toda la paz interior.",
+            autor: "Thich Nhat Hanh",
+          },
+          {
+            frase: "Dondequiera que vayas, ahí estás.",
+            autor: "Jon Kabat-Zinn",
+          },
+          {
+            frase: "La mente es todo. Te conviertes en lo que piensas.",
+            autor: "Buda",
+          },
+          {
+            frase:
+              "La respiración es el puente que conecta la vida con la conciencia, que une tu cuerpo con tus pensamientos.",
+            autor: "Thich Nhat Hanh",
+          },
+          {
+            frase: "La mayor gloria no es nunca caer, sino levantarse siempre.",
+            autor: "Nelson Mandela",
+          },
+          {
+            frase:
+              "No puedes detener las olas, pero puedes aprender a surfear.",
+            autor: "Jon Kabat-Zinn",
+          },
+          {
+            frase:
+              "La vida es un viaje, y si te enamoras del viaje, estarás enamorado para siempre.",
+            autor: "Peter Hagerty",
+          },
+          {
+            frase:
+              "Casi todo lo que haces será insignificante, pero es muy importante que lo hagas.",
+            autor: "Mahatma Gandhi",
+          },
+          {
+            frase:
+              "El único límite a nuestra realización de mañana serán nuestras dudas de hoy.",
+            autor: "Franklin D. Roosevelt",
+          },
+          {
+            frase:
+              "El único verdadero viaje de descubrimiento consiste no en buscar nuevos paisajes, sino en tener nuevos ojos.",
+            autor: "Marcel Proust",
+          },
+          {
+            frase:
+              "No es la montaña la que conquistamos, sino a nosotros mismos.",
+            autor: "Sir Edmund Hillary",
+          },
+          {
+            frase:
+              "El secreto del cambio es enfocar toda tu energía no en luchar contra lo viejo, sino en construir lo nuevo.",
+            autor: "Sócrates",
+          },
+          {
+            frase:
+              "Mantén tu rostro siempre hacia el sol, y las sombras caerán detrás de ti.",
+            autor: "Walt Whitman",
+          },
+          {
+            frase:
+              "Lo que piensas, lo serás. Lo que sientes, lo atraerás. Lo que imaginas, lo crearás.",
+            autor: "Buda",
+          },
+          {
+            frase: "El propósito de nuestras vidas es ser felices.",
+            autor: "Dalai Lama",
+          },
+          {
+            frase: "La paz viene de dentro. No la busques afuera.",
+            autor: "Buda",
+          },
+          {
+            frase:
+              "La vida cambia rápidamente y de maneras inesperadas. Pero puedes estar seguro de que cualquier cosa que ocurra, siempre habrá un mañana.",
+            autor: "Daphne Rose Kingma",
+          },
+          {
+            frase: "Sé el cambio que quieres ver en el mundo.",
+            autor: "Mahatma Gandhi",
+          },
+          {
+            frase:
+              "No es lo que hacemos de vez en cuando lo que da forma a nuestras vidas, sino lo que hacemos consistentemente.",
+            autor: "Tony Robbins",
+          },
+        ];
+
+        function getFraseMotivadora() {
+          let index = Math.floor(Math.random() * frases_motivadoras.length);
+          return frases_motivadoras[index];
+        }
+
+        let frase = getFraseMotivadora();
+        let quoteText = document.getElementById("quoteText");
+        quoteText.innerHTML = `${frase.frase}<br><br><span class="author">${frase.autor}</span>`;
+      }
+
+      window.addEventListener("load", showRandomMotivationalQuote);
+    </script>
+  </body>
+</html>

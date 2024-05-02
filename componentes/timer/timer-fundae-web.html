@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Timer Example</title>
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+      }
+
+      h1 {
+         text-align: center;
+      }
+
+      .time-blocks {
+         display: flex;
+         gap: 20px;
+         align-items: center;
+         justify-content: center;
+      }
+
+      .block {
+         position: relative;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 150px;
+         height: 150px;
+         background: radial-gradient(circle farthest-corner at 150px 150px, #05bfac6b 60%, #F3F8FF 50%);
+      }
+
+      .side-text {
+         position: absolute;
+         bottom: -30px;
+         left: 0px;
+         transform: rotate(270deg);
+         transform-origin: 0 0;
+         font-weight: 500;
+         font-size: 25px;
+         color: #F4B95D;
+      }
+
+      .time-text {
+         font-weight: 500;
+         transform: scaleY(1.8);
+         font-size: 45px;
+         color: #006791;
+      }
+   </style>
+</head>
+
+<body>
+   <h1>Timer</h1>
+   <div class="time-blocks">
+      <div class="block">
+         <div class="side-text">DIAS</div>
+         <div class="time-text" id="days">--</div>
+      </div>
+      <div class="block">
+         <div class="side-text">HORAS</div>
+         <div class="time-text" id="hours">--</div>
+      </div>
+      <div class="block">
+         <div class="side-text">MINUTOS</div>
+         <div class="time-text" id="minutes">--</div>
+      </div>
+      <div class="block">
+         <div class="side-text">SEGUNDOS</div>
+         <div class="time-text" id="seconds">--</div>
+      </div>
+   </div>
+   <script>
+      const pages = 3;
+      let datos = [];
+      function get_user_enroll_date(token, lwId) {
+         const id = document.getElementById("el_1711991419236_451").textContent;
+         const requestOptions = {
+            method: "GET",
+            headers: {
+               Authorization: `Bearer ${token}`,
+               "Content-Type": "application/json",
+               "Lw-Client": lwId,
+            },
+         };
+
+         const fetchPromises = [];
+         for (let i = 1; i <= pages; i++) {
+            fetchPromises.push(
+               fetch(`https://academy.turiscool.com/admin/api/v2/users/${id}/courses?page=${i}`, requestOptions)
+                  .then(response => response.json())
+                  .then(data => {
+                     datos = datos.concat(data.data);
+                  })
+                  .catch(error => console.error("An error occurred:", error))
+            );
+         }
+
+         Promise.all(fetchPromises).then(() => {
+            const nombreCursos = datos.map(course => course.course.id);
+            const findedCourse = datos.find(course => course.course.id === "fundae-start");
+            if (findedCourse) {
+               const endTime = new Date((findedCourse.created * 1000) + (30 * 24 * 60 * 60 * 1000));
+               startTimer(endTime);
+            }
+            console.log(nombreCursos);
+         });
+      }
+
+
+      function startTimer(endTime) {
+         const updateCountdown = () => {
+            const currentTime = new Date();
+            const difference = endTime - currentTime;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+         };
+
+         updateCountdown();
+         setInterval(updateCountdown, 1000);
+      }
+      get_user_enroll_date("17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45", "62b182eea31d8d9863079f42");
+   </script>
+</body>
+
+</html>
