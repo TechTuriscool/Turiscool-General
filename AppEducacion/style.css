@@ -1,0 +1,87 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    height: 100vh;
+}
+
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-icon {
+    padding: 20px;
+    display: block;
+    cursor: pointer;
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    max-height: 600px;
+    /* Ajusta esto según lo que consideres apropiado */
+    width: 100%;
+    /* Asegúrate de que el menú utilice todo el ancho disponible */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical si se supera el max-height */
+}
+
+.menu li {
+    padding: 10px 0;
+    width: 100%;
+    /* Asegura que cada elemento de la lista utilice todo el ancho del menú */
+    text-align: center;
+    border-bottom: 1px solid #f4f4f4;
+    /* Línea divisoria entre los elementos del menú */
+}
+
+
+
+.menu.active {
+    display: flex;
+    /* Cambiado a flex para mantener la flexibilidad con el contenido */
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.search input[type="text"] {
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #006791;
+}
+
+.search input[type="text"]:focus {
+    outline-color: #006791;
+}
+
+.search button {
+    background-color: #006791;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search button:last-child {
+    background-color: #05BFAD;
+}

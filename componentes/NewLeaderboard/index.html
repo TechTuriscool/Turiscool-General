@@ -995,7 +995,6 @@
 
         function showTop10() {
             let topUsers = [];
-            let uniqueScores = {}; // Objeto para almacenar puntajes únicos
             for (let i = 0; i < filteredUsers.length; i++) {
                 let totalScore = 0;
                 for (let j = 0; j < filteredUsers[i].data.length; j++) {
@@ -1003,15 +1002,10 @@
                 }
                 let averageScore = totalScore / filteredUsers[i].data.length;
                 averageScore = Math.trunc(averageScore * 10);
-                // Almacenar el puntaje promedio con el nombre de usuario como clave
-                uniqueScores[filteredUsers[i].name] = averageScore;
+                topUsers.push({ name: filteredUsers[i].name, total: averageScore })
             }
-            // Convertir el objeto en un array de objetos para ordenarlo
-            topUsers = Object.keys(uniqueScores).map(name => ({ name, total: uniqueScores[name] }));
-            // Ordenar el array de usuarios por puntaje total de forma descendente
             topUsers.sort((a, b) => b.total - a.total);
-            // Retornar solo los primeros 10 usuarios, o un array vacío si hay menos de 10
-            return topUsers.slice(0, 10);
+            return topUsers;
         }
 
 
@@ -1019,7 +1013,6 @@
         // OBTENER DATOS FILTRADOS DEL USUARIO ACTUAL
         function filterProgress() {
             for (let i = 0; i < filteredUsers.length; i++) {
-                console.log(filteredUsers[i].userID, user.id)
                 if (filteredUsers[i].userID === user.id) {
                     user = filteredUsers[i];
                 }
@@ -1144,7 +1137,6 @@
                 }
             }
 
-            console.log(courses);
 
             for (let i = 0; i < courses.length; i++) {
                 if (courses[i].time > longCourse.time) {
@@ -1301,15 +1293,30 @@
             let spiner = document.querySelectorAll('.spinerVisible');
             let topUsers = showTop10();
 
+            // Verificar si hay datos recibidos
+            if (topUsers.length > 0) {
+                datosRecibidos = true;
+            }
+
             for (let i = 0; i < 3; i++) {
                 let position = document.getElementById(`position${i + 1}`);
-                datosRecibidos = true;
                 if (datosRecibidos) {
+                    // Ocultar el spinner si hay datos recibidos
                     spiner[i].style.display = 'none';
+                    // Mostrar el usuario en la posición correspondiente
+                    if (topUsers[i]) {
+                        position.innerHTML = `${i + 1}º - ${topUsers[i].name}`;
+                    } else {
+                        // Si no hay usuario en esa posición, mostrar vacío
+                        position.innerHTML = `${i + 1}º - Vacío`;
+                    }
+                } else {
+                    // Mostrar spinner mientras se esperan los datos
+                    spiner[i].style.display = 'block';
                 }
-                position.innerHTML = `${i + 1}º - ${topUsers[i].name}`;
             }
         }
+
 
         function showUserMe() {
             let datosRecibidos = false;
