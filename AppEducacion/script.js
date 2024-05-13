@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
     recoverySurveyInfoFromLocalStorage();
     changeCoruseTitleContent();
 });
-
 async function fetchCourseMeta() {
     try {
         const response = await fetch(
@@ -86,8 +85,6 @@ async function fetchCourseContent(courseId, courseTitle) {
     } catch (error) {
         console.error("Error:", error);
     }
-
-
 }
 async function checkIfCourseHasForm(courseId) {
     try {
@@ -168,13 +165,94 @@ async function recoverySurveyInfo(SurveyID) {
     }
 }
 function recoverySurveyInfoFromLocalStorage() {
+    let notaMediaDiv = document.getElementsByClassName("notaMedia")[0]
+    let notaMediaStarsDiv = document.getElementsByClassName("notaMediaStars")[0]
+    let mensajeOpinionDiv = document.getElementsByClassName("mensajeOpinion")[0]
+    let notas = []
+    let notasFinales = []
+    let mensajes = []
+    let notamedia = 0;
+    let starsObject = {
+        "0": " 0 ",
+        "1": "⭐",
+        "2": "⭐⭐",
+        "3": "⭐⭐⭐",
+        "4": "⭐⭐⭐⭐",
+        "5": "⭐⭐⭐⭐⭐"
+    }
     const settings = localStorage.getItem('surveyInfo');
     if (settings) {
         const settingsObj = JSON.parse(settings);
-        console.log("Survey Info:", settingsObj);
+        console.log("Survey Info:", settingsObj.data);
+
+        for (let i = 0; i < settingsObj.data.length; i++) {
+            for (let j = 0; j < settingsObj.data[i].answers.length - 1; j++) {
+                notas.push(settingsObj.data[i].answers[j].answer);
+            }
+
+        }
+        for (let i = 0; i < notas.length; i++) {
+            notasFinales.push(notas[i].charAt(0));
+        }
+        for (let i = 0; i < notasFinales.length; i++) {
+            notamedia += parseInt(notasFinales[i]);
+        }
+        //ver si hay mensajes de opinion
+        for (let i = 0; i < settingsObj.data.length; i++) {
+            if (settingsObj.data[i].answers[4].answer !== null) {
+                mensajes.push(settingsObj.data[i].answers[4].answer);
+            }
+            else {
+                mensajes.push("No hay mensaje de opinion sobre este curso");
+
+            }
+            //borrar duplicados
+            mensajes = mensajes.filter((item, index) => mensajes.indexOf(item) === index);
+        }
+        notamedia = (notamedia / notasFinales.length).toFixed(2);
+        console.log("Nota media:", notamedia,);
+        console.log("Notas:", notas);
+        console.log("NotasFinales:", notasFinales);
+        console.log("Mensajes:", mensajes);
+
+        mensajeOpinionDiv.innerHTML = `${mensajes}`;
+        notaMediaDiv.innerHTML = `Media Gobal: ${notamedia} - ${Math.trunc(notamedia * 2)}/10`;
+
+        if (notamedia >= 0 && notamedia < 0.5) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["0"]}`;
+        } else if (notamedia >= 0.51 && notamedia < 1.5) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["1"]}`;
+        }
+
+        else if (notamedia >= 1.51 && notamedia < 2.5) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["2"]}`;
+        }
+        else if (notamedia >= 2.51 && notamedia < 3.5) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["3"]}`;
+        }
+        else if (notamedia >= 3.51 && notamedia < 4.5) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["4"]}`;
+        }
+        else if (notamedia >= 4.51) {
+            notaMediaStarsDiv.innerHTML = ` ${starsObject["5"]}`;
+        }
+
+
     } else {
         console.log('No settings found in localStorage.');
     }
+
+    return notamedia;
+}
+function recoveryDataSurveyforSpecificUser() {
+    let surveyInfo = localStorage.getItem("surveyInfo");
+    //filrar por id de alumno
+    let alumnoid = localStorage.getItem("alumnoid");
+    let surveyInfoObj = JSON.parse(surveyInfo);
+    let surveyInfoAlumno = surveyInfoObj.data.filter(alumno => alumno.id === alumnoid);
+    localStorage.setItem("surveyInfoAlumno", JSON.stringify(surveyInfoAlumno));
+    showInfoSpecificAlumno();
+
 }
 
 function changeCoruseTitleContent() {
@@ -182,7 +260,6 @@ function changeCoruseTitleContent() {
     let courseTitleContent = document.querySelector('.courseTitle');
     courseTitleContent.textContent = courseTitle;
 }
-
 function showAlumnos() {
     let alumnosMenu = document.querySelector('.alumnosMenu');
 
@@ -210,6 +287,13 @@ function showAlumnos() {
             listItem.textContent = email;
             listItem.style.cursor = 'pointer';  // Estilo para el cursor
             alumnosMenu.appendChild(listItem);
+            // Agregar un evento de clic para mostrar la información del alumno
+            listItem.addEventListener('click', () => {
+                let alumno = dataAlumnosObj.data.find(alumno => alumno.email === email);
+                localStorage.setItem("alumnoid", alumno.id);
+                recoveryDataSurveyforSpecificUser();
+            });
+
         });
 
         alumnosMenu.style.display = 'block';  // Asegurarse de que el menú sea visible
@@ -217,7 +301,45 @@ function showAlumnos() {
         alert("No hay alumnos en este curso");
     }
 }
+function showInfoSpecificAlumno() {
+    // Obtener elementos del DOM
+    let infoAlumnoDiv = document.getElementsByClassName("infoAlumno")[0];
+    let emailAlumnoDiv = document.getElementsByClassName("alumnoEmail")[0];
+    let responsesAlumnoDiv = document.getElementsByClassName("responsesAlumno")[0];
 
+    // Limpiar el contenido previo
+    emailAlumnoDiv.innerHTML = "";
+    responsesAlumnoDiv.innerHTML = "";
+
+    // Obtener información del alumno desde el almacenamiento local
+    let surveyInfoAlumno = localStorage.getItem("surveyInfoAlumno");
+    let surveyInfoAlumnoObj = JSON.parse(surveyInfoAlumno);
+
+    // Asegurar que hay datos antes de proceder
+    if (surveyInfoAlumnoObj && surveyInfoAlumnoObj.length > 0) {
+        console.log("Survey Info Alumno:", surveyInfoAlumnoObj);
+        let email = surveyInfoAlumnoObj[0].email;
+        emailAlumnoDiv.innerHTML = `Email: ${email}`;
+
+        // Mostrar respuestas del alumno
+        let responses = surveyInfoAlumnoObj[0].answers;
+        for (let i = 0; i < responses.length; i++) {
+            let response = document.createElement('p');
+            let answerText = responses[i].answer === null ? "No hay mensajes" : responses[i].answer;
+            response.innerHTML = `${responses[i].description}: ${answerText}`;
+            responsesAlumnoDiv.appendChild(response);
+        }
+
+        // Configurar el encabezado y agregar elementos al contenedor principal
+        infoAlimonialDiv.innerHTML = `Información del Alumno`;
+        infoAlumnoDiv.appendChild(emailAlumnoDiv);
+        infoAlumnoDiv.appendChild(responsesAlumnoDiv);
+    } else {
+        console.log("No se encontraron datos del alumno.");
+    }
+
+    console.log("Email:", email);
+}
 
 function toggleMenu() {
     let menu = document.querySelector('.menu');

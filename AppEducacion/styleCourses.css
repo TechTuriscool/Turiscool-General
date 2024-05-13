@@ -51,6 +51,44 @@ body {
     border-bottom: 1px solid #f4f4f4;
 }
 
+.alumnosMenu li:hover {
+    background-color: #05BFAD;
+    color: white;
+}
+
 .alumnosMenu.active {
-    display: flex; /* o `block` según lo que prefieras */
+    display: flex;
+    /* o `block` según lo que prefieras */
+}
+
+.notaMedia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.notaMediaStars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.infoAlumno {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #05BFAD;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    padding: 20px;
+    text-align: center;
+    color:white;
+    text-align: left;
 }
