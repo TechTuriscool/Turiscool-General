@@ -6,6 +6,7 @@ let courseListIds = [];
 let loading = true;
 let searchActive = false;
 let alumnos = []
+let showAlumnosToggle = false;
 const requestOptions = {
     method: "GET",
     headers: {
@@ -168,6 +169,7 @@ function recoverySurveyInfoFromLocalStorage() {
     let notaMediaDiv = document.getElementsByClassName("notaMedia")[0]
     let notaMediaStarsDiv = document.getElementsByClassName("notaMediaStars")[0]
     let mensajeOpinionDiv = document.getElementsByClassName("mensajeOpinion")[0]
+    let notaGlobalDiv = document.getElementsByClassName("notaGlobal")[0]
     let notas = []
     let notasFinales = []
     let mensajes = []
@@ -210,13 +212,26 @@ function recoverySurveyInfoFromLocalStorage() {
             mensajes = mensajes.filter((item, index) => mensajes.indexOf(item) === index);
         }
         notamedia = (notamedia / notasFinales.length).toFixed(2);
-        console.log("Nota media:", notamedia,);
-        console.log("Notas:", notas);
-        console.log("NotasFinales:", notasFinales);
-        console.log("Mensajes:", mensajes);
+
 
         mensajeOpinionDiv.innerHTML = `${mensajes}`;
-        notaMediaDiv.innerHTML = `Media Gobal: ${notamedia} - ${Math.trunc(notamedia * 2)}/10`;
+
+        //condicional para el color segun la nota media
+
+        if (notamedia >= 4) {
+            notaGlobalDiv.style.color = "green";
+            notaGlobalDiv.style.backgroundColor = "lightgreen";
+        } else if (notamedia >= 2 && notamedia < 4) {
+            notaGlobalDiv.style.color = "orange";
+            notaGlobalDiv.style.backgroundColor = "lightyellow";
+        } else if (notamedia < 2) {
+            notaGlobalDiv.style.color = "red";
+            notaGlobalDiv.style.backgroundColor = "pink";
+        }
+
+        notaGlobalDiv.innerHTML = `${Math.trunc(notamedia * 2)}`;
+        notaMediaDiv.innerHTML = `Media Gobal: ${notamedia}`;
+        notaMediaDiv.appendChild(notaGlobalDiv);
 
         if (notamedia >= 0 && notamedia < 0.5) {
             notaMediaStarsDiv.innerHTML = ` ${starsObject["0"]}`;
@@ -261,19 +276,24 @@ function changeCoruseTitleContent() {
     courseTitleContent.textContent = courseTitle;
 }
 function showAlumnos() {
+    showAlumnosToggle = !showAlumnosToggle;
+
     let alumnosMenu = document.querySelector('.alumnosMenu');
+    let infoAlumnoDiv = document.querySelector('.infoAlumno');
 
     // Alternar la visibilidad del menú si ya contiene elementos
-    if (alumnosMenu.children.length > 0) {
-        if (alumnosMenu.style.display === 'block') {
-            alumnosMenu.style.display = 'none';
-        } else {
-            alumnosMenu.style.display = 'block';
-        }
-        return; // Salir de la función si solo estamos alternando la visibilidad
-    }
+    if (showAlumnosToggle) {
+        infoAlumnoDiv.style.display = 'block';
+        alumnosMenu.style.display = 'block';
 
-    // Proceder a cargar datos si el menú está vacío
+    } else {
+        infoAlumnoDiv.style.display = 'none';
+        alumnosMenu.style.display = 'none';
+        return
+    }
+    alumnosMenu.innerHTML = '';
+
+
     let dataAlumnos = localStorage.getItem('surveyInfo');
     if (dataAlumnos) {
         let dataAlumnosObj = JSON.parse(dataAlumnos);
@@ -293,14 +313,14 @@ function showAlumnos() {
                 localStorage.setItem("alumnoid", alumno.id);
                 recoveryDataSurveyforSpecificUser();
             });
-
         });
+        alumnosMenu.classList.add('open');
 
-        alumnosMenu.style.display = 'block';  // Asegurarse de que el menú sea visible
     } else {
         alert("No hay alumnos en este curso");
     }
 }
+
 function showInfoSpecificAlumno() {
     // Obtener elementos del DOM
     let infoAlumnoDiv = document.getElementsByClassName("infoAlumno")[0];
@@ -326,10 +346,15 @@ function showInfoSpecificAlumno() {
         for (let i = 0; i < responses.length; i++) {
             let response = document.createElement('p');
             let answerText = responses[i].answer === null ? "No hay mensajes" : responses[i].answer;
-            response.innerHTML = `${responses[i].description}: ${answerText}`;
+            response.innerHTML = `${responses[i].description}<br>${answerText}<br>`;
             responsesAlumnoDiv.appendChild(response);
         }
-
+        if (showAlumnosToggle) {
+            infoAlumnoDiv.style.display = "block";
+        } else {
+            infoAlumnoDiv.style.display = "none";
+        }
+        infoAlumnoDiv.style.backgroundColor = "#05BFAD";
         // Configurar el encabezado y agregar elementos al contenedor principal
         infoAlimonialDiv.innerHTML = `Información del Alumno`;
         infoAlumnoDiv.appendChild(emailAlumnoDiv);
