@@ -21,10 +21,39 @@ body {
     border-radius: 10px;
 }
 
+.logo {
+    width: 60%;
+    padding: 40px;
+}
+
+.logo img {
+    width: 100%;
+}
+
 .menu-icon {
-    padding: 20px;
+    margin-top: 20px;
+    padding: 5px 20px;
     display: block;
     cursor: pointer;
+    width: 95%;
+    text-align: center;
+    transition: 0.4s;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: white;
+}
+
+.menu-icon:hover {
+    background-color: #efefef;
+    transition: 0.4s;
+    border-radius: 10px
+        /* Cambia el color de fondo al pasar el ratón por encima */
+}
+
+.menu-icon.red-background {
+    color: red;
+    background-color: rgba(255, 192, 203, 0.7);
 }
 
 .menu {
@@ -58,6 +87,7 @@ body {
 
 .menu.active {
     display: flex;
+
     /* Cambiado a flex para mantener la flexibilidad con el contenido */
 }
 
@@ -81,29 +111,34 @@ body {
 }
 
 .search button {
-    background-color: #006791;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #05BFAD;
     border: none;
     padding: 10px 30px;
     cursor: pointer;
     margin-left: 10px;
     border-radius: 10px;
     transition: 0.4s;
+    border: solid 1px #05BFAD;
 }
 
 .search button:hover {
     background-color: #05BFAD;
     transform: scale(1.1);
     transition: 0.4s;
+    color: white;
+    border: solid 1px #ffffff;
 }
 
 .search button:last-child {
     background-color: #05BFAD;
+    color: #ffffff;
+    border: solid 1px #05BFAD;
 }
 
 .search button:last-child:hover {
-    background-color: white;
-    border: solid 1px #05BFAD;
-    color:  #05BFAD;
+    background-color: #006791;
+    border: solid 1px #ffffff;
+    color: #ffffff;
     transition: 0.4s;
 }

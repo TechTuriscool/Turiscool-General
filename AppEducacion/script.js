@@ -7,6 +7,7 @@ let loading = true;
 let searchActive = false;
 let alumnos = []
 let showAlumnosToggle = false;
+let deployCoursesActive = false;
 const requestOptions = {
     method: "GET",
     headers: {
@@ -20,6 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
     recoverySurveyInfoFromLocalStorage();
     changeCoruseTitleContent();
 });
+
+if (location.pathname.includes("index.html") || !location.pathname.includes("course.html")) {
+    document.addEventListener('keyup', searchCourse);
+}
+
 async function fetchCourseMeta() {
     try {
         const response = await fetch(
@@ -62,7 +68,7 @@ function setLoadingMenuIcon() {
     if (loading) {
         menuIcon.textContent = '⏳CARGANDO CURSOS...';
     } else {
-        menuIcon.textContent = ' ⬇️ SELECCIONA UN CURSO ⬇️';
+        menuIcon.textContent = ' ⬇️ MOSTRAR CURSOS ⬇️';
     }
 }
 async function fetchCourseContent(courseId, courseTitle) {
@@ -205,7 +211,8 @@ function recoverySurveyInfoFromLocalStorage() {
                 mensajes.push(settingsObj.data[i].answers[4].answer);
             }
             else {
-                mensajes.push("No hay mensaje de opinion sobre este curso");
+                mensajeOpinionDiv.style.color = "red";
+                mensajes.push("⚠️ Los usuarios no han dejado opiniones sobre este curso");
 
             }
             //borrar duplicados
@@ -226,7 +233,7 @@ function recoverySurveyInfoFromLocalStorage() {
             notaGlobalDiv.style.backgroundColor = "lightyellow";
         } else if (notamedia < 2) {
             notaGlobalDiv.style.color = "red";
-            notaGlobalDiv.style.backgroundColor = "pink";
+            notaGlobalDiv.style.backgroundColor = "#ffc0cbbf";
         }
 
         notaGlobalDiv.innerHTML = `${Math.trunc(notamedia * 2)}`;
@@ -269,7 +276,6 @@ function recoveryDataSurveyforSpecificUser() {
     showInfoSpecificAlumno();
 
 }
-
 function changeCoruseTitleContent() {
     let courseTitle = localStorage.getItem("courseTitle");
     let courseTitleContent = document.querySelector('.courseTitle');
@@ -277,7 +283,7 @@ function changeCoruseTitleContent() {
 }
 function showAlumnos() {
     showAlumnosToggle = !showAlumnosToggle;
-
+    let alumnosIconDiv = document.querySelector('.alumnos-icon');
     let alumnosMenu = document.querySelector('.alumnosMenu');
     let infoAlumnoDiv = document.querySelector('.infoAlumno');
 
@@ -285,10 +291,16 @@ function showAlumnos() {
     if (showAlumnosToggle) {
         infoAlumnoDiv.style.display = 'block';
         alumnosMenu.style.display = 'block';
+        alumnosIconDiv.textContent = 'CERRAR';
+        alumnosIconDiv.style.color = "red"
+        alumnosIconDiv.style.backgroundColor = "pink"
 
     } else {
         infoAlumnoDiv.style.display = 'none';
         alumnosMenu.style.display = 'none';
+        alumnosIconDiv.textContent = '⬇️ SELECIONA UN ALUMNO ⬇️';
+        alumnosIconDiv.style.backgroundColor = "#ffffff"
+        alumnosIconDiv.style.color = "black"
         return
     }
     alumnosMenu.innerHTML = '';
@@ -320,7 +332,6 @@ function showAlumnos() {
         alert("No hay alumnos en este curso");
     }
 }
-
 function showInfoSpecificAlumno() {
     // Obtener elementos del DOM
     let infoAlumnoDiv = document.getElementsByClassName("infoAlumno")[0];
@@ -340,44 +351,97 @@ function showInfoSpecificAlumno() {
         console.log("Survey Info Alumno:", surveyInfoAlumnoObj);
         let email = surveyInfoAlumnoObj[0].email;
         emailAlumnoDiv.innerHTML = `Email: ${email}`;
+        emailAlumnoDiv.style.fontWeight = 'bold';
+        emailAlumnoDiv.style.color = '#333';
 
         // Mostrar respuestas del alumno
         let responses = surveyInfoAlumnoObj[0].answers;
         for (let i = 0; i < responses.length; i++) {
             let response = document.createElement('p');
-            let answerText = responses[i].answer === null ? "No hay mensajes" : responses[i].answer;
-            response.innerHTML = `${responses[i].description}<br>${answerText}<br>`;
+            response.style.margin = "10px 0";
+            response.style.padding = "10px";
+            response.style.borderRadius = "8px";
+            response.style.backgroundColor = "#26D0C3";
+            response.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+
+            // Incorporar un span para las notas, si es aplicable
+            let answerText = responses[i].answer === null ? "No hay respuesta" : responses[i].answer;
+
+            response.innerHTML = `<strong>${responses[i].description}</strong><br>${answerText}<br>`;
             responsesAlumnoDiv.appendChild(response);
         }
-        if (showAlumnosToggle) {
-            infoAlumnoDiv.style.display = "block";
-        } else {
-            infoAlumnoDiv.style.display = "none";
-        }
+
+        infoAlumnoDiv.style.position = "fixed"; 
+        infoAlumnoDiv.style.top = "50%"; 
+        infoAlumnoDiv.style.left = "50%";
+        infoAlumnoDiv.style.transform = "translate(-50%, -50%)";
+        infoAlumnoDiv.style.visibility = "visible";
+        infoAlumnoDiv.style.opacity = "1"
+        infoAlumnoDiv.style.transition = "visibility 0s, opacity 0.4s"; 
         infoAlumnoDiv.style.backgroundColor = "#05BFAD";
+        infoAlumnoDiv.style.padding = "20px";
+        infoAlumnoDiv.style.borderRadius = "10px";
+        infoAlumnoDiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.15)";
+
         // Configurar el encabezado y agregar elementos al contenedor principal
-        infoAlimonialDiv.innerHTML = `Información del Alumno`;
+        infoAlumnoDiv.innerHTML = `Información del Alumno`;
         infoAlumnoDiv.appendChild(emailAlumnoDiv);
         infoAlumnoDiv.appendChild(responsesAlumnoDiv);
+
+        // Crear botón de cierre
+        let closeButton = document.createElement('button');
+        closeButton.textContent = 'x';
+        closeButton.style.position = 'absolute'; // Ajusta la posición a absoluta
+        closeButton.style.top = '10px';
+        closeButton.style.right = '10px';
+        closeButton.style.padding = '5px 10px';
+        closeButton.style.border = 'none';
+        closeButton.style.background = 'red';
+        closeButton.style.color = 'white';
+        closeButton.style.cursor = 'pointer';
+        closeButton.onclick = function () {
+            infoAlumnoDiv.style.opacity = '0'; // Reduce la opacidad del contenedor a 0
+            infoAlumnoDiv.style.visibility = 'hidden'; // Oculta el contenedor
+        };
+
+        // Añadir el botón de cierre primero para asegurar que no se sobrescriba con otro contenido
+        infoAlumnoDiv.appendChild(closeButton);
     } else {
         console.log("No se encontraron datos del alumno.");
     }
-
-    console.log("Email:", email);
 }
 
 function toggleMenu() {
     let menu = document.querySelector('.menu');
     let isActive = menu.classList.contains('active');
+    let menuIcon = document.querySelector('.menu-icon');
+    let searchInput = document.querySelector('.search-input');
 
-    // Verifica si la búsqueda está activa y si el menú está actualmente inactivo
-    if (searchActive && !isActive) {
-        searchCourse();  // Si hay una búsqueda activa, actualiza la lista de cursos
-    } else if (!isActive) {
-        populateMenu(courseList);  // Si no hay búsqueda activa, muestra todos los cursos
+    if (!isActive) {
+        menu.classList.add('active');
+        menuIcon.textContent = 'CERRAR';
+        menuIcon.classList.add('red-background'); // Aplica la clase con fondo rojo
+
+        if (searchInput.value !== '') {
+            searchCourse();
+        } else {
+            populateMenu(courseList);
+        }
     } else {
-        menu.classList.remove('active');  // Cierra el menú si está activo
+        menu.classList.remove('active');
+        menuIcon.textContent = '⬇️ MOSTRAR CURSOS ⬇️';
+        menuIcon.classList.remove('red-background'); // Remueve la clase, regresando al fondo blanco
     }
+}
+function closeMenu() {
+    let menu = document.querySelector('.menu');
+    let menuIcon = document.querySelector('.menu-icon');
+    let searchInput = document.querySelector('.search-input');
+
+    menu.classList.remove('active');
+    menuIcon.textContent = '⬇️ MOSTRAR CURSOS ⬇️';
+    menuIcon.classList.remove('red-background'); // Remueve la clase, regresando al fondo blanco
+    searchInput.value = ''; // Limpia el campo de búsqueda
 }
 function populateMenu(courses) {
     let menu = document.querySelector('.menu');
@@ -395,7 +459,11 @@ function populateMenu(courses) {
 function searchCourse() {
     let searchInput = document.querySelector('.search-input');
     let isActive = document.querySelector('.menu').classList.contains('active');
+    let menuIcon = document.querySelector('.menu-icon');
 
+    menuIcon.textContent = " CERRAR";
+    menuIcon.classList.add('red-background');
+    // Aplica la clase con fondo rojo
     searchActive = searchInput.value !== '';  // Verifica si hay texto en el campo de búsqueda
 
     if (searchActive) {
@@ -408,9 +476,14 @@ function searchCourse() {
     }
 }
 function resetSearchCourse() {
+    let menuIcon = document.querySelector('.menu-icon');
     let searchInput = document.querySelector('.search-input');
     searchInput.value = '';
-    searchCourse();  // Realiza la búsqueda con el campo vacío para resetear los resultados
+    searchCourse();
+
+    menuIcon.textContent = "⬇️ MOSTRAR CURSOS ⬇️";
+    menuIcon.classList.remove('red-background');
+    closeMenu();
 }
 function start() {
     setLoadingMenuIcon(loading = true);
