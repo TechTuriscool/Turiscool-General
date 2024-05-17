@@ -9,7 +9,7 @@ export class customCake extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["completed"];
+        return ["completed, totalUnits, unitsCompleted"];
     }
 
     attributeChangedCallback(attribute, oldValue, newValue) {
@@ -19,6 +19,13 @@ export class customCake extends HTMLElement {
                     this.completed = newValue;
                     this.updatePieChart(); // Actualiza el gráfico cuando cambia el valor.
                     break;
+                case "totalUnits":
+                    this.totalUnits = newValue;
+                    break;
+                case "unitsCompleted":
+                    this.unitsCompleted = newValue;
+                    break;
+
             }
         }
     }
