@@ -85,7 +85,7 @@ export class customCarousel extends HTMLElement {
             <div class="custom-carousel">
                 ${this.titles.map((title, index) => {
             if (index === 0 || this.progress[index] === 100) {
-                return `
+                return`
                             <custom-card class="unlocked"
                                 title="${title}" 
                                 description="${this.descriptions[index]}" 

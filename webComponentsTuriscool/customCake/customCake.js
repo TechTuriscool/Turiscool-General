@@ -22,7 +22,7 @@ export class customCake extends HTMLElement {
     }
 
     connectedCallback() {
-        this.shadowRoot.innerHTML = `
+        this.shadowRoot.innerHTML = /*html*/`
         <style>
         .piechart {
             display:flex;

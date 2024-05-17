@@ -31,7 +31,7 @@ export class customCard extends HTMLElement {
 
 
     connectedCallback() {
-        this.innerHTML = `
+        this.innerHTML = /*html*/`
         <div class = "card">
             <div class = "image-card">
                 <img src="${this.image}" alt="${this.title}">
