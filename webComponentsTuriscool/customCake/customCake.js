@@ -2,7 +2,9 @@ export class customCake extends HTMLElement {
     constructor() {
         super();
         // Inicializamos 'completed' correctamente.
-        this.completed = 45;
+        this.totalUnits = 13;
+        this.unitsCompleted = 10;
+        this.completed = Math.trunc((this.unitsCompleted / this.totalUnits) * 100)
         this.attachShadow({ mode: 'open' }); // Usamos Shadow DOM para encapsulamiento
     }
 
@@ -24,13 +26,27 @@ export class customCake extends HTMLElement {
     connectedCallback() {
         this.shadowRoot.innerHTML = /*html*/`
         <style>
+.piechart-body {
+    width: 400px;
+    height: 400px;
+    margin:10px;
+    border-radius: 10px;
+    background: #efefef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
         .piechart {
             display:flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 200px; 
-            height: 200px; 
+            width: 300px; 
+            height: 300px; 
             border-radius: 50%;
             background: conic-gradient(
                 #006791 0deg, #05BFAD var(--deg, 0deg),  /* Rojo hasta el ángulo definido por 'completed' */
@@ -38,9 +54,20 @@ export class customCake extends HTMLElement {
             );
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
         }
+
+        h3 {
+            width: 100%;
+            margin: 10px;
+            text-align: left;
+
+        }
     </style>
+    <div class = "piechart-body">
     <div class="piechart">
-    <h3>Completado: ${this.completed}%</h3>
+    </div>
+    
+    <h3>Completadas: ${this.unitsCompleted}</h3>
+    <h3>Total de unidades: ${this.totalUnits}</h3>
     </div>
         `;
         this.updatePieChart(); // Inicializa la visualización correcta del gráfico.
