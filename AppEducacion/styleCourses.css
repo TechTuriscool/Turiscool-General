@@ -11,6 +11,14 @@ body {
 
 }
 
+.head {
+    display: flex;
+
+    align-items: center;
+    width: 80%;
+    margin-bottom: 40px;
+}
+
 
 
 .courseTitle,
@@ -39,10 +47,7 @@ body {
 
 }
 
-.courseTitle {
 
-    margin-bottom: 40px;
-}
 
 .alumnos-icon {
     padding: 10px 20px;
@@ -63,7 +68,7 @@ body {
     display: none;
     flex-direction: column;
     align-items: center;
-    max-height: 600px;
+    max-height: 500px;
     width: 70%;
     overflow-y: auto;
     padding: 20px;
@@ -153,18 +158,23 @@ body {
 }
 
 .backToCourses {
-    background-color: #05BFAD;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 80px;
-    text-decoration: none;
-    transition: 0.5s;
-    place-self: flex-start;
-    margin-left: 12%;
-    /* Cambiado de 'center' a 'flex-start' para alinear a la izquierda */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 20px
 }
+
+.backToCourses img {
+    width: 100%;
+    height: 100%;
+    margin: 20px;
+    padding: 20px;
+}
+
 
 .backToCourses:hover {
     background-color: #006791;

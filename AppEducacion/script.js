@@ -8,6 +8,7 @@ let searchActive = false;
 let alumnos = []
 let showAlumnosToggle = false;
 let deployCoursesActive = false;
+let optionDisabledifNotForm = false;
 const requestOptions = {
     method: "GET",
     headers: {
@@ -118,8 +119,7 @@ async function checkIfCourseHasForm(courseId) {
                 learningUnits.push(sections[i].learningUnits[j]);
             }
         }
-        console.log("Learning Units:", learningUnits);
-        console.log("Learning Units with Form:", learningUnitsWithForm);
+
 
         if (learningUnitsWithForm.length > 0) {
             localStorage.setItem("learningUnitsWithForm", JSON.stringify(learningUnitsWithForm));
@@ -155,6 +155,9 @@ async function recoverySurveyInfo(SurveyID) {
             requestOptions
         );
         if (!response.ok) {
+            //hacer que las opciones esten deshabilitadas si no hay formulario
+
+
             alert("Este curso no tiene formulario, o el formulario no contiene respuestas");
             localStorage.removeItem("learningUnitsWithForm");
             throw new Error("Failed to fetch survey info");
@@ -211,7 +214,7 @@ function recoverySurveyInfoFromLocalStorage() {
                 mensajes.push(settingsObj.data[i].answers[4].answer);
             }
             else {
-                mensajeOpinionDiv.style.color = "red";
+                mensajeOpinionDiv.style.color = "black";
                 mensajes.push("⚠️ Los usuarios no han dejado opiniones sobre este curso");
 
             }
@@ -292,8 +295,8 @@ function showAlumnos() {
         infoAlumnoDiv.style.display = 'block';
         alumnosMenu.style.display = 'block';
         alumnosIconDiv.textContent = 'CERRAR';
-        alumnosIconDiv.style.color = "red"
-        alumnosIconDiv.style.backgroundColor = "pink"
+        alumnosIconDiv.style.color = "black"
+        alumnosIconDiv.style.backgroundColor = "#efefef"
 
     } else {
         infoAlumnoDiv.style.display = 'none';
@@ -361,7 +364,7 @@ function showInfoSpecificAlumno() {
             response.style.margin = "10px 0";
             response.style.padding = "10px";
             response.style.borderRadius = "8px";
-            response.style.backgroundColor = "#26D0C3";
+            response.style.backgroundColor = "#efefef";
             response.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
 
             // Incorporar un span para las notas, si es aplicable
@@ -371,17 +374,18 @@ function showInfoSpecificAlumno() {
             responsesAlumnoDiv.appendChild(response);
         }
 
-        infoAlumnoDiv.style.position = "fixed"; 
-        infoAlumnoDiv.style.top = "50%"; 
+        infoAlumnoDiv.style.position = "fixed";
+        infoAlumnoDiv.style.top = "50%";
         infoAlumnoDiv.style.left = "50%";
         infoAlumnoDiv.style.transform = "translate(-50%, -50%)";
         infoAlumnoDiv.style.visibility = "visible";
         infoAlumnoDiv.style.opacity = "1"
-        infoAlumnoDiv.style.transition = "visibility 0s, opacity 0.4s"; 
-        infoAlumnoDiv.style.backgroundColor = "#05BFAD";
+        infoAlumnoDiv.style.transition = "visibility 0s, opacity 0.4s";
+        infoAlumnoDiv.style.backgroundColor = "white";
         infoAlumnoDiv.style.padding = "20px";
         infoAlumnoDiv.style.borderRadius = "10px";
         infoAlumnoDiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.15)";
+        infoAlumnoDiv.style.color = "black";
 
         // Configurar el encabezado y agregar elementos al contenedor principal
         infoAlumnoDiv.innerHTML = `Información del Alumno`;
@@ -410,7 +414,6 @@ function showInfoSpecificAlumno() {
         console.log("No se encontraron datos del alumno.");
     }
 }
-
 function toggleMenu() {
     let menu = document.querySelector('.menu');
     let isActive = menu.classList.contains('active');
@@ -420,7 +423,6 @@ function toggleMenu() {
     if (!isActive) {
         menu.classList.add('active');
         menuIcon.textContent = 'CERRAR';
-        menuIcon.classList.add('red-background'); // Aplica la clase con fondo rojo
 
         if (searchInput.value !== '') {
             searchCourse();
@@ -430,7 +432,6 @@ function toggleMenu() {
     } else {
         menu.classList.remove('active');
         menuIcon.textContent = '⬇️ MOSTRAR CURSOS ⬇️';
-        menuIcon.classList.remove('red-background'); // Remueve la clase, regresando al fondo blanco
     }
 }
 function closeMenu() {
@@ -440,7 +441,6 @@ function closeMenu() {
 
     menu.classList.remove('active');
     menuIcon.textContent = '⬇️ MOSTRAR CURSOS ⬇️';
-    menuIcon.classList.remove('red-background'); // Remueve la clase, regresando al fondo blanco
     searchInput.value = ''; // Limpia el campo de búsqueda
 }
 function populateMenu(courses) {
@@ -462,7 +462,6 @@ function searchCourse() {
     let menuIcon = document.querySelector('.menu-icon');
 
     menuIcon.textContent = " CERRAR";
-    menuIcon.classList.add('red-background');
     // Aplica la clase con fondo rojo
     searchActive = searchInput.value !== '';  // Verifica si hay texto en el campo de búsqueda
 
@@ -482,7 +481,6 @@ function resetSearchCourse() {
     searchCourse();
 
     menuIcon.textContent = "⬇️ MOSTRAR CURSOS ⬇️";
-    menuIcon.classList.remove('red-background');
     closeMenu();
 }
 function start() {
