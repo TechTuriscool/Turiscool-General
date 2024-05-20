@@ -1,9 +1,8 @@
 const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
 const id = "62b182eea31d8d9863079f42";
-let bundleId = "i-economato-2-jefe";
+let userId = "65d3763f741db932c906da1c";
 let coursesOfBundle = [];
 let starsNumber = 0;
-let userId = "65d3763f741db932c906da1c";
 let userProgressObject = {};
 let starsArray = [];
 
