@@ -1,8 +1,9 @@
 const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
 const id = "62b182eea31d8d9863079f42";
-let userId = "65d3763f741db932c906da1c";
+let bundleId = "i-economato-2-jefe";
 let coursesOfBundle = [];
 let starsNumber = 0;
+let userId = "65d3763f741db932c906da1c";
 let userProgressObject = {};
 let starsArray = [];
 
@@ -21,20 +22,17 @@ async function getBundleCourses() {
         const data = await response.json();
         coursesOfBundle = data.products.courses;
         starsNumber = coursesOfBundle.length;
-        console.log(coursesOfBundle);
 
         // Llamar a getUserProgressForEachCourseInBundle aquí
         const coursesProgress = await getUserProgressForEachCourseInBundle();
         createObjectWithCoursesProgress(coursesProgress);
         let starsArrayToPrint = createStarsArray();
-        console.log(starsArrayToPrint);
     } catch (error) {
         console.log(error);
     }
 }
 
 async function getUserProgressForEachCourseInBundle() {
-    console.log("entra");
     let coursesProgress = [];
     try {
         for (let i = 0; i < coursesOfBundle.length; i++) {
@@ -43,7 +41,6 @@ async function getUserProgressForEachCourseInBundle() {
             const data = await response.json();
             coursesProgress.push(data);
         }
-        console.log(coursesProgress);
         return coursesProgress;
     } catch (error) {
         console.log(error);
@@ -58,21 +55,62 @@ function createObjectWithCoursesProgress(coursesProgress) {
             status: coursesProgress[i].status,
         };
     }
-    console.log(userProgressObject);
 }
 
 function createStarsArray() {
     starsArray = [];
     for (let courseId in userProgressObject) {
         if (userProgressObject[courseId].status === "not_started") {
-            starsArray.push("0");
+            starsArray.push("🌑");
         } else if (userProgressObject[courseId].status === "not_completed") {
-            starsArray.push("1");
-        } else {
-            starsArray.push("2");
+            starsArray.push("🌓");
+        } else if (userProgressObject[courseId].status === "completed") {
+            starsArray.push("🌕");
         }
     }
+    orderStarsArray();
+    let progressInnerBar = document.querySelector(".progress-inner");
+    let progressNumber = calculateProgress();
+    createDivWithStarsAlongsideProgress();
+    progressInnerBar.style.width = `${progressNumber}%`;
     return starsArray;
 }
 
-getBundleCourses();
+function orderStarsArray() {
+    starsArray.sort();
+    starsArray.reverse();
+}
+
+function splitUrl() {
+    let url = window.location.href;
+    let urlArray = url.split("/");
+    let courseIdofArray = urlArray[3];
+}
+
+function calculateProgress() {
+    let completedCourses = 0;
+    for (let courseId in userProgressObject) {
+        if (userProgressObject[courseId].status === "completed") {
+            completedCourses++;
+        }
+    }
+    return (completedCourses / starsNumber) * 100;
+}
+
+function createDivWithStarsAlongsideProgress() {
+    let starsProgressDiv = document.querySelector(".starsprogress");
+    starsProgressDiv.innerHTML = '';  
+    for (let i = 0; i < starsArray.length; i++) {
+        let starDiv = document.createElement("div");
+        starDiv.textContent = starsArray[i];
+        starDiv.classList.add("star");
+        starsProgressDiv.appendChild(starDiv);
+    }
+}
+
+function start() {
+    splitUrl();
+    getBundleCourses();
+}
+
+start();
