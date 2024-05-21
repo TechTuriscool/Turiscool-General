@@ -1,6 +1,7 @@
 const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
 const id = "62b182eea31d8d9863079f42";
 let arrayNamesForbidden = ["feet", "bienvenidos", "onboarding"];
+let categories = [];
 
 let pages = 0;
 let courseList = [];
@@ -20,15 +21,17 @@ async function getAllCoursesMeta() {
     console.log(courses);
     pages = courses.totalPages;
 
-    getAllCourses();
+    await getAllCourses();
 }
 
 async function getAllCourses() {
     for (let i = 1; i <= pages; i++) {
         const response = await fetch(`https://academy.turiscool.com/admin/api/v2/courses?page=${i}`, requestOptions);
         const courses = await response.json();
-        courseList.push(...courses.data);  // Flatten the array of courses
+        courseList.push(...courses.data);
     }
+    await getAllCategories();
+
     console.log(courseList);
     orderAlphabetically();
 }
@@ -41,7 +44,6 @@ function createCourseCard(course) {
         <h3>${course.title}</h3>
     `;
 
-    // Add click event listener to show the modal with course description
     card.addEventListener('click', () => showDescription(course.description));
 
     return card;
@@ -49,6 +51,17 @@ function createCourseCard(course) {
 
 function containsForbiddenWord(title) {
     return arrayNamesForbidden.some(word => title.toLowerCase().includes(word.toLowerCase()));
+}
+
+function getAllCategories() {
+    courseList.forEach(course => {
+        if (course.categories) {
+            categories.push(...course.categories);
+        }
+    });
+    // Remove duplicates and void values
+    categories = [...new Set(categories.filter(category => category))];
+    console.log(categories);
 }
 
 function generateCards() {
@@ -59,6 +72,7 @@ function generateCards() {
             gridCatalogue.appendChild(card);
         }
     });
+    populateCategories();
 }
 
 function showDescription(description) {
@@ -66,11 +80,7 @@ function showDescription(description) {
     const descriptionText = document.getElementById('courseDescription');
     const backdrop = document.getElementById('modalBackdrop');
 
-    if (!description || description.length === 0) {
-        descriptionText.innerText = "Este curso no tiene descripción.";
-    } else {
-        descriptionText.innerText = description;
-    }
+    descriptionText.innerText = description && description.length > 0 ? description : "Este curso no tiene descripción.";
 
     modal.style.display = "block";
     backdrop.style.display = "block";
@@ -103,6 +113,29 @@ window.onclick = function (event) {
     if (event.target == modal || event.target == backdrop) {
         hideDescription();
     }
+}
+
+function populateCategories() {
+    const select = document.getElementById('categorySelector');
+    select.innerHTML = ''; // Clear previous options
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.innerText = category;
+        select.appendChild(option);
+    });
+    select.addEventListener('change', filterByCategorySelected);
+}
+
+function filterByCategorySelected(e) {
+    const category = e.target.value;
+    const filteredCourses = courseList.filter(course => course.categories.includes(category));
+    const gridCatalogue = document.querySelector('.gridCatalogue');
+    gridCatalogue.innerHTML = '';
+    filteredCourses.forEach(course => {
+        const card = createCourseCard(course);
+        gridCatalogue.appendChild(card);
+    });
 }
 
 function start() {
