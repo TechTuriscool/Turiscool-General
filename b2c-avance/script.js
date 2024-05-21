@@ -23,7 +23,6 @@ async function getBundleCourses() {
         coursesOfBundle = data.products.courses;
         starsNumber = coursesOfBundle.length;
 
-        // Llamar a getUserProgressForEachCourseInBundle aquí
         const coursesProgress = await getUserProgressForEachCourseInBundle();
         createObjectWithCoursesProgress(coursesProgress);
         let starsArrayToPrint = createStarsArray();
@@ -63,7 +62,7 @@ function createStarsArray() {
         if (userProgressObject[courseId].status === "not_started") {
             starsArray.push("🌑");
         } else if (userProgressObject[courseId].status === "not_completed") {
-            starsArray.push("🌓");
+            starsArray.push("🌑");
         } else if (userProgressObject[courseId].status === "completed") {
             starsArray.push("🌕");
         }
@@ -99,7 +98,7 @@ function calculateProgress() {
 
 function createDivWithStarsAlongsideProgress() {
     let starsProgressDiv = document.querySelector(".starsprogress");
-    starsProgressDiv.innerHTML = '';  
+    starsProgressDiv.innerHTML = '';
     for (let i = 0; i < starsArray.length; i++) {
         let starDiv = document.createElement("div");
         starDiv.textContent = starsArray[i];
