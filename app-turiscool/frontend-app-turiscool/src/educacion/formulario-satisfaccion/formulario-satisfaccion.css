@@ -1,8 +1,14 @@
-.head {
+.header {
     display: flex;
     align-items: center;
-    width: 80%;
-    margin-bottom: 40px;
+    width: 30vw;
+    margin: auto;
+    margin-top: 15vh;
+    margin-bottom: 10%;
+}
+
+.containerAverages {
+    background-color: #fff;
 }
 
 .courseTitle,
@@ -182,7 +188,8 @@
     transition: 0.5s;
 }
 
-#loading, #loading2 {
+.loading, .loading2 {
+    margin-top: 15vh;
     width: 150px;
     height: 150px;
 }
@@ -204,8 +211,7 @@
     justify-content: center;
     align-items: center;
     width: 200px;
-    max-width: 300px;
-    height: 100px;
+    height: 150px;
     margin: auto;
     padding: 20px;
     background-color: #ffffff;
@@ -215,11 +221,15 @@
 
 #averageScore h1 {
     color: #333;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
 }
 
 #averageScore h3 {
     color: #333;
     text-transform: uppercase;
+    
 }
 
 .navbar {
@@ -233,6 +243,20 @@
     border-radius: 10px;
     margin: auto;
 }
+
+.navbar2 {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 56vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    border-radius: 10px;
+    margin: auto;
+    height: auto;
+}
+
 
 .search,
 #categoryCards {
@@ -357,7 +381,7 @@
 #containerReload {
     background-color: #dedede;
     position: fixed;
-    top: 20px;
+    top: 100px;
     right: 20px;
     min-width: 150px;
     height: 50px;    
@@ -382,6 +406,8 @@
     background-color: #cacaca;
     width: 50px;
     height: 50px;    
+    padding: 0%;
+    margin: 0%;
     border: 0px;
     border-radius: 5px;
     transition: 0.3s;
@@ -505,6 +531,7 @@
     text-align: center;
     border-radius: 10px;
     border: 2px solid rgba(0, 0, 0, 0.1);
+    height: 150px;
 }
 
 .categoryContainer {
@@ -513,6 +540,7 @@
 
 .categoryContainer h1 {
     color: #333;
+    padding-top: 10px;
 }
 
 .categoryContainer:hover {
@@ -525,4 +553,5 @@
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 20px;
     padding: 20px;
+    background: #ffffff;
 }

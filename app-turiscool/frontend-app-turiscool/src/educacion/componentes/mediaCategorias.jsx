@@ -56,7 +56,7 @@ const MediaCategorias = () => {
                   style={{ backgroundColor, color }}
                   onClick={() => clickCategory(key)}
                 >
-                  <h4>{key.toUpperCase()}</h4>
+                  <h4 className='categoriesTitle'>{key.toUpperCase()}</h4>
                   <h1>{scoreValue}</h1>
                 </div>
               );

@@ -8,7 +8,7 @@ function Menu() {
             </div>
             <div className="secundaryContainer">
                 <a href="/average"><button className="menu-button">Ver Medias</button></a>
-                <button className="menu-button">...</button>
+                <a href="/firmafy"><button className="menu-button">Firmafy</button></a>
                 <button className="menu-button">...</button>
                 <button className="menu-button">...</button>
             </div>

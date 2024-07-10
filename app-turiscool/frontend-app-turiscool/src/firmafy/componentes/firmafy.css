@@ -1,0 +1,135 @@
+/* Estilos generales */
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 70vw;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formContainer {
+    margin-top: 15vh;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+button {
+    background-color: #006791;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #05BFAD;
+}
+
+#downloadBtnTxT, #downloadBtnCsv {
+    background-color: #006791;
+    display: none;
+}
+
+#downloadBtnTxT:hover, #downloadBtnCsv:hover {
+    background-color: #05BFAD;
+}
+
+#tableContainer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+table thead tr {
+    background-color: #006791;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+table th, table td {
+    
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #006791;
+}
+
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #006791;
+}
+
+.formContainer {
+    width: auto;
+}
+
+.labelInput {
+    padding-right: 20px;
+    margin-bottom: 0%;
+    display: flex;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    display: flex;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline-flex;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin: 0%;
+}
+
+.containerUpload {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.containerButtonDownload {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}

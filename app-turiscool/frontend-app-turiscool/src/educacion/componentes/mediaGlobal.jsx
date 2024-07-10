@@ -45,6 +45,7 @@ const MediaGlobal = () => {
           id="averageScore"
           style={{ backgroundColor: backgroundColor, color: color }}
         >
+          <h3></h3>
           <h1>{averageScore}</h1>
         </div>
       )}

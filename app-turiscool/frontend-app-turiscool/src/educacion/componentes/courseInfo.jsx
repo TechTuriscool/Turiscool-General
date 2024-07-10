@@ -59,7 +59,9 @@ const CourseInfo = () => {
         let surveyInfo = localStorage.getItem("surveyInfo");
         let alumnoid = localStorage.getItem("alumnoid");
         let surveyInfoObj = JSON.parse(surveyInfo);
+        console.log("he llegado 1");
         let surveyInfoAlumno = surveyInfoObj.data.filter(alumno => alumno.id === alumnoid);
+        console.log("he llegado 2");
         localStorage.setItem("surveyInfoAlumno", JSON.stringify(surveyInfoAlumno));
         showInfoSpecificAlumno();
     }
@@ -154,14 +156,22 @@ const CourseInfo = () => {
         const settings = localStorage.getItem('surveyInfo');
         if (settings) {
             const settingsObj = JSON.parse(settings);
+            console.log(settingsObj);
     
             settingsObj.data.forEach(item => {
                 item.answers.slice(0, -1).forEach(answer => {
-                    notas.push(answer.answer);
+                    if (answer.answer !== null && answer.answer !== undefined) {
+                        notas.push(answer.answer);
+                    }
                 });
             });
     
-            notasFinales = notas.map(nota => nota.charAt(0));
+            notasFinales = notas.map(nota => {
+                if (nota !== null && nota !== undefined) {
+                    return nota.charAt(0);
+                }
+                return ''; // or any default value you deem appropriate
+            });
             notamedia = notasFinales.reduce((acc, nota) => acc + parseInt(nota), 0) / notasFinales.length;
             notamedia = notamedia.toFixed(2);
     

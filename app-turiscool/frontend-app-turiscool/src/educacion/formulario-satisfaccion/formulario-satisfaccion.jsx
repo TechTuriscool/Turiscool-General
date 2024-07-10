@@ -6,6 +6,7 @@ import MediaCategorias from "../componentes/mediaCategorias.jsx";
 import MediaCursos from "../componentes/mediaCursos.jsx";
 import axios from "axios";
 import loadingGif from "../../assets/Loading_2.gif";
+import Navbar from "../../navbar/components/navbar.jsx";
 
 const FormularioSatisfaccion = () => {
   let answersObject = {};
@@ -48,10 +49,16 @@ const FormularioSatisfaccion = () => {
         let courses = localStorage.getItem('courses');
         console.log("courses", courses);
 
-        if (answersObject && Object.keys(answersObject).length !== 0 && courseCategoriesArray && courseCategoriesArray.length !== 0 && courNamesArray && courNamesArray.length !== 0 && recoverySurveyInfoPreData && Object.keys(recoverySurveyInfoPreData).length !== 0 && courses && courses.length !== 0) {
+        if (
+          answersObject && Object.keys(answersObject).length !== 0 &&
+          courseCategoriesArray && courseCategoriesArray.length !== 0 &&
+          courNamesArray && courNamesArray.length !== 0 &&
+          recoverySurveyInfoPreData && Object.keys(recoverySurveyInfoPreData).length !== 0 &&
+          courses && courses.length !== 0
+        ) {
           setLoading(false);
         } else {
-          console.log("HOLAAA SOY EL START")
+          console.log("HOLAAA SOY EL START");
           await start();
         }
       } catch (error) {
@@ -60,61 +67,42 @@ const FormularioSatisfaccion = () => {
     };
 
     fetchData();
-
-    const modal = document.getElementById("confirmationModal");
-    const container = document.getElementById("containerReload");
-    const span = document.getElementsByClassName("close")[0];
-    const confirmButton = document.getElementById("confirmButton");
-    const cancelButton = document.getElementById("cancelButton");
-
-    const handleContainerClick = () => {
-      if (modal) modal.style.display = "block";
-    };
-
-    const handleCloseClick = () => {
-      if (modal) modal.style.display = "none";
-    };
-
-    const handleCancelClick = () => {
-      if (modal) modal.style.display = "none";
-    };
-
-    const handleConfirmClick = async () => {
-      if (modal) modal.style.display = "none";
-      // Limpiamos el local storage
-      localStorage.removeItem('answersObject');
-      localStorage.removeItem('courseList');
-      localStorage.removeItem('courseCategoriesArray');
-      localStorage.removeItem('courNamesArray');
-      localStorage.removeItem('recoverySurveyInfoPreData');
-
-      alert('Reiniciando, por favor no cierre ni actualice la página.');
-
-      // Actualizar la página
-      window.location.reload();
-    };
-
-    const handleWindowClick = (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    };
-
-    if (container) container.addEventListener("click", handleContainerClick);
-    if (span) span.addEventListener("click", handleCloseClick);
-    if (cancelButton) cancelButton.addEventListener("click", handleCancelClick);
-    if (confirmButton) confirmButton.addEventListener("click", handleConfirmClick);
-    window.addEventListener("click", handleWindowClick);
-
-    return () => {
-      if (container) container.removeEventListener("click", handleContainerClick);
-      if (span) span.removeEventListener("click", handleCloseClick);
-      if (cancelButton) cancelButton.removeEventListener("click", handleCancelClick);
-      if (confirmButton) confirmButton.removeEventListener("click", handleConfirmClick);
-      window.removeEventListener("click", handleWindowClick);
-    };
   }, []);
 
+  const handleContainerClick = () => {
+    const modal = document.getElementById("confirmationModal");
+    if (modal) modal.style.display = "block";
+  };
+
+  const handleCloseClick = () => {
+    const modal = document.getElementById("confirmationModal");
+    if (modal) modal.style.display = "none";
+  };
+
+  const handleCancelClick = () => {
+    const modal = document.getElementById("confirmationModal");
+    if (modal) modal.style.display = "none";
+  };
+
+  const handleConfirmClick = async () => {
+    const modal = document.getElementById("confirmationModal");
+    if (modal) modal.style.display = "none";
+    localStorage.removeItem('answersObject');
+    localStorage.removeItem('courseList');
+    localStorage.removeItem('courseCategoriesArray');
+    localStorage.removeItem('courNamesArray');
+    localStorage.removeItem('recoverySurveyInfoPreData');
+
+    alert('Reiniciando, por favor no cierre ni actualice la página.');
+    window.location.reload();
+  };
+
+  const handleWindowClick = (event) => {
+    const modal = document.getElementById("confirmationModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 
   async function start() {
     // Limpiar todos los arrays y variables
@@ -139,8 +127,6 @@ const FormularioSatisfaccion = () => {
     await filterCoursesByCategory();
     const categoryUnitsMap = createObjectWithCategoriesAndUnitIds();
     await recoverySurveyInfoByCategory();
-    //console.log(answersObject)
-
   }
 
 
@@ -311,6 +297,7 @@ async function recoverySurveyInfoByCategory() {
       }
   }
 
+  console.log("answersObject", answersObject);
   // Process the answersObject
   for (let category in answersObject) {
       let answers = answersObject[category];
@@ -326,7 +313,7 @@ async function recoverySurveyInfoByCategory() {
       let sum = answersFiltered.reduce((acc, val) => acc + Number(val), 0);
       let average = sum / answersFiltered.length;
 
-      //si la media es NaN or null, convertirlo a 5
+      //si la media es NaN or null, convertirlo a 5 o contiene letras
         if (isNaN(average) || average === null) {
             average = 5;
         }
@@ -361,50 +348,51 @@ async function recoverySurveyInfoByCategory() {
 
   //funcion para recorrer coursesInfo y por cada form hacer una llamada a recoverySurveyInfo
   async function recoverySurveyInfoPre(data) {
+    console.log("data", data);
     for (let i = 0; i < data.length; i++) {
-        let notas = [];
-        let notasFinales = [];
-        let notamedia = 0;
+      let notas = [];
+      let notasFinales = [];
+      let notamedia = 0;
 
-        console.log("hola", data[i].forms);
-        try {
-            const response = await axiosInstance.get(`/assessments/${data[i].forms[0]}/responses`);
-            
-          const data2 = await response;
-          console.log("data2", data2);
-            if (data2.data) {
-                data2.data.data.forEach(item => {
-                    item.answers.slice(0, -1).forEach(answer => {
-                        //si la no es un numero entre 0 y 5 no pushear
-                        console.log("answer", answer.answer);
-                        const answerValue = parseFloat(answer.answer.replace(/\s+/g, ''));
-
-                        if (answerValue >= 0 && answerValue <= 5) {
-
+      console.log("hola", data[i].forms);
+      try {
+          const response = await axiosInstance.get(`/assessments/${data[i].forms[0]}/responses`);
+          
+        const data2 = await response;
+        console.log("data2", data2);
+          if (data2.data) {
+              data2.data.data.forEach(item => {
+                  item.answers.slice(0, -1).forEach(answer => {
+                      //si la no es un numero entre 0 y 5 no pushear
+                      console.log("answer", answer.answer);
+                      if (answer.answer === null || answer.answer === undefined) {
+                          // Do nothing
+                      } else {
+                      const answerValue = parseFloat(answer.answer.replace(/\s+/g, ''));
+                        if (answerValue >= 0 && answerValue <= 5 ) {
                             notas.push(answer.answer);
                         }
                         else {
                             notas.push("5");
                         }
+                    }
+                  });
+              });
 
+              notasFinales = notas.map(nota => nota.charAt(0));
+              console.log("notasFinales", notasFinales);
+              notamedia = notasFinales.reduce((acc, nota) => acc + parseInt(nota), 0) / notasFinales.length;
+              console.log("media" + notamedia);
+              notamedia = notamedia.toFixed(2);
 
-                    });
-                });
+              recoverySurveyInfoPreData.push({ id: data[i].id, media: notamedia });
 
-                notasFinales = notas.map(nota => nota.charAt(0));
-                console.log("notasFinales", notasFinales);
-                notamedia = notasFinales.reduce((acc, nota) => acc + parseInt(nota), 0) / notasFinales.length;
-                console.log("media" + notamedia);
-                notamedia = notamedia.toFixed(2);
+          }
 
-                recoverySurveyInfoPreData.push({ id: data[i].id, media: notamedia });
-
-            }
-
-        } catch (error) {
-            ("Error:", error);
-        }
-    }
+      } catch (error) {
+          ("Error:", error);
+      }
+  }
     console.log("fin")
     
     // Subir a localStorage todos los datos necesarios para la vista
@@ -422,10 +410,8 @@ async function recoverySurveyInfoByCategory() {
   
 
   return (
-    <div>
-      <div className="logo">
-        <img src={logo} alt="logo" />
-      </div>
+    <div className="containerAverages">
+      <Navbar />
       {loading ? (
         <div className="loading">
           <img src={loadingGif} alt="loading" />
@@ -435,21 +421,21 @@ async function recoverySurveyInfoByCategory() {
           <MediaGlobal />
           <MediaCategorias />
           <MediaCursos />
-          <div id="containerReload">
+          <div id="containerReload" onClick={handleContainerClick}>
             <button id="averageReload">
               <img src="https://cdn-icons-png.flaticon.com/512/2499/2499113.png" alt="reload" />
             </button>
             <h4>Refresh</h4>
           </div>
-          <div id="confirmationModal" className="modal">
+          <div id="confirmationModal" className="modal" onClick={handleWindowClick}>
             <div className="modal-content">
-              <span className="close">&times;</span>
+              <span className="close" onClick={handleCloseClick}>&times;</span>
               <img src="https://www.svgrepo.com/show/206435/alert.svg" alt="alert" />
               <p><strong>¿Desea reiniciar las medias?</strong></p>
               <p>El servicio dejará de estar disponible durante varios minutos.</p>
               <div id="containerButton">
-                <button id="confirmButton">Confirmar</button>
-                <button id="cancelButton">Cancelar</button>
+                <button id="confirmButton" onClick={handleConfirmClick}>Confirmar</button>
+                <button id="cancelButton" onClick={handleCancelClick}>Cancelar</button>
               </div>
             </div>
           </div>

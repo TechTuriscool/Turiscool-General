@@ -143,16 +143,27 @@ const MediaCursos = () => {
                 `http://localhost:3000/assessments/${SurveyID}/responses`,
                 requestOptions
             );
-            if (!response.ok) {
-                alert("Este curso no tiene formulario, o el formulario no contiene respuestas");
-                localStorage.removeItem("learningUnitsWithForm");
-                throw new Error("Failed to fetch survey info");
-            }
             const data = await response.json();
-            localStorage.setItem("surveyInfo", JSON.stringify(data));
-            // Navegar a /average/courses sin usar window.location.href
-            navigate('/average/courses');
-    
+            console.log(data);
+            if (!response.ok || data === undefined || data === null || data.length === 0) {  
+                alert("Este curso no tiene formulario, o el formulario no contiene respuestas");
+                throw new Error("Failed to fetch survey info");
+            } else {
+                                
+                // Realizar un bucle, si da error en la primera iteración, mostrar mensaje de error
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].answers.length === 0) {
+                        alert("Este curso no tiene formulario, o el formulario no contiene respuestas");
+                        return;
+                    }
+                }
+
+
+                localStorage.setItem("surveyInfo", JSON.stringify(data));
+                // Navegar a /average/courses sin usar window.location.href
+
+                navigate('/average/courses');
+         }
         } catch (error) {
             ("Error:", error);
         }
@@ -194,8 +205,8 @@ const MediaCursos = () => {
         menu.innerHTML = '';
         let recoverySurveyInfoPreData2 = JSON.parse(localStorage.getItem("recoverySurveyInfoPreData"));
     
-        console.log("courses");
-        console.log(courses);
+        //console.log("courses");
+        //console.log(courses);
         console.log("recoverySurveyInfoPreData2");
         console.log(recoverySurveyInfoPreData2);
     
@@ -262,20 +273,10 @@ const MediaCursos = () => {
     }
     
     async function getAllCourseIds() {
-        try {
-            const response = await fetch(
-                `http://localhost:3000/courses`,
-                requestOptions
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch cursos");
-            }
-            const data = await response.json();
-            const courseIds = data.data.map(course => course.id);
-            return courseIds;
-        } catch (error) {
-            ("Error:", error);
-        }
+        let courseIds = localStorage.getItem('courses');
+        courseIds = JSON.parse(courseIds);
+        courseIds = courseIds.map(course => course.id);
+        return courseIds;
     }
     
     async function populateCategoryMenu() {
@@ -302,7 +303,7 @@ const MediaCursos = () => {
         <>
             <h1>BUSCADOR DE CURSOS</h1>
             <div className="topContainer">
-                <div className="navbar">
+                <div className="navbar2">
                     <select id="categoryCards"></select>
                     <div className="search">
                         <input type="text" className="search-input" placeholder="Buscador de cursos" />

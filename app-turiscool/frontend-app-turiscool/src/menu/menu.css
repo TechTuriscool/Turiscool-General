@@ -1,9 +1,7 @@
 #principalContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .logo img {
@@ -41,4 +39,3 @@
     transition: 0.4s;
     scale: 1.1;
 }
-
