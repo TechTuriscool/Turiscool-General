@@ -1,8 +1,11 @@
 import "./menu.css";
 import logo from "../assets/logo.png";
+import Password from "../popups/password";
+
 function Menu() {
     return (
         <div id="principalContainer">
+            <Password />
             <div className="logo">
                 <img src={logo} alt="logo" />
             </div>

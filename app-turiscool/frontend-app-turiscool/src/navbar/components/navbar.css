@@ -106,3 +106,31 @@ nav {
     justify-content: center;
     padding-top: 5px;
 }
+
+.buttonNavbar {
+    border-color: #006791;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.4s;
+    width: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    height: 50px;
+    margin: 0 15px;
+    padding: 0%;
+}
+
+.buttonNavbar:hover {
+    background-color: #05BFAD;
+    transition: 0.4s;
+}
+
+.buttonNavbar img {
+    min-width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    padding: 0%;
+    justify-content: center;
+    align-items: center;
+}

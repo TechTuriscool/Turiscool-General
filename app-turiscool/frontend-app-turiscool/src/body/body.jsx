@@ -3,15 +3,16 @@ import FormularioSatisfaccion from '../educacion/formulario-satisfaccion/formula
 import CourseInfo from '../educacion/componentes/courseInfo.jsx';
 import Menu from '../menu/menu';
 import Firmafy from '../firmafy/componentes/firmafy.jsx';
+import PasswordIsTrue from '../middleware/passwordIsTrue.jsx';
 
 const Body = () => {
   return (
     <Routes>
       <Route path="/*" element={<Menu />}/>
       <Route path="/" element={<Menu />}/>
-      <Route path="/average" element={<FormularioSatisfaccion />} />
-      <Route path="/average/courses" element={<CourseInfo />} />
-      <Route path="/firmafy" element={<Firmafy />} />
+      <Route path="/average" element={<PasswordIsTrue element={FormularioSatisfaccion} />} />
+      <Route path="/average/courses" element={<PasswordIsTrue element={CourseInfo} />} />
+      <Route path="/firmafy" element={<PasswordIsTrue element={Firmafy} />} />
     </Routes>
   );
 }

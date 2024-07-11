@@ -4,6 +4,8 @@ import logo from "../../assets/logo.png";
 import "./navbar.css";
 import flechaAbajo from "../../assets/flecha abajo.svg";
 import flechaDerecha from "../../assets/flecha derecha.svg";
+import lupa from "../../assets/lupa.svg";
+import salir from "../../assets/salir.svg";
 
 const Navbar = () => {
     const [dropdown1Open, setDropdown1Open] = useState(false);
@@ -118,8 +120,8 @@ const Navbar = () => {
                 </div>
 
                 <div>
-                    <button className="buttonNavbar">...</button>
-                    <button className="buttonNavbar">...</button>
+                    <button className="buttonNavbar"><img src={lupa}/></button>
+                    <button className="buttonNavbar"><img src={salir}/></button>
                 </div>
             </div>
         </nav>
