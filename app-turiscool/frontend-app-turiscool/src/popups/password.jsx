@@ -26,7 +26,7 @@ const Password = () => {
             localStorage.setItem("passwordIsCorrect", 'true');
             setPasswordIsCorrect(true);
         } else {
-            alert("Contraseña incorrecta");
+            document.querySelector('.error').innerText = "Contraseña incorrecta";
         }
     }
 
@@ -39,11 +39,12 @@ const Password = () => {
         <div className='popupBackground'>
             <div className='passwordPopup'>
                 <h1>Introduzca la contraseña de acceso</h1>
+                <h4>Para poder acceder a los diferentes servicios, por favor, introduzca la contraseña.</h4>
                 <div>
-                    <label htmlFor="password">Contraseña:</label>
                     <input type="password" id="password" name="password" required />
                     <button onClick={verifyPassword}>Enviar</button>
                 </div>
+                <p className='error'></p>
             </div>
         </div>
     );
