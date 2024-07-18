@@ -19,6 +19,8 @@ nav {
     height: 100%;
     margin: 0 auto;
     justify-content: space-between;
+    align-items: center;
+    display: flex;
 }
 
 .imgNavbar {
@@ -26,13 +28,31 @@ nav {
     height: auto;
 }
 
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menuNavbar {
+    display: flex;
+    align-items: center; 
+}
+
 .menuNavbar ul {
     display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center; 
 }
 
 .menuNavbar li {
     list-style: none;
     margin: 0 15px;
+    display: flex;
+    align-items: center; 
 }
 
 .menuNavbar a {
@@ -40,18 +60,14 @@ nav {
     color: #333;
     font-weight: bold;
     font-size: 20px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    height: 80px; 
 }
 
 .menuNavbar ul li.active {
     border-bottom: 2px solid #006791;
-}
-
-.menuNavbar ul li.active {
-    border-bottom: 2px solid #006791;
-}
-
-.active a {
-    color: #006791;
 }
 
 .menuNavbar ul li.active a {
@@ -60,7 +76,9 @@ nav {
 
 .dropdown {
     cursor: pointer;
-    position: relative; 
+    position: relative;
+    display: flex;
+    align-items: center; 
 }
 
 .submenu {
@@ -88,6 +106,7 @@ nav {
 }
 
 .submenu li a {
+    width: 100%;
     font-size: 16px;
     padding: 10px;
     text-decoration: none;
@@ -119,6 +138,9 @@ nav {
     height: 50px;
     margin: 0 15px;
     padding: 0%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
 
 .buttonNavbar:hover {
@@ -133,4 +155,48 @@ nav {
     padding: 0%;
     justify-content: center;
     align-items: center;
+}
+
+.close {
+    background-color: red;
+}
+
+@media (max-width: 968px) {
+    .navbar {
+        width: 100vw;
+    }
+    .menuNavbar {
+        display: none;
+        flex-direction: column;
+        background: #fff;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .menuNavbar ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .menuNavbar li {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .menuNavbar ul {
+        font-size: 18px;
+    }
+
+    .buttonNavbar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .buttonNavbar img {
+        min-width: 20px;
+        height: 20px;
+    }
 }

@@ -17,9 +17,6 @@ const Password = () => {
         
         // Recoger contraseña de las variables de entorno
         const correctPassword = import.meta.env.VITE_PASSWORD;
-
-        console.log("Contraseña introducida: " + inputPassword);
-        console.log("Contraseña correcta: " + correctPassword);
   
         if (inputPassword === correctPassword) {
             // Setear en el local storage que la contraseña es correcta
@@ -41,7 +38,7 @@ const Password = () => {
                 <h1>Introduzca la contraseña de acceso</h1>
                 <h4>Para poder acceder a los diferentes servicios, por favor, introduzca la contraseña.</h4>
                 <div>
-                    <input type="password" id="password" name="password" required />
+                    <input type="password" id="password" name="password" placeholder='Introduzca la contraseña' required />
                     <button onClick={verifyPassword}>Enviar</button>
                 </div>
                 <p className='error'></p>

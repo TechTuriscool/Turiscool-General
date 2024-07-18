@@ -10,9 +10,9 @@ const Body = () => {
     <Routes>
       <Route path="/*" element={<Menu />}/>
       <Route path="/" element={<Menu />}/>
-      <Route path="/average" element={<PasswordIsTrue element={FormularioSatisfaccion} />} />
-      <Route path="/average/courses" element={<PasswordIsTrue element={CourseInfo} />} />
-      <Route path="/firmafy" element={<PasswordIsTrue element={Firmafy} />} />
+      <Route path="/educacion/average" element={<PasswordIsTrue element={FormularioSatisfaccion} />} />
+      <Route path="/educacion/average/courses" element={<PasswordIsTrue element={CourseInfo} />} />
+      <Route path="/customer-success/firmafy" element={<PasswordIsTrue element={Firmafy} />} />
     </Routes>
   );
 }

@@ -10,8 +10,8 @@ function Menu() {
                 <img src={logo} alt="logo" />
             </div>
             <div className="secundaryContainer">
-                <a href="/average"><button className="menu-button">Ver Medias</button></a>
-                <a href="/firmafy"><button className="menu-button">Firmafy</button></a>
+                <a href="/educacion/average"><button className="menu-button">Ver Medias</button></a>
+                <a href="/customer-success/firmafy"><button className="menu-button">Firmafy</button></a>
                 <button className="menu-button">...</button>
                 <button className="menu-button">...</button>
             </div>

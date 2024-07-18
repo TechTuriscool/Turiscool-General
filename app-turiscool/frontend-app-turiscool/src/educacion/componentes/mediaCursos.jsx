@@ -162,7 +162,7 @@ const MediaCursos = () => {
                 localStorage.setItem("surveyInfo", JSON.stringify(data));
                 // Navegar a /average/courses sin usar window.location.href
 
-                navigate('/average/courses');
+                navigate('/educacion/average/courses');
          }
         } catch (error) {
             ("Error:", error);
