@@ -1,0 +1,98 @@
+.sideBarContainerButtons {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: #F3F8FF;
+    justify-content: space-between;
+    border-right: 1px solid #05BFAD;
+    z-index: 2;
+}
+
+.sideBarContainerButtons .containerButtonsTop p, .containerButtonsBottom p {
+    font-size: 18px;
+    color: #333;
+    padding-left: 2%;
+}
+
+.containerButtonsTop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerButtonsTop button:hover {
+    background-color: #05BFAD;
+    transition: 0.4s;
+}
+
+.containerButtonsTop div {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.containerButtonsTop div:hover {
+    background-color: #05BFAD;
+    transition: 0.4s;
+}
+
+.containerButtonsTop div:hover p {
+    color: black;
+    transition: 0.4s;
+}
+
+.sideBarContainerButtons .buttonSideBar {
+    margin-top: 3vh;
+
+}
+
+.sideBarContainerButtons div img {
+    width: 20px;
+    height: auto;
+    justify-content: center;
+}
+
+.containerButtonsBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+
+.containerButtonsBottom .buttonSideBar {
+    background-color: #ff000046;
+    border-color: rgba(245, 12, 0, 0.807);
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.containerButtonsBottom .buttonSideBar:hover {
+    background-color: rgba(245, 12, 0, 0.807);
+    transition: 0.4s;
+}
+
+.containerButtonsBottom .buttonSideBar:hover p {
+    color: #fff;
+    transition: 0.4s;
+}
+
+.buttonSideBar{
+    border: 1px solid #006791;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.4s;
+    width: 90%;
+    font-size: 14px;
+    font-weight: bold;
+    height: 64px;
+    padding: 0%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    padding-left: 1em;
+}

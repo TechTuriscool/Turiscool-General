@@ -17,6 +17,7 @@ const MediaCursos = () => {
     let deployCoursesActive = false;
     let optionDisabledifNotForm = false;
     let usersString = "";
+    const baseURL = import.meta.env.VITE_BASE_URL;
     
     let url = new URL(window.location.href);
     let host = url.host;
@@ -81,7 +82,7 @@ const MediaCursos = () => {
         localStorage.setItem("courseTitle", courseTitle);
         try {
             const response = await fetch(
-                `http://localhost:3000/courses/${courseId}/contents`,
+                `${baseURL}/courses/${courseId}/contents`,
                 requestOptions
             );
             if (!response.ok) {
@@ -96,7 +97,7 @@ const MediaCursos = () => {
     async function checkIfCourseHasForm(courseId) {
         try {
             const response = await fetch(
-                `http://localhost:3000/courses/${courseId}/contents`,
+                `${baseURL}/courses/${courseId}/contents`,
                 requestOptions
             );
             if (!response.ok) {
@@ -140,7 +141,7 @@ const MediaCursos = () => {
     async function recoverySurveyInfo(SurveyID) {
         try {
             const response = await fetch(
-                `http://localhost:3000/assessments/${SurveyID}/responses`,
+                `${baseURL}/assessments/${SurveyID}/responses`,
                 requestOptions
             );
             const data = await response.json();

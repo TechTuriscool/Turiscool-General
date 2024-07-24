@@ -6,7 +6,8 @@ import MediaCategorias from "../componentes/mediaCategorias.jsx";
 import MediaCursos from "../componentes/mediaCursos.jsx";
 import axios from "axios";
 import loadingGif from "../../assets/Loading_2.gif";
-import Navbar from "../../navbar/components/navbar.jsx";
+import Navbar from "../../navbar/navbar.jsx";
+import SideBar from "../../navbar/sidebar.jsx";
 
 const FormularioSatisfaccion = () => {
   let answersObject = {};
@@ -29,7 +30,7 @@ const FormularioSatisfaccion = () => {
   const token = "Bearer 17xa7adwlycG4qrbRatBdCHW41xtl9jNyaBq4d45";
   const id = "62b182eea31d8d9863079f42";
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000/',
+    baseURL: import.meta.env.VITE_BASE_URL,
     headers: {
         Authorization: token,
         'Content-Type': 'application/json',
@@ -410,37 +411,48 @@ async function recoverySurveyInfoByCategory() {
   
 
   return (
-    <div className="containerAverages">
-      <Navbar />
-      {loading ? (
-        <div className="loading">
-          <img src={loadingGif} alt="loading" />
+    <div id="menuContainer">
+        <div className="menuTopContainer">
+            <Navbar />
         </div>
-      ) : (
-        <>
-          <MediaGlobal />
-          <MediaCategorias />
-          <MediaCursos />
-          <div id="containerReload" onClick={handleContainerClick}>
-            <button id="averageReload">
-              <img src="https://cdn-icons-png.flaticon.com/512/2499/2499113.png" alt="reload" />
-            </button>
-            <h4>Refresh</h4>
-          </div>
-          <div id="confirmationModal" className="modal" onClick={handleWindowClick}>
-            <div className="modal-content">
-              <span className="close" onClick={handleCloseClick}>&times;</span>
-              <img src="https://www.svgrepo.com/show/206435/alert.svg" alt="alert" />
-              <p><strong>¿Desea reiniciar las medias?</strong></p>
-              <p>El servicio dejará de estar disponible durante varios minutos.</p>
-              <div id="containerButton">
-                <button id="confirmButton" onClick={handleConfirmClick}>Confirmar</button>
-                <button id="cancelButton" onClick={handleCancelClick}>Cancelar</button>
+        <div className="menuBottomContainer">
+            <div className="leftBottomContainer">
+                <SideBar /> 
+            </div>
+            <div className="rightBottomContainer">
+              <div className="containerAverages">
+                {loading ? (
+                  <div className="loading">
+                    <img src={loadingGif} alt="loading" />
+                  </div>
+                ) : (
+                  <>
+                    <MediaGlobal />
+                    <MediaCategorias />
+                    <MediaCursos />
+                    <div id="containerReload" onClick={handleContainerClick}>
+                      <button id="averageReload">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2499/2499113.png" alt="reload" />
+                      </button>
+                      <h4>Refresh</h4>
+                    </div>
+                    <div id="confirmationModal" className="modal" onClick={handleWindowClick}>
+                      <div className="modal-content">
+                        <span className="close" onClick={handleCloseClick}>&times;</span>
+                        <img src="https://www.svgrepo.com/show/206435/alert.svg" alt="alert" />
+                        <p><strong>¿Desea reiniciar las medias?</strong></p>
+                        <p>El servicio dejará de estar disponible durante varios minutos.</p>
+                        <div id="containerButton">
+                          <button id="confirmButton" onClick={handleConfirmClick}>Confirmar</button>
+                          <button id="cancelButton" onClick={handleCancelClick}>Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-          </div>
-        </>
-      )}
+        </div>
     </div>
   );
 };

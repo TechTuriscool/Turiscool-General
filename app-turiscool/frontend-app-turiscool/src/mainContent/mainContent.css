@@ -1,0 +1,13 @@
+.mainContent {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #04BFAD;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: auto;
+    display: flex;
+}

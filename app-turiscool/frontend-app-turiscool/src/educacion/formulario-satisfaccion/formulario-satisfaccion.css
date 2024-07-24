@@ -3,12 +3,13 @@
     align-items: center;
     width: 30vw;
     margin: auto;
-    margin-top: 15vh;
-    margin-bottom: 10%;
+    padding-top: 10vh;
+    padding-bottom: 5%;
 }
 
 .containerAverages {
-    background-color: #fff;
+    width: 90%;
+    height: 100%;
 }
 
 .courseTitle,
@@ -16,7 +17,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 70%;
     padding: 20px;
@@ -32,7 +32,7 @@
 }
 
 .courseWrapper {
-    margin-top: 50px;
+    padding-top: 50px;
     border-radius: 10px;
 
 }
@@ -43,7 +43,7 @@
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 20px;
+    padding-top: 20px;
     border: solid 2px #efefef;
     border-radius: 10px;
     width: 70%;
@@ -88,7 +88,7 @@
     background-color: #05bfac4b;
     width: 70%;
     padding: 0px 20px;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
     text-align: center;
     font-size: 40px;
     border-radius: 10px
@@ -100,7 +100,7 @@
     text-align: right;
     font-size: 60px;
     font-weight: bold;
-    margin-right: -20px;
+    padding-right: -20px;
     border-radius: 10px;
 }
 
@@ -115,7 +115,7 @@
 
 .opinionP {
     margin: 0 auto;
-    margin-top: 10px;
+    padding-top: 10px;
     background-color: #efefef;
     width: 70%;
     padding: 20px;
@@ -189,9 +189,10 @@
 }
 
 .loading, .loading2 {
-    margin-top: 15vh;
+    padding-top: 30vh;
     width: 150px;
     height: 150px;
+    margin: auto;
 }
 
 #principalContainer {
@@ -381,8 +382,8 @@
 #containerReload {
     background-color: #dedede;
     position: fixed;
-    top: 100px;
-    right: 20px;
+    top: 10vh;
+    right: 2vw;
     min-width: 150px;
     height: 50px;    
     border: 0px;
@@ -426,7 +427,7 @@
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2000;
     left: 0;
     top: 0;
     width: 100%;
@@ -451,10 +452,12 @@
 }
 
 .close {
-    color: #aaa;
+    color: #000000;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    width: 32px;
+    height: 32px;
 }
 
 .close:hover,

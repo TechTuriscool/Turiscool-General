@@ -15,10 +15,11 @@ form {
     width: 100%;
     text-align: center;
     margin-bottom: 20px;
+    margin: auto;
 }
 
 .formContainer {
-    margin-top: 15vh;
+    padding-top: 10vh;
 }
 
 label {

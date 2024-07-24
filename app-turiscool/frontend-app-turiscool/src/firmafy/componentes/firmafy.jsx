@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import './firmafy.css';
-import Navbar from '../../navbar/components/navbar';
+import Navbar from '../../navbar/navbar';
+import SideBar from '../../navbar/sidebar';
+
 
 const App = () => {
   const [usersPHP, setUsersPHP] = useState([]);
   const [usersFirmafy, setUsersFirmafy] = useState([]);
   const [commonUsers, setCommonUsers] = useState([]);
+  const baseURL = import.meta.env.VITE_BASE_URL;
 
   const getUsers = async () => {
+
     try {
-      const response = await fetch("http://localhost:3000/firmafy/");
+      const response = await fetch(`${baseURL}/firmafy/`);
       const data = await response.json();
       setUsersPHP(data);
       console.log(data);
@@ -115,45 +119,57 @@ const App = () => {
   }, []);
 
   return (
-    <div className='formContainer'>
-        <Navbar />
-      <h1>Subir Archivo CSV</h1>
-      <form id="csvForm" onSubmit={printRows}>
-        <div className='containerUpload'>
-            <label className='labelInput' htmlFor="fileInput">Seleccione un archivo CSV:</label>
-            <input type="file" id="fileInput" name="fileInput" accept=".csv" />
-            <button type="submit">Subir</button>
+    <div id="menuContainer">
+        <div className="menuTopContainer">
+            <Navbar />
         </div>
-        <div id="tableContainer">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Correo</th>
-                <th>Link</th>
-                <th>Marca</th>
-              </tr>
-            </thead>
-            <tbody>
-              {commonUsers.map((user, index) => (
-                <tr key={index}>
-                  <td>{user.correo}</td>
-                  <td>{user.link}</td>
-                  <td>{user.urlRecibiDiploma}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="menuBottomContainer">
+            <div className="leftBottomContainer">
+                <SideBar /> 
+            </div>
+            <div className="rightBottomContainer">
+              <div className='formContainer'>
+                <h1>Subir Archivo CSV</h1>
+                <form id="csvForm" onSubmit={printRows}>
+                  <div className='containerUpload'>
+                      <label className='labelInput' htmlFor="fileInput">Seleccione un archivo CSV:</label>
+                      <input type="file" id="fileInput" name="fileInput" accept=".csv" />
+                      <button type="submit">Subir</button>
+                  </div>
+                  <div id="tableContainer">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Correo</th>
+                          <th>Link</th>
+                          <th>Marca</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {commonUsers.map((user, index) => (
+                          <tr key={index}>
+                            <td>{user.correo}</td>
+                            <td>{user.link}</td>
+                            <td>{user.urlRecibiDiploma}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className='containerButtonDownload'>
+                      <button type="button" id="downloadBtnTxT" onClick={downloadTxt} style={{ display: 'none' }}>
+                      Descargar TXT
+                      </button>
+                      <button type="button" id="downloadBtnCsv" onClick={downloadCsv} style={{ display: 'none' }}>
+                      Descargar CSV
+                      </button>
+                  </div>
+                </form>
+              </div>
+            </div>
         </div>
-        <div className='containerButtonDownload'>
-            <button type="button" id="downloadBtnTxT" onClick={downloadTxt} style={{ display: 'none' }}>
-            Descargar TXT
-            </button>
-            <button type="button" id="downloadBtnCsv" onClick={downloadCsv} style={{ display: 'none' }}>
-            Descargar CSV
-            </button>
-        </div>
-      </form>
     </div>
+  
   );
 };
 

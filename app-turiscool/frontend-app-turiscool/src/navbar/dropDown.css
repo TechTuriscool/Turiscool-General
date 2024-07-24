@@ -1,0 +1,53 @@
+.dropDown {
+    background: linear-gradient(90deg, #F3F8FF 0%, #ffffff 30%);
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    top: 82px;
+    left: 14.94vw;
+    border-left: 1px solid #05BFAD;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #05BFAD;
+    z-index: 0;
+}
+
+.buttonDropDown p{
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #006791;
+    margin: auto;
+    width: 80%;
+    height: 50px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.buttonDropDown {
+    text-decoration: none;
+    color: #333;
+    margin-top: 3vh;
+}
+
+.buttonDropDown:hover p {
+    background-color: #05BFAD;
+    color: black;
+    transition: 0.4s;
+}
+
+.buttonDropDownList {
+    width: 100%;
+    
+}
+
+@media screen and (min-width: 1921px) {
+    .buttonDropDown {
+        margin-top: 5vh;
+    }
+}
+
