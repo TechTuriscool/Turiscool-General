@@ -37,7 +37,7 @@ export const obtainProgressById = async (req, res) => {
     try {
         console.log(totalPages)
 
-        for (let i = 0; i <= totalPages; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const response = await fetch(
                 `${url}/${userID}/progress?page=${i}&itemsPerPage=20`,
                 requestOptions
@@ -64,6 +64,27 @@ export const obtainProgressById = async (req, res) => {
         )
 
         res.json(uniqueProgressList);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// Obtener User Progress por curso
+export const obtainProgressByCourse = async (req, res) => {
+    const { userID, courseID } = req.params;
+    console.log(userID, courseID)
+
+    try {
+        const response = await fetch(
+            `https://academy.turiscool.com/admin/api/v2/users/${userID}/courses/${courseID}/progress`,
+            requestOptions
+        );
+        if (!response.ok) {
+            throw new Error("Failed to fetch progress");
+        }
+        const data = await response.json();
+        res.json(data);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });

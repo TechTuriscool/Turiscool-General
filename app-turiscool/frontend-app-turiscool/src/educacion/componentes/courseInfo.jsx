@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import retroceder from '../../assets/back-arrow_318504.png';
 import './styleCourses.css'; 
+import Password from "../../popups/password";
+import Navbar from "../../navbar/navbar.jsx";
+import SideBar from "../../navbar/sidebar.jsx";
 
 const CourseInfo = () => {
     let showAlumnosToggle = false;
@@ -230,34 +233,48 @@ const CourseInfo = () => {
     }
 
     return (
-        <div className="app-container">
-            <div className="courseWrapper">
-                <div className="head">
-                    <a href="./" className="backToCourses">
-                        <img src={retroceder} alt="back" />
-                    </a>
-                    <div className="courseTitle">Cargando...</div>
+        <div id="menuContainer">
+            <Password />
+            <div className="menuTopContainer">
+                <Navbar />
+            </div>
+            <div className="menuBottomContainer">
+                <div className="leftBottomContainer">
+                    <SideBar /> 
                 </div>
+                <div className="rightBottomContainer">
+                    <div className="app-container">
+                        <div className="courseWrapper">
+                            <div className="head">
+                                <a href="./" className="backToCourses">
+                                    <img src={retroceder} alt="back" />
+                                </a>
+                                <div className="courseTitle">Cargando...</div>
+                            </div>
 
-                <div className="notaMedia">
-                    <div className="notaGlobal">
-                        <img id="loading" src="./assets/Loading_2.gif" alt="loading" />
+                            <div className="notaMedia">
+                                <div className="notaGlobal">
+                                    <img id="loading" src="./assets/Loading_2.gif" alt="loading" />
+                                </div>
+                            </div>
+                            <div className="notaMediaStars"></div>
+                            <div className="mensajeOpinion"></div>
+                            <div id="opinionContainer"></div>
+                            <div className="alumnos-icon" onClick={showAlumnos}> ⬇️ VER ALUMNOS ⬇️</div>
+                            <ul className="alumnosMenu"></ul>
+                        </div>
+
+                        <div className="infoAlumno">
+                            <h3 className="alumnoEmail"></h3>
+                            <h4 className="responsesAlumno">
+                                <ul className="responsesAlumnoList"></ul>
+                            </h4>
+                        </div>
                     </div>
                 </div>
-                <div className="notaMediaStars"></div>
-                <div className="mensajeOpinion"></div>
-                <div id="opinionContainer"></div>
-                <div className="alumnos-icon" onClick={showAlumnos}> ⬇️ VER ALUMNOS ⬇️</div>
-                <ul className="alumnosMenu"></ul>
-            </div>
-
-            <div className="infoAlumno">
-                <h3 className="alumnoEmail"></h3>
-                <h4 className="responsesAlumno">
-                    <ul className="responsesAlumnoList"></ul>
-                </h4>
             </div>
         </div>
+        
     );
 };
 

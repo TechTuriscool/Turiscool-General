@@ -1,0 +1,13 @@
+.active-star {
+    width: 15%;
+    height: auto;
+    margin-left: 1%;
+}
+
+.containerStars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}

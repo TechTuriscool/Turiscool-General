@@ -5,6 +5,7 @@ import "./navbar.css";
 import flechaAbajo from "../assets/flecha abajo.svg";
 import flechaDerecha from "../assets/flecha derecha.svg";
 import lupa from "../assets/lupa.svg";
+import Breadcrumbs from "../Breadcrumbs/breadcrumbs";
 
 const Navbar = () => {
     const [dropdown1Open, setDropdown1Open] = useState(false);
@@ -123,16 +124,19 @@ const Navbar = () => {
         
             <button className="buttonNavbar"><img src={lupa}/></button>
     </div>
+
+
+    <div className="searchContainer">
+                    <input placeholder="Turiscool" type="text"/>
+                    <button className="buttonNavbar" onClick={showSearchInput}><img src={lupa}/></button>
+                </div>
     */
 
     return (
         <nav>
             <div className="navbar">
                 <img className="imgNavbar" src={logo} alt="Logo" onClick={handleLogoClick} />
-                <div className="searchContainer">
-                    <input placeholder="Turiscool" type="text"/>
-                    <button className="buttonNavbar" onClick={showSearchInput}><img src={lupa}/></button>
-                </div>
+                <Breadcrumbs />
             </div>
         </nav>
     );

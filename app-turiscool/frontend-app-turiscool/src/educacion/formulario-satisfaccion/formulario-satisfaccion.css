@@ -1,5 +1,7 @@
 .header {
     display: flex;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
     width: 30vw;
     margin: auto;
@@ -202,16 +204,12 @@
     align-items: center;
 }
 
-.header {
-    display: flex;
-}
-
 #averageScore {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 200px;
+    width: 25vw;
     height: 150px;
     margin: auto;
     padding: 20px;
@@ -221,15 +219,20 @@
 }
 
 #averageScore h1 {
-    color: #333;
+    color: #00689183;
     justify-content: center;
     text-align: center;
     margin: auto;
 }
 
 #averageScore h3 {
-    color: #333;
+    color: #333333;
     text-transform: uppercase;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 10px;
     
 }
 

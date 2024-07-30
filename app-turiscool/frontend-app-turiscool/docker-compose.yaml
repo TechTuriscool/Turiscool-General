@@ -17,7 +17,7 @@ services:
     environment:
       VITE_PASSWORD: +turiscool_312
     ports:
-      - 4000:4000
+      - 4000:4000  
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

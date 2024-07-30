@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import loading from '../../assets/Loading_2.gif';
+import StarsCategory from '../../stars/startsCategory';
 
 const MediaCategorias = () => {
   const [answersObject2, setAnswersObject2] = useState(null);
@@ -31,33 +32,14 @@ const MediaCategorias = () => {
       {loadingState ? (
         <img id="loading2" src={loading} alt="loading" />
       ) : (
-        <div id="categoriesContainer">
+        <div className='subContainerCategories'>
           {answersObject2 &&
             Object.keys(answersObject2).map((key) => {
               const scoreValue = answersObject2[key] ? answersObject2[key].toFixed(2) : 5;
-              let backgroundColor = '';
-              let color = '';
-
-              if (scoreValue >= 0 && scoreValue <= 3) {
-                backgroundColor = '#F79394';
-                color = '#C60001';
-              } else if (scoreValue > 3 && scoreValue <= 3.99) {
-                backgroundColor = '#FDF6C4';
-                color = '#F74B00';
-              } else if (scoreValue >= 4 && scoreValue <= 5) {
-                backgroundColor = '#8BE68B';
-                color = '#012E1F';
-              }
 
               return (
-                <div
-                  key={key}
-                  className="categoryContainer"
-                  style={{ backgroundColor, color }}
-                  onClick={() => clickCategory(key)}
-                >
-                  <h4 className='categoriesTitle'>{key.toUpperCase()}</h4>
-                  <h1>{scoreValue}</h1>
+                <div key={key} className="categoryContainer" onClick={() => clickCategory(key)}>
+                  <StarsCategory rating={scoreValue} title={key} />
                 </div>
               );
             })}

@@ -1,4 +1,21 @@
 /* Estilos generales */
+.containerFirmafy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    max-width: 100vw;
+    width: 60vw;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.containerFirmafy h3 {
+    color: #006791;
+    margin-top: 1vh;
+}
 
 h1 {
     text-align: center;
@@ -10,7 +27,6 @@ form {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 70vw;
     width: 100%;
     text-align: center;

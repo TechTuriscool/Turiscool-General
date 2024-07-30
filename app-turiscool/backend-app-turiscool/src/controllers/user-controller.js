@@ -34,7 +34,7 @@ export const obtainUsers = async (req, res) => {
     try {
         console.log(totalPages)
 
-        for (let i = 0; i <= totalPages; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const response = await fetch(
                 `${url}?page=${i}&items_per_page=200`,
                 requestOptions
@@ -89,3 +89,53 @@ export const obtainUserById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+// Obtener total pages de cursos del usuario
+const obtainTotalPagesPerCourse = async (id) => {
+    try {
+        const response = await fetch(
+            `https://academy.turiscool.com/admin/api/v2/users/${id}/courses?items_per_page=200`,
+            requestOptions
+        );
+        if (!response.ok) {
+            throw new Error("Failed to fetch cursos del usuario");
+        }
+        const data = await response.json();
+        return data.meta.totalPages;
+    } catch (error) {
+        ("Error:", error);
+    }
+};
+
+// Obtener cursos del usuario
+export const obtainUsersPerCourse = async (req, res) => {
+    const { id } = req.params;
+    const totalPages = await obtainTotalPagesPerCourse(id);
+    const courseList = [];
+
+    console.log("Obteniendo cursos del usuario con id:", id);
+    console.log("Total de páginas:", totalPages);
+    try {
+        for (let i = 1; i <= totalPages; i++) {
+            const response = await fetch(
+                `https://academy.turiscool.com/admin/api/v2/users/${id}/courses?page=${i}&items_per_page=200`,
+                requestOptions
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch cursos del usuario");
+            }
+            const data = await response.json();
+            data.data.forEach(course => {
+                courseList.push(course);
+            });
+        }
+        
+        console.log("Cursos del usuario obtenidos con éxito.");
+
+        res.status(200).json(courseList);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+

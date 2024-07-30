@@ -4,11 +4,16 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-const CLIENT_ID = "62b182eea31d8d9863079f42";
-const CLIENT_SECRET = "2NiYR9Qkvc1rwof3oHkPE4KvCK65A0IeJjTXaZS9xM42G6PHFW";
-const API_URL = "https://academy.turiscool.com/admin/api/";
-const TOKEN = "Tgm4Xx76myQrEwcxFrz63iFKUhCzGxWb1Z4sXr0b";
+dotenv.config();
+
+// Importar variables de entorno del env
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const API_URL = process.env.API_URL;
+const TOKEN = process.env.TOKEN;
+
 
 let emailsVerified = [];
 
@@ -72,15 +77,12 @@ export async function unsuspendUsers(emailsVerified) {
                     'Authorization': `Bearer ${TOKEN}`
                 }
             });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            
             const data = await response.json();
             console.log(data);
             console.log('Usuarios desbloqueados correctamente');
         }
     } catch (error) {
-        console.error('Error unsuspending users:', error);
     }
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './firmafy.css';
 import Navbar from '../../navbar/navbar';
 import SideBar from '../../navbar/sidebar';
+import MoreInfo from '../../moreInfo/moreInfo';
 
 
 const App = () => {
@@ -118,6 +119,8 @@ const App = () => {
     getUsers();
   }, []);
 
+  const moreInfo = `Aquí puedes subir un archivo CSV con los correos de los alumnos que no han recibido un certificado de Firmafy.`;
+
   return (
     <div id="menuContainer">
         <div className="menuTopContainer">
@@ -129,10 +132,12 @@ const App = () => {
             </div>
             <div className="rightBottomContainer">
               <div className='formContainer'>
+                <div className='containerFirmafy'>
+                  <MoreInfo info={moreInfo}/>
                 <h1>Subir Archivo CSV</h1>
+                <h3>Sube un CSV de alumnos y para verificar quien no tiene Certificados.</h3>
                 <form id="csvForm" onSubmit={printRows}>
-                  <div className='containerUpload'>
-                      <label className='labelInput' htmlFor="fileInput">Seleccione un archivo CSV:</label>
+                  <div className='containerUnsuspend1'>
                       <input type="file" id="fileInput" name="fileInput" accept=".csv" />
                       <button type="submit">Subir</button>
                   </div>
@@ -165,6 +170,7 @@ const App = () => {
                       </button>
                   </div>
                 </form>
+                </div>
               </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
     padding: 2vw;
     margin-top: 10vh;
     width: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .containerUnsuspend, .containerUnsuspend1 {

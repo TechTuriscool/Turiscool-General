@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import Navbar from '../navbar/navbar';
 import SideBar from '../navbar/sidebar';
 import Password from '../popups/password';
 import FormData from 'form-data';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import './unsuspend.css';
+import MoreInfo from '../moreInfo/moreInfo';
 
 const App = () => {
   const [file, setFile] = useState(null);
@@ -48,6 +48,19 @@ const App = () => {
       toast.error('Debes subir un archivo o introducir los mails');
       return;
     } else {
+      // Verificar que los mails no contienen espacios y tienen el formato correcto
+      if (mails && mails.includes(' ')) {
+        toast.error('Los correos no deben contener espacios');
+        return;
+      } else if (mails) {
+        for (const mail of mails.split(',')) {
+          if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(mail.trim())) {
+            toast.error('El correo no es válido');
+            return;
+          }
+        }
+      }
+
       try {
         const response = await fetch(`${baseURL}/unsuspend`, {
           method: 'POST',
@@ -66,6 +79,9 @@ const App = () => {
     }
   };
 
+  const infoButton = `Esta utilidad te permite volver a recuperar usuarios suspendidos en masa y no tener que ir 1 a 1 en LW. Para ello necesitas un CSV de alumnos descargado desde LearnWorlds o introducir los mails separados por comas.
+                    En cualquiera de los dos casos, deberás pulsar sobre el botón "Desuspender" para desbloquear a los usuarios.`
+
   return (
     <div id="menuContainer">
         <Password />
@@ -79,12 +95,9 @@ const App = () => {
             </div>
             <div className="rightBottomContainer">
               <div className='unsuspendContainer'>
-                <h1>DESUSPENDER USUARIOS EN MASA</h1>
+                <MoreInfo info={infoButton} />
+                <h1>Desuspender Usuarios en Masa</h1>
                 <div className="subtitle">
-                  <h4>
-                    Esta utilidad te permite volver a recuperar usuarios suspendidos en masa y no tener que ir 1 a 1 en LW. Para ello necesitas un CSV de alumnos descargado desde LearnWorlds o introducir los mails separados por comas.
-                    En cualquiera de los dos casos, deberás pulsar sobre el botón "Desuspender" para desbloquear a los usuarios.
-                  </h4>
                 </div>
 
                 <h3>Sube un CSV de alumnos descargado desde learnWorlds</h3>

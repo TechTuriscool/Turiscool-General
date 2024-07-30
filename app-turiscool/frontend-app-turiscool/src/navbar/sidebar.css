@@ -62,6 +62,11 @@
     margin-bottom: 2vh;
 }
 
+.buttonSideBar.active {
+    background-color: #006791;
+    color: #fff;
+}
+
 .containerButtonsBottom .buttonSideBar {
     background-color: #ff000046;
     border-color: rgba(245, 12, 0, 0.807);

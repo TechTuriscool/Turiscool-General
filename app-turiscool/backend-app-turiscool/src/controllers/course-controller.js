@@ -34,7 +34,7 @@ export const obtainCourses = async (req, res) => {
     try {
         console.log(totalPages)
 
-        for (let i = 0; i <= totalPages; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const response = await fetch(
                 `${url}?page=${i}&itemsPerPage=50`,
                 requestOptions
@@ -131,7 +131,7 @@ export const obtainUsersPerCourse = async (req, res) => {
     const userList = [];
 
     try {
-        for (let i = 0; i <= totalPages; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const response = await fetch(
                 `${url}/${id}/users?itemsPerPage=200`,
                 requestOptions

@@ -403,7 +403,7 @@ async function recoverySurveyInfoByCategory() {
     localStorage.setItem('recoverySurveyInfoPreData', JSON.stringify(recoverySurveyInfoPreData));
 
     setLoading(false); 
-    alert('Reinicio completado.');
+    alert('Carga de datos completado.');
     // Recargar la página
     window.location.reload();
   }

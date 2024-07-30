@@ -1,12 +1,21 @@
+.dropDownContainer {
+    position: fixed;
+    flex-direction: column;
+    position: relative;
+    width: 12vw;
+    height: 100%;
+    z-index: 1;
+}
+
 .dropDown {
     background: linear-gradient(90deg, #F3F8FF 0%, #ffffff 30%);
-    width: 200px;
+    width: 12vw;
+    top: 80px;
+    left: 14.97vw;
     height: 100%;
-    position: fixed;
-    top: 82px;
-    left: 14.94vw;
     border-left: 1px solid #05BFAD;
     transition: 0.4s;
+    position: fixed;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #05BFAD;
@@ -34,11 +43,11 @@
     margin-top: 3vh;
 }
 
-.buttonDropDown:hover p {
-    background-color: #05BFAD;
-    color: black;
+.buttonDropDown p:hover {
+    background: #05BFAD;
     transition: 0.4s;
 }
+
 
 .buttonDropDownList {
     width: 100%;

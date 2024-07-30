@@ -1,0 +1,269 @@
+import React, { useState, useEffect } from "react";
+import Password from "../popups/password";
+import Navbar from "../navbar/navbar.jsx";
+import SideBar from "../navbar/sidebar.jsx";
+import MainContent from "../mainContent/mainContent.jsx";
+import "./form-progress.css";
+
+const FormComponent = () => {
+  const url = import.meta.env.VITE_BASE_URL;
+  const token = import.meta.env.VITE_TOKEN;
+  const lwId = "62b182eea31d8d9863079f42";
+  const userId = import.meta.env.VITE_USER_ID;
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+      "Lw-Client": lwId,
+    },
+  };
+
+  const [paginas, setPaginas] = useState(0);
+  const [etiqueta, setEtiqueta] = useState("");
+  const [etiqueta2, setEtiqueta2] = useState("");
+  const [selectorCursos, setSelectorCursos] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
+  const [cursos, setCursos] = useState([]);
+  const [alumnosConCurso, setAlumnosConCurso] = useState([]);
+  const [progreso, setProgreso] = useState([]);
+  const [error1, setError1] = useState("");
+  const [error2, setError2] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    //crearListadoDeCursos();
+    fetchMeta();
+  }, []);
+
+  const fetchMeta = async () => {
+    try {
+      const response = await fetch(`${url}/`)
+      console.log(response);
+    
+            for (let i = 1; i <= response.length; i++) {
+                setUsuarios((prevUsuarios) => [
+                    ...prevUsuarios,
+                    ...data.data.map((user) => ({
+                    nombre: user.username,
+                    tags: user.tags,
+                    id: user.id,
+                    })),
+                ]);
+            }
+
+            console.log(usuarios);
+
+    } catch (error) {
+      console.error("Error fetching metadata:", error);
+    }
+  };
+
+  const añadirCursoAlaLista = () => {
+    let select = document.getElementById("selectorCursos");
+    cursos.forEach((curso) => {
+      let option = document.createElement("option");
+      option.value = curso;
+      option.textContent = curso.charAt(0).toUpperCase() + curso.replaceAll("-", " ").slice(1);
+      select.appendChild(option);
+    });
+
+    let options = Array.from(select.options);
+    options.sort((a, b) => a.text.localeCompare(b.text));
+    select.innerHTML = "";
+    options.forEach((option) => select.appendChild(option));
+  };
+
+  const searchUser = () => {
+    setUsuariosFiltrados(
+      usuarios.filter((user) => user.tags.includes(etiqueta) && user.tags.includes(etiqueta2))
+    );
+  };
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const buscarCursosDeUsuariosFiltrados = async () => {
+    try {
+      const usuariosConCursos = [];
+      for (let i = 0; i < usuariosFiltrados.length; i++) {
+        await delay(1);
+        const response = await fetch(
+          `${url}/v2/users/${usuariosFiltrados[i].id}/courses`,
+          requestOptions
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok.");
+        }
+        const data = await response.json();
+        const listadoCursosPorUsuario = data.data.map((cursoData) => cursoData.course.id);
+
+        usuariosConCursos.push({
+          id: usuariosFiltrados[i].id,
+          nombre: usuariosFiltrados[i].nombre,
+          cursos: listadoCursosPorUsuario,
+        });
+      }
+      setAlumnosConCurso(usuariosConCursos.filter((user) =>
+        user.cursos.includes(selectorCursos)
+      ));
+    } catch (error) {
+      console.error("Error fetching user courses:", error);
+    }
+  };
+
+  const buscarProgreso = async () => {
+    try {
+      const progreso = [];
+      for (let i = 0; i < alumnosConCurso.length; i++) {
+        await delay(1);
+        const response = await fetch(
+          `${url}/v2/users/${alumnosConCurso[i].id}/courses/${selectorCursos}/progress`,
+          requestOptions
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok.");
+        }
+        const data = await response.json();
+        progreso.push({
+          nombre: alumnosConCurso[i].nombre,
+          info: {
+            status: data.status,
+            completado: convertTimestampToDate(data.completed_at),
+            progreso: data.progress_rate,
+            puntuacion: data.average_score_rate,
+            tiempo: data.time_on_course,
+          },
+        });
+      }
+      setProgreso(progreso);
+    } catch (error) {
+      console.error("Error fetching progress:", error);
+    }
+  };
+
+  const convertTimestampToDate = (timestamp) => {
+    if (timestamp === null) {
+      return "No completado";
+    }
+    const date = new Date(timestamp * 1000);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setError1("");
+    setError2("");
+    if (!etiqueta && !etiqueta2) {
+      setError1("Campo obligatorio");
+      setError2("Campo obligatorio");
+      return;
+    }
+    if (!etiqueta) {
+      setError1("Campo obligatorio");
+      return;
+    }
+    if (!etiqueta2) {
+      setError2("Campo obligatorio");
+      return;
+    }
+    setIsLoading(true);
+    searchUser();
+    buscarCursosDeUsuariosFiltrados().then(() => {
+      buscarProgreso().then(() => setIsLoading(false));
+    });
+  };
+
+  return (
+    <div id="menuContainer">
+        <Password />
+        <div className="menuTopContainer">
+            <Navbar />
+        </div>
+        <div className="menuBottomContainer">
+            <div className="leftBottomContainer">
+                <SideBar /> 
+            </div>
+            <div className="rightBottomContainer">
+            <div className={isLoading ? "loading" : ""}>
+                <form onSubmit={handleSubmit} className="estrecho">
+                    <div className="estrecho">
+                    <label htmlFor="etiqueta">Etiquetas:</label>
+                    <input
+                        type="text"
+                        name="etiqueta"
+                        id="etiqueta"
+                        value={etiqueta}
+                        onChange={(e) => setEtiqueta(e.target.value)}
+                    />
+                    <p id="mensajeError1" style={{ color: "red" }}>{error1}</p>
+                    <input
+                        type="text"
+                        name="etiqueta2"
+                        id="etiqueta2"
+                        value={etiqueta2}
+                        onChange={(e) => setEtiqueta2(e.target.value)}
+                    />
+                    <p id="mensajeError2" style={{ color: "red" }}>{error2}</p>
+                    <label htmlFor="selectorCursos">Lista de Cursos:</label>
+                    <select
+                        name="selectorCursos"
+                        id="selectorCursos"
+                        value={selectorCursos}
+                        onChange={(e) => setSelectorCursos(e.target.value)}
+                    >
+                        <option value="default">Default</option>
+                    </select>
+                    <br />
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? "Buscando..." : "Buscar"}
+                    </button>
+                    </div>
+
+                    <div id="resultado" className="estrecho">
+                    {progreso.length === 0 && !isLoading && <p>No se encontraron resultados</p>}
+                    {progreso.length > 0 && (
+                        <div>
+                        <h2>Se han encontrado {progreso.length} resultados</h2>
+                        <table id="tablaDatos" className="estrecho">
+                            <thead>
+                            <tr className="primeraFila">
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Status</th>
+                                <th>Progreso</th>
+                                <th>Puntuacion</th>
+                                <th>Tiempo</th>
+                                <th>Fecha Finalización</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {progreso.map((user, index) => (
+                                <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{user.nombre}</td>
+                                <td>{user.info.status}</td>
+                                <td>{user.info.progreso}%</td>
+                                <td>{user.info.puntuacion}%</td>
+                                <td>{user.info.tiempo} mins</td>
+                                <td>{user.info.completado}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        </div>
+                    )}
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+};
+
+export default FormComponent;

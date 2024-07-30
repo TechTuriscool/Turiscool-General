@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import loading from '../../assets/Loading_2.gif';
+import Stars from '../../stars/stars';
 
 const MediaGlobal = () => {
   const [averageScore, setAverageScore] = useState(0);
   const [loadingImage, setLoadingImage] = useState(true);
   const variableDesdeEJS22 = JSON.parse(localStorage.getItem('answersObject'));
-  console.log("Variable desde EJS22: ", variableDesdeEJS22);
 
   useEffect(() => {
     let totalScore = 0;
@@ -43,10 +43,9 @@ const MediaGlobal = () => {
       ) : (
         <div
           id="averageScore"
-          style={{ backgroundColor: backgroundColor, color: color }}
         >
-          <h3></h3>
-          <h1>{averageScore}</h1>
+          <Stars rating={averageScore} />
+          <h3>{averageScore}</h3>
         </div>
       )}
     </div>

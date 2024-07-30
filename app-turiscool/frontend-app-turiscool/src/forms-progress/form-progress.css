@@ -1,0 +1,77 @@
+  #resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  /* Form Styles */
+  .estrecho {
+    width: 50vw;
+    height: auto;
+    margin-top: 10vh;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto;
+  }
+
+  .estrecho h1 {
+    padding-bottom: 20px;
+  }
+  
+
+  .containerFormProgress input,
+  .containerFormProgress select {
+    width: 70%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  /* Table Styles */
+  #tablaDatos {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #tablaDatos th,
+  #tablaDatos td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  #tablaDatos th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  #tablaDatos tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #mensajeError1,
+  #mensajeError2 {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+
+  .containerTable {
+    margin-top: 5vh;
+  }
+
+  .containerTable h2 {
+    padding-bottom: 20px;
+  }
