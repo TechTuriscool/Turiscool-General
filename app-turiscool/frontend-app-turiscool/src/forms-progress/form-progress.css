@@ -13,17 +13,25 @@
   .estrecho {
     width: 50vw;
     height: auto;
-    margin-top: 10vh;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: auto;
+    margin-bottom: 10vh;
   }
 
   .estrecho h1 {
     padding-bottom: 20px;
   }
   
+  .containerFormProgress {
+    padding: 20px;
+    max-width: 70vw;
+    width: 70%;
+    text-align: center;
+    margin: auto;
+    height: auto;
+    box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.1);
+  }
 
   .containerFormProgress input,
   .containerFormProgress select {

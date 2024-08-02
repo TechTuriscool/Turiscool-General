@@ -15,7 +15,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogoClick = () => {
-        console.log('Logo clicked'); 
+        //console.log('Logo clicked'); 
         navigate('/');
     };
 

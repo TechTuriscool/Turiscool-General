@@ -28,6 +28,9 @@ const DropDown = () => {
                         <Link to='/customer-success/progress' className='buttonDropDown'>
                             <p style={{color: location.pathname.includes('progress') ? '#fff' : '#333', background: location.pathname.includes('progress') ? '#006791' : '#fff'}}>Progreso</p>
                         </Link>
+                        <Link to='/customer-success/wasapi' className='buttonDropDown'>
+                            <p style={{color: location.pathname.includes('wasapi') ? '#fff' : '#333', background: location.pathname.includes('wasapi') ? '#006791' : '#fff'}}>Wasapi</p>
+                        </Link>
                     </>
                 );
                 break;

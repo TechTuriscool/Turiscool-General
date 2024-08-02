@@ -17,7 +17,7 @@ const App = () => {
       const response = await fetch(`${baseURL}/firmafy/`);
       const data = await response.json();
       setUsersPHP(data);
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -52,7 +52,7 @@ const App = () => {
         emails.push(row[7]);
       }
     }
-    console.log(emails);
+    //console.log(emails);
     return emails;
   };
 
@@ -84,7 +84,7 @@ const App = () => {
       }
     }
     setCommonUsers(usuariosComunes);
-    console.log(usuariosComunes);
+    //console.log(usuariosComunes);
   };
 
   const downloadTxt = () => {
@@ -135,7 +135,7 @@ const App = () => {
                 <div className='containerFirmafy'>
                   <MoreInfo info={moreInfo}/>
                 <h1>Subir Archivo CSV</h1>
-                <h3>Sube un CSV de alumnos y para verificar quien no tiene Certificados.</h3>
+                <h3>Sube un CSV de alumnos de <a href="https://app.firmafy.com/">Firmafy</a> para verificar quien no tiene Certificados.</h3>
                 <form id="csvForm" onSubmit={printRows}>
                   <div className='containerUnsuspend1'>
                       <input type="file" id="fileInput" name="fileInput" accept=".csv" />

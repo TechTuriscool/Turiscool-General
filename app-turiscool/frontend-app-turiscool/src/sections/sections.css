@@ -1,64 +1,75 @@
 .rightBottomContainer2 {
-  width: 73%;
-  display: flex;
-  background-color: #F3F8FF;
-  overflow: auto;
-}
-
-.guideContainer {
+    width: 73%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 70%;
-    margin: auto;
-    margin-top: 10vh;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-}
-
-.guideContainer h1 {
-    padding-top: 3vh;
-}
-
-
-.guideSubContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    text-align: left;
-    text-align: center;
-    max-width: 1000px;
-}
-
-.guideSubContainer h2 {
-    padding-bottom: 20px;
-    padding-top: 3vh;
-    color: #006791;
-}
-
-.guideSubContainer h3 {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: #333;
-}
-
-.guideSubContainer p {
-    color: #333;
-    max-width: 800px;
-    font-weight: 500;
-}
-
-.guideSubContainer img {
-    width: 70%;
-    height: auto;
-    padding-top: 20px;
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.guideSubContainer h5 {
-    margin-bottom: 20px;
-}
-
+    background-color: #F3F8FF;
+    overflow: auto;
+  }
+  
+  .guideContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+      margin-top: 10vh;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  }
+  
+  .guideContainer h1 {
+      padding-top: 3vh;
+  }
+  
+  .guideSubContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      max-width: 1000px;
+  }
+  
+  .guideSubContainer a {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 20px;
+  }
+  
+  .guideSubContainer h2 {
+      padding-left: 5vw;
+      padding-bottom: 20px;
+      padding-top: 3vh;
+      color: #006791;
+      align-self: flex-start;
+  }
+  
+  .guideSubContainer h3 {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      color: #333;
+      padding-left: 5vw;
+      align-self: flex-start;
+  }
+  
+  .guideSubContainer p {
+      color: #333;
+      font-weight: 500;
+      padding-left: 5vw;
+  }
+  
+  .guideSubContainer img {
+      width: 70%;
+      height: auto;
+      padding-top: 20px;
+      margin: auto;
+  }
+  
+  .guideSubContainer h5 {
+      margin-bottom: 20px;
+  }
+  
+  .refresh {
+      max-width: 30%;
+  }

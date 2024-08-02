@@ -46,8 +46,7 @@ const Files = () => {
 
   const infoButton = `Esta utilidad te permite volver a recuperar usuarios suspendidos en masa y no tener que ir 1 a 1 en LW. Para ello necesitas un CSV de alumnos descargado desde LearnWorlds o introducir los mails separados por comas. En cualquiera de los dos casos, deberás pulsar sobre el botón "Desuspender" para desbloquear a los usuarios.`;
 
-  return (
-    <div id="menuContainer">
+  /* <div id="menuContainer">
       <Password />
       <ToastContainer />
       <div className="menuTopContainer">
@@ -69,7 +68,22 @@ const Files = () => {
           </div>
         </div>
       </div>
+    </div> */
+  return (
+    <div id="menuContainer">
+    <div className="menuTopContainer">
+        <Navbar />
     </div>
+    <div className="menuBottomContainer">
+        <div className="leftBottomContainer">
+            <SideBar /> 
+        </div>
+        <div className="rightBottomContainer">
+            <h1 className='temporalText'>En desarrollo</h1>
+            <img className='temporalImage' src="https://static-00.iconduck.com/assets.00/web-developer-illustration-1004x1024-wcqgbag3.png" alt="desarrollo" />
+        </div>
+    </div>
+</div>
   );
 };
 

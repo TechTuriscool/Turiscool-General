@@ -45,7 +45,7 @@ const MediaCursos = () => {
         try {
             courseList = localStorage.getItem('courses');
             courseList = JSON.parse(courseList);
-            console.log(courseList);
+            //console.log(courseList);
             setLoadingMenuIcon(loading = false);
             courseListIds = courseList.map(course => course.id);
             courseListCategories = courseList.map(course => course.categories);
@@ -145,7 +145,7 @@ const MediaCursos = () => {
                 requestOptions
             );
             const data = await response.json();
-            console.log(data);
+            //console.log(data);
             if (!response.ok || data === undefined || data === null || data.length === 0) {  
                 alert("Este curso no tiene formulario, o el formulario no contiene respuestas");
                 throw new Error("Failed to fetch survey info");
@@ -208,8 +208,8 @@ const MediaCursos = () => {
     
         //console.log("courses");
         //console.log(courses);
-        console.log("recoverySurveyInfoPreData2");
-        console.log(recoverySurveyInfoPreData2);
+        //console.log("recoverySurveyInfoPreData2");
+        //console.log(recoverySurveyInfoPreData2);
     
         courses.forEach(course => {
             let listItem = document.createElement('li');
@@ -281,7 +281,7 @@ const MediaCursos = () => {
     }
     
     async function populateCategoryMenu() {
-        console.log(categories);
+        //console.log(categories);
         let categoryCardsContainer = document.querySelector('#categoryCards');
         let option = document.createElement('option');
         option.textContent = 'Filtrar por categoria';

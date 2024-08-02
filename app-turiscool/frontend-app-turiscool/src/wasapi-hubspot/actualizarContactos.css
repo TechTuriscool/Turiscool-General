@@ -1,0 +1,32 @@
+.containerUpdateContacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 58vw;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.buttonContactsUpdate {
+    width: 250px;
+    height: 50px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.containerUpdateContacts div p {
+    font-size: 20px;
+    margin-top: 2vh;
+    font-weight: 700;
+    color: #333;
+}
+
+.containerUpdateContacts div table td:first-child {
+    font-weight: 400;
+    text-align: center;
+}

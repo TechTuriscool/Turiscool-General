@@ -31,30 +31,25 @@ const Educacion = () => {
                 </div>
                 <div className="rightBottomContainer2">
                     <div className='guideContainer'>
-                        <MoreInfo info='Aquí podrá visualizar una guía en el cuál se explica como funciona los diferentes apartados de Educación.'/>
-                        <h1>¡Bienvenid@ a la guía de Educación!</h1>
+                    <MoreInfo info='Aquí tienes una guía que explica cómo funcionan los diferentes apartados de Educación.'/>
+                    <h1>¡Bienvenid@ a la guía de Educación!</h1>
                         <div className='guideSubContainer'>
-                        <h2>Notas Medias</h2>
-                        <p>En este apartado podrá visualizar las notas medias relacionadas a los cursos que han ido votando
-                            los alumnos, se muestra la media global, la media por curso y las propias notas puestas por los alumnos.
-                            Es recomendable ir actualizando las medias al menos una al dia para tener una información más actualizada.
-                        </p>
-                        <img src={guia4} alt="Refresh" />
-
-                        <h3>Ver Reseñas</h3>
-                        <p>
-                            Para ver las reseñas de los usuarios bastará con pulsar la categoría deseada y se mostrarán todos los cursos relacionados, seleccionaremos el curso que querramos ver (con nota), y podremos visualizar una lista de reseñas en caso de que haya.
-                        </p>
+                            <h2>Notas Medias</h2>
+                            <p>En esta sección puedes ver las notas medias de los cursos votados por los alumnos. Se muestra la media global, la media por curso y las notas que han puesto los alumnos. Es buena idea actualizar las medias al menos una vez al día para tener la información al día.</p>
+                            <img className='refresh' src={guia4} alt="Refresh" />
+    
+                            <h3>Ver Reseñas</h3>
+                            <p>
+                                Para ver las reseñas de los usuarios, simplemente selecciona la categoría que quieras y se mostrarán todos los cursos relacionados. Luego, elige el curso que te interese (con nota) y verás una lista de reseñas si las hay.
+                            </p>
                             <img src={guia1} alt="Courses" />
                             <img src={guia2} alt="Reseñas" />
-
-                        <h3>No veo las Medias</h3>
-                        <p>
-                            Puede ocurrir que no se muestren las medias, en este caso deberá pulsar sobre el botón "Actualizar Medias" para que se muestren las medias de los cursos.
-                            Si sigue fallando se debe a que el servidor esta saturado, en este caso espere un par de minutos y vuelva a intentarlo.
-                        </p>
+    
+                            <h3>No veo las Medias</h3>
+                            <p>
+                                Si no ves las medias, pulsa el botón "Actualizar Medias" para que aparezcan. Si sigue sin funcionar, puede que el servidor esté saturado. En ese caso, espera unos minutos y vuelve a intentarlo.
+                            </p>
                             <img src={guia3} alt="Reseñas" />
-
                         </div>
                     </div>
                 </div>

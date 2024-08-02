@@ -62,9 +62,9 @@ const CourseInfo = () => {
         let surveyInfo = localStorage.getItem("surveyInfo");
         let alumnoid = localStorage.getItem("alumnoid");
         let surveyInfoObj = JSON.parse(surveyInfo);
-        console.log("he llegado 1");
+        //console.log("he llegado 1");
         let surveyInfoAlumno = surveyInfoObj.data.filter(alumno => alumno.id === alumnoid);
-        console.log("he llegado 2");
+        //console.log("he llegado 2");
         localStorage.setItem("surveyInfoAlumno", JSON.stringify(surveyInfoAlumno));
         showInfoSpecificAlumno();
     }
@@ -159,7 +159,7 @@ const CourseInfo = () => {
         const settings = localStorage.getItem('surveyInfo');
         if (settings) {
             const settingsObj = JSON.parse(settings);
-            console.log(settingsObj);
+            //console.log(settingsObj);
     
             settingsObj.data.forEach(item => {
                 item.answers.slice(0, -1).forEach(answer => {

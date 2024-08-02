@@ -48,7 +48,7 @@ const FormularioSatisfaccion = () => {
         let courNamesArray = localStorage.getItem('courNamesArray');
         let recoverySurveyInfoPreData = localStorage.getItem('recoverySurveyInfoPreData');
         let courses = localStorage.getItem('courses');
-        console.log("courses", courses);
+        //console.log("courses", courses);
 
         if (
           answersObject && Object.keys(answersObject).length !== 0 &&
@@ -59,7 +59,7 @@ const FormularioSatisfaccion = () => {
         ) {
           setLoading(false);
         } else {
-          console.log("HOLAAA SOY EL START");
+          //console.log("HOLAAA SOY EL START");
           await start();
         }
       } catch (error) {
@@ -145,7 +145,7 @@ const FormularioSatisfaccion = () => {
           courNamesArray.push(course.title);
           if (course.categories || course.categories.length !== 0 || course.title !== "") {
               coursesInfo.push({ curso: course.categories, id: course.id, forms: [] });
-              console.log(course)
+              //console.log(course)
           }
 
           courseCategoriesArray.push(course.categories);
@@ -197,7 +197,7 @@ const FormularioSatisfaccion = () => {
   }
 
   async function fetchCourseContent(actualCourseId, courseObj) {
-    console.log("entra")
+    //console.log("entra")
     let hasAForm = false;
     try {
         const response = await axiosInstance.get(`/courses/${actualCourseId}/contents`);
@@ -349,23 +349,23 @@ async function recoverySurveyInfoByCategory() {
 
   //funcion para recorrer coursesInfo y por cada form hacer una llamada a recoverySurveyInfo
   async function recoverySurveyInfoPre(data) {
-    console.log("data", data);
+    //console.log("data", data);
     for (let i = 0; i < data.length; i++) {
       let notas = [];
       let notasFinales = [];
       let notamedia = 0;
 
-      console.log("hola", data[i].forms);
+      //console.log("hola", data[i].forms);
       try {
           const response = await axiosInstance.get(`/assessments/${data[i].forms[0]}/responses`);
           
         const data2 = await response;
-        console.log("data2", data2);
+        //console.log("data2", data2);
           if (data2.data) {
               data2.data.data.forEach(item => {
                   item.answers.slice(0, -1).forEach(answer => {
                       //si la no es un numero entre 0 y 5 no pushear
-                      console.log("answer", answer.answer);
+                      //console.log("answer", answer.answer);
                       if (answer.answer === null || answer.answer === undefined) {
                           // Do nothing
                       } else {
@@ -381,9 +381,9 @@ async function recoverySurveyInfoByCategory() {
               });
 
               notasFinales = notas.map(nota => nota.charAt(0));
-              console.log("notasFinales", notasFinales);
+              //console.log("notasFinales", notasFinales);
               notamedia = notasFinales.reduce((acc, nota) => acc + parseInt(nota), 0) / notasFinales.length;
-              console.log("media" + notamedia);
+              //console.log("media" + notamedia);
               notamedia = notamedia.toFixed(2);
 
               recoverySurveyInfoPreData.push({ id: data[i].id, media: notamedia });
@@ -394,7 +394,7 @@ async function recoverySurveyInfoByCategory() {
           ("Error:", error);
       }
   }
-    console.log("fin")
+    //console.log("fin")
     
     // Subir a localStorage todos los datos necesarios para la vista
     localStorage.setItem('answersObject', JSON.stringify(answersObject));

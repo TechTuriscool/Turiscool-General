@@ -91,14 +91,14 @@ const FormComponent = () => {
   };
 
   const searchUser = () => {
-    console.log("Usuarios", usuarios);
-    console.log("Etiqueta", etiqueta);
-    console.log("Etiqueta2", etiqueta2);
+    //console.log("Usuarios", usuarios);
+    //console.log("Etiqueta", etiqueta);
+    //console.log("Etiqueta2", etiqueta2);
     let dataUsuariosFiltrados = [];
 
     for (let i = 0; i < usuarios.length; i++) {
       if (usuarios[i].tags.includes(etiqueta) && usuarios[i].tags.includes(etiqueta2)) {
-        console.log("Usuario con etiqueta", usuarios[i]);
+        //console.log("Usuario con etiqueta", usuarios[i]);
         dataUsuariosFiltrados.push(usuarios[i]);
       }
     }
@@ -124,7 +124,7 @@ const FormComponent = () => {
           throw new Error("Network response was not ok.");
         }
         const data = await response.json();
-        console.log("Data", data);  
+        //console.log("Data", data);  
         const listadoCursosPorUsuario = data.map((cursoData) => cursoData.course.id);
 
         usuariosConCursos.push({
@@ -146,8 +146,8 @@ const FormComponent = () => {
   };
 
   const buscarProgreso = async () => {
-    console.log("Ha entrado en buscar progreso");
-    console.log("Alumnos con curso", alumnosConCurso);
+    //console.log("Ha entrado en buscar progreso");
+    //console.log("Alumnos con curso", alumnosConCurso);
     try {
       const progresoPromises = alumnosConCurso.map(async (alumno) => {
         const response = await fetch(
@@ -227,8 +227,8 @@ const FormComponent = () => {
         <div className="leftBottomContainer">
           <SideBar />
         </div>
-        <div className="rightBottomContainer containerFormProgress">
-          <form onSubmit={handleSubmit}>
+        <div className="rightBottomContainer ">
+          <form className="containerFormProgress" onSubmit={handleSubmit}>
             <MoreInfo info="Aquí podrá seleccionar dos tags de un usuario, para posteriormente filtrar el progreso de dichos usuarios que coincidan con dichas etiquetas a un curso determinado." />
             <div className="estrecho">
               <h1>Buscar Progreso</h1>

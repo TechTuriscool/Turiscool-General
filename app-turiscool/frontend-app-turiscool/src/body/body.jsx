@@ -10,6 +10,7 @@ import MenuCustomerSuccess from '../sections/customerSuccess.jsx';
 import MenuEducación from '../sections/educacion.jsx';
 import File from '../files/files.jsx';
 import FormProgress from '../forms-progress/form-progress.jsx';
+import Wasapi from '../wasapi-hubspot/actualizar contactos.jsx';
 
 const Body = () => {
   return (
@@ -25,6 +26,7 @@ const Body = () => {
       <Route path="/customer-success/progress" element={<PasswordIsTrue element={FormProgress} />} />
       <Route path="/guide" element={<PasswordIsTrue element={Guide} />} />
       <Route path="/files" element={<PasswordIsTrue element={File} />} />
+      <Route path="/customer-success/wasapi" element={<PasswordIsTrue element={Wasapi} />} />
 
     </Routes>
   );

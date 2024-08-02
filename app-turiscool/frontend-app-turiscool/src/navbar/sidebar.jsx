@@ -32,8 +32,8 @@ const SideBar = () => {
 
         // Recoger el path actual
         const path = location.pathname.split('/')[1];
-        console.log("ruta actual " + path);
-        console.log(alt)
+        //console.log("ruta actual " + path);
+        //console.log(alt)
         if (alt === path) {
             setDropDownVisible(!dropDownVisible);
         } else {
