@@ -11,6 +11,10 @@ import MenuEducación from '../sections/educacion.jsx';
 import File from '../files/files.jsx';
 import FormProgress from '../forms-progress/form-progress.jsx';
 import Wasapi from '../wasapi-hubspot/actualizar contactos.jsx';
+import Conversaciones from '../wasapi-hubspot/listarConversaciones.jsx';
+import Hubspot from '../sections/hubspot.jsx';
+import ActualizarContactos from '../wasapi-hubspot/actualizar contactos.jsx';
+import Users from '../sections/users.jsx';
 
 const Body = () => {
   return (
@@ -26,8 +30,10 @@ const Body = () => {
       <Route path="/customer-success/progress" element={<PasswordIsTrue element={FormProgress} />} />
       <Route path="/guide" element={<PasswordIsTrue element={Guide} />} />
       <Route path="/files" element={<PasswordIsTrue element={File} />} />
-      <Route path="/customer-success/wasapi" element={<PasswordIsTrue element={Wasapi} />} />
-
+      <Route path="/hubspot" element={<PasswordIsTrue element={Hubspot} />} />
+      <Route path="/hubspot/usuarios" element={<PasswordIsTrue element={Users } />} />
+      <Route path="/hubspot/conversaciones" element={<PasswordIsTrue element={Conversaciones} />} />
+      <Route path="/hubspot/usuarios/actualizar-contactos" element={<PasswordIsTrue element={ActualizarContactos } />} />
     </Routes>
   );
 }

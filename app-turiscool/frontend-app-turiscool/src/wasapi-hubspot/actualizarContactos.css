@@ -1,13 +1,12 @@
 .containerUpdateContacts {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: #fff;
-    width: 58vw;
+    width: 70%;
     margin: auto;
+    margin-top: 10vh;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 .buttonContactsUpdate {
@@ -29,4 +28,11 @@ button:disabled {
 .containerUpdateContacts div table td:first-child {
     font-weight: 400;
     text-align: center;
+}
+
+.rightBottomContainer2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 20px;
 }

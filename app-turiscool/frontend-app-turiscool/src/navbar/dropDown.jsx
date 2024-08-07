@@ -5,6 +5,7 @@ import "./dropDown.css";
 const DropDown = () => {
     const [content, setContent] = useState(null);
     const alt = window.location.pathname.split('/')[1];
+    const alt2 = window.location.pathname.split('/')[2];
     const location = useLocation();
 
     useEffect(() => {
@@ -28,11 +29,45 @@ const DropDown = () => {
                         <Link to='/customer-success/progress' className='buttonDropDown'>
                             <p style={{color: location.pathname.includes('progress') ? '#fff' : '#333', background: location.pathname.includes('progress') ? '#006791' : '#fff'}}>Progreso</p>
                         </Link>
-                        <Link to='/customer-success/wasapi' className='buttonDropDown'>
-                            <p style={{color: location.pathname.includes('wasapi') ? '#fff' : '#333', background: location.pathname.includes('wasapi') ? '#006791' : '#fff'}}>Wasapi</p>
-                        </Link>
                     </>
                 );
+                break;
+            case 'hubspot':
+                if (alt2 === 'usuarios') {
+                    setContent(
+                        <>
+                            <Link to='/hubspot/usuarios/actualizar-contactos' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('actualizarContacto') ? '#fff' : '#333', background: location.pathname.includes('actualizarContacto') ? '#006791' : '#fff'}}>Actualizar Contactos</p>
+                            </Link>
+                            <Link to='/hubspot/usuarios/crearContacto' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('crearContacto') ? '#fff' : '#333', background: location.pathname.includes('crearContacto') ? '#006791' : '#fff'}}>Crear Contacto</p>
+                            </Link>
+                            <Link to='/hubspot/usuarios/editarContacto' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('editarContacto') ? '#fff' : '#333', background: location.pathname.includes('editarContacto') ? '#006791' : '#fff'}}>Editar Contacto</p>
+                            </Link>
+                            <Link to='/hubspot/usuarios/borrarContacto' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('borrarContacto') ? '#fff' : '#333', background: location.pathname.includes('borrarContacto') ? '#006791' : '#fff'}}>Borrar Contacto</p>
+                            </Link>
+                        </>
+                    );
+                } else {
+                    setContent(
+                        <>
+                            <Link to='/hubspot/conversaciones' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('conversaciones') ? '#fff' : '#333', background: location.pathname.includes('conversaciones') ? '#006791' : '#fff'}}>Conversaciones Wasapi</p>
+                            </Link>
+                            <Link to='/hubspot/usuarios' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('wasapi') ? '#fff' : '#333', background: location.pathname.includes('wasapi') ? '#006791' : '#fff'}}>Usuarios</p>
+                            </Link>
+                            <Link to='/customer-success/companias' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('companias') ? '#fff' : '#333', background: location.pathname.includes('companias') ? '#006791' : '#fff'}}>Compañias</p>
+                            </Link>
+                            <Link to='/hubspot/facturas' className='buttonDropDown'>
+                                <p style={{color: location.pathname.includes('facturas') ? '#fff' : '#333', background: location.pathname.includes('facturas') ? '#006791' : '#fff'}}>Facturas</p>
+                            </Link>
+                        </>
+                );
+                }
                 break;
             case 'Guia':
                 setContent(<p>Guia</p>);

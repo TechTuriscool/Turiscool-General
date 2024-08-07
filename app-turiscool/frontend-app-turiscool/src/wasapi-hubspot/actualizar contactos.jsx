@@ -4,13 +4,14 @@ import Navbar from "../navbar/navbar.jsx";
 import SideBar from "../navbar/sidebar.jsx";
 import loading from "../assets/Loading_2.gif";
 import MoreInfo from '../moreInfo/moreInfo.jsx';
-import CollapsibleSection from '../collapse/CollapsibleSection.jsx';
 import "./actualizarContactos.css";
+import DropDown from '../navbar/dropDown.jsx';
 
 const ActualizarContactos = () => {
     const [contactos, setContactos] = useState([]);
     const [totalContactos, setTotalContactos] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
     const baseURL = import.meta.env.VITE_BASE_URL;
 
     const obtenerContactos = async () => {
@@ -26,6 +27,7 @@ const ActualizarContactos = () => {
         setContactos(result);
         setTotalContactos(result.length);
         setIsLoading(false);
+        setIsUpdating(true);
     }
 
     return (
@@ -38,18 +40,17 @@ const ActualizarContactos = () => {
                 <div className="leftBottomContainer">
                     <SideBar /> 
                 </div>
-                <div className="rightBottomContainer">
-                    <CollapsibleSection title="Crear Contacto">
-                    </CollapsibleSection>
-
-                    <CollapsibleSection title="Actualizar contactos">
+                <div className="dropDownContainer">
+                    <DropDown />
+                </div>
+                <div className="rightBottomContainer2">
                         <div className='containerUpdateContacts'>
                             <MoreInfo info="Desde aquí puedes actualizar la lista de contactos de HubSpot para sincronizar los números de teléfono con los datos de WASAPI" />
                             <button className='buttonContactsUpdate' onClick={obtenerContactos} disabled={isLoading}>
                                 {isLoading ? "Actualizando..." : "Actualizar contactos"}
                             </button>
                             {isLoading && <img src={loading} alt="Cargando..." />}
-                            {totalContactos === 0 && (
+                            {totalContactos === 0 && isUpdating &&  (
                                 <h2>No hay contactos para actualizar</h2>
                             )}
                             {totalContactos > 0 && (
@@ -78,7 +79,6 @@ const ActualizarContactos = () => {
                                 </div>
                             )}
                         </div>
-                    </CollapsibleSection>
                 </div>
             </div>
         </div>

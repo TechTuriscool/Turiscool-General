@@ -14,6 +14,7 @@ const SideBar = () => {
     const buttonsTop = [
         { text: 'Educación', alt: 'educacion', path: '/educacion/' },
         { text: 'Customer Success', alt: 'customer-success', path: '/customer-success/' },
+        { text: 'HubSpot', alt: 'hubspot', path: '/hubspot/' },
         { text: 'Archivos', alt: 'files', path: '/files' },
         { text: 'Guía de uso', alt: 'guide', path: '/guide' }
     ];
