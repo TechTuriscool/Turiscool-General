@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 // Crear una instancia de BigQuery utilizando la ruta al archivo de clave JSON
 const bigquery = new BigQuery({
   projectId: 'form-satisfaction-ci-cd',
-  keyFilename: path.join(__dirname, 'form-satisfaction-ci-cd-6e13b585dfd4.json'), // Actualiza esta ruta a donde se encuentra tu archivo JSON
+  keyFilename: path.join(__dirname, '../config/form-satisfaction-ci-cd-6e13b585dfd4.json'), // Actualiza esta ruta a donde se encuentra tu archivo JSON
 });
 
 // Definir una ruta que realice una consulta a BigQuery

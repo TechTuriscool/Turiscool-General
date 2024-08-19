@@ -43,10 +43,11 @@
     margin-top: 3vh;
 }
 
-.buttonDropDown p:hover {
-    background: #05BFAD;
+.buttonDropDown:hover p {
+    background: #05BFAD !important;
     transition: 0.4s;
 }
+
 
 
 .buttonDropDownList {

@@ -44,3 +44,12 @@
 .buttonNavbar {
   display: none;
 }
+
+.temporalText {
+  margin-top: 10vh;
+}
+.temporalImage {
+  width: 6%;
+  height: auto;
+  margin-top: 2vh;
+}

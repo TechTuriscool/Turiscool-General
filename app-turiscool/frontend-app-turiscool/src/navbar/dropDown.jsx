@@ -42,12 +42,6 @@ const DropDown = () => {
                             <Link to='/hubspot/usuarios/crearContacto' className='buttonDropDown'>
                                 <p style={{color: location.pathname.includes('crearContacto') ? '#fff' : '#333', background: location.pathname.includes('crearContacto') ? '#006791' : '#fff'}}>Crear Contacto</p>
                             </Link>
-                            <Link to='/hubspot/usuarios/editarContacto' className='buttonDropDown'>
-                                <p style={{color: location.pathname.includes('editarContacto') ? '#fff' : '#333', background: location.pathname.includes('editarContacto') ? '#006791' : '#fff'}}>Editar Contacto</p>
-                            </Link>
-                            <Link to='/hubspot/usuarios/borrarContacto' className='buttonDropDown'>
-                                <p style={{color: location.pathname.includes('borrarContacto') ? '#fff' : '#333', background: location.pathname.includes('borrarContacto') ? '#006791' : '#fff'}}>Borrar Contacto</p>
-                            </Link>
                         </>
                     );
                 } else {
@@ -57,7 +51,7 @@ const DropDown = () => {
                                 <p style={{color: location.pathname.includes('conversaciones') ? '#fff' : '#333', background: location.pathname.includes('conversaciones') ? '#006791' : '#fff'}}>Conversaciones Wasapi</p>
                             </Link>
                             <Link to='/hubspot/usuarios' className='buttonDropDown'>
-                                <p style={{color: location.pathname.includes('wasapi') ? '#fff' : '#333', background: location.pathname.includes('wasapi') ? '#006791' : '#fff'}}>Usuarios</p>
+                                <p style={{color: location.pathname.includes('usuarios') ? '#fff' : '#333', background: location.pathname.includes('usuarios') ? '#006791' : '#fff'}}>Usuarios</p>
                             </Link>
                             <Link to='/customer-success/companias' className='buttonDropDown'>
                                 <p style={{color: location.pathname.includes('companias') ? '#fff' : '#333', background: location.pathname.includes('companias') ? '#006791' : '#fff'}}>Compañias</p>

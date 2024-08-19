@@ -1,3 +1,58 @@
+/* Ensure table has fixed layout */
+.listar-conversaciones table {
+    width: 90%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Fixes the width of the table columns */
+    margin: auto;
+}
+
+.listar-conversaciones th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Prevents text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+    cursor: pointer;
+}
+
+.listar-conversaciones td:hover {
+    background-color: #72dcff;
+}
+
+/* Example fixed widths for specific columns */
+.listar-conversaciones table th:nth-child(1),
+.listar-conversaciones table td:nth-child(1) {
+    width: 20%; /* Fixed width for the ID column */
+}
+
+.listar-conversaciones table th:nth-child(2),
+.listar-conversaciones table td:nth-child(2) {
+    width: 10%; /* Fixed width for first and last name columns */
+}
+
+.listar-conversaciones table th:nth-child(3),
+.listar-conversaciones table td:nth-child(3) {
+    width: 15%; /* Fixed width for the company column */
+}
+
+.listar-conversaciones table th:nth-child(4),
+.listar-conversaciones table td:nth-child(4) {
+    width: 20%; /* Fixed width for the phone column */
+}
+
+.listar-conversaciones table th:nth-child(5),
+.listar-conversaciones table td:nth-child(5) {
+    width: 15%; /* Fixed width for the email column */
+}
+
+.listar-conversaciones table th:nth-child(6),
+.listar-conversaciones table td:nth-child(6) {
+    width: 10%; /* Fixed width for actions column */
+}
+
+/* Existing styles */
+
 .popup {
     position: fixed;
     top: 50%;
@@ -25,7 +80,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
     position: relative;
 }
 
@@ -38,19 +92,18 @@
     font-size: 24px;
     cursor: pointer;
     right: 0px;
-    
+    background-color: rgb(214, 71, 71);
+    border-radius: 100px;
 }
 
 .mensajes {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
     background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
     padding: 10px;
     max-height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
-
 }
 
 .date-time.system {
@@ -99,7 +152,6 @@
     margin-left: 20px; /* Añade margen a la izquierda para separar del texto */
 }
 
-
 .search-bar {
     width: 80%;
     padding: 9px;
@@ -147,6 +199,7 @@
 .conversaciones-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; /* Ensures fixed column width */
 }
 
 .conversaciones-table th,
@@ -168,4 +221,12 @@
 .date-time {
     text-align: right;
     padding-top: 5px;
+}
+
+.conversaciones-table th.tags, 
+.conversaciones-table td.tags {
+    max-width: 200px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
