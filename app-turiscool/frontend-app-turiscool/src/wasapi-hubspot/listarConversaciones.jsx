@@ -18,10 +18,11 @@ const ListarConversaciones = () => {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
     const conversacionesPerPage = 200;
+    const baseURL = import.meta.env.VITE_BASE_URL;
 
     const cargarDatos = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:3001/wasapi-hubspot/recoger-conversaciones', {
+            const response = await fetch(`${baseURL}/wasapi-hubspot/recoger-conversaciones`, {
                 method: 'GET'
             });
             const result = await response.json();

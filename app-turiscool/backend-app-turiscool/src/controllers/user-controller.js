@@ -34,7 +34,7 @@ export const obtainUsers = async (req, res) => {
     try {
         console.log(totalPages)
 
-        for (let i = 1; i <= totalPages; i++) {
+        for (let i = 0; i <= totalPages; i++) {
             const response = await fetch(
                 `${url}?page=${i}&items_per_page=200`,
                 requestOptions
@@ -116,7 +116,7 @@ export const obtainUsersPerCourse = async (req, res) => {
     console.log("Obteniendo cursos del usuario con id:", id);
     console.log("Total de páginas:", totalPages);
     try {
-        for (let i = 1; i <= totalPages; i++) {
+        for (let i = 0; i <= totalPages; i++) {
             const response = await fetch(
                 `https://academy.turiscool.com/admin/api/v2/users/${id}/courses?page=${i}&items_per_page=200`,
                 requestOptions

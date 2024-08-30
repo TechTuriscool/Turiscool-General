@@ -14,6 +14,7 @@ import Hubspot from '../sections/hubspot.jsx';
 import ActualizarContactos from '../wasapi-hubspot/actualizar contactos.jsx';
 import ListarContactos from '../wasapi-hubspot/listarContactos.jsx';
 import CrearContacto from '../wasapi-hubspot/crearContacto.jsx';
+import FiltrarFundae from '../filtrarFundae/filtrarFundae.jsx';
 
 const Body = () => {
   return (
@@ -27,6 +28,7 @@ const Body = () => {
       <Route path="/customer-success/firmafy" element={<PasswordIsTrue element={Firmafy} />} />
       <Route path="/customer-success/unsuspend" element={<PasswordIsTrue element={Unsuspend} />} />
       <Route path="/customer-success/progress" element={<PasswordIsTrue element={FormProgress} />} />
+      <Route path="/customer-success/filtrar-fundae" element={<PasswordIsTrue element={FiltrarFundae} />} />
       <Route path="/files" element={<PasswordIsTrue element={File} />} />
       <Route path="/hubspot" element={<PasswordIsTrue element={Hubspot} />} />
       <Route path="/hubspot/usuarios" element={<PasswordIsTrue element={ListarContactos } />} />

@@ -29,6 +29,9 @@ const DropDown = () => {
                         <Link to='/customer-success/progress' className='buttonDropDown'>
                             <p style={{color: location.pathname.includes('progress') ? '#fff' : '#333', background: location.pathname.includes('progress') ? '#006791' : '#fff'}}>Progreso</p>
                         </Link>
+                        <Link to='/customer-success/filtrar-fundae' className='buttonDropDown'>
+                            <p style={{color: location.pathname.includes('filtrar-fundae') ? '#fff' : '#333', background: location.pathname.includes('filtrar-fundae') ? '#006791' : '#fff'}}>Filtrar Fundae</p>
+                        </Link>
                     </>
                 );
                 break;

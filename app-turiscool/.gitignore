@@ -1,0 +1,8 @@
+# Ignorar el archivo específico en el backend
+backend-app-turiscool/src/config/form-satisfaction-ci-cd-6e13b585dfd4.json
+
+# Ignorar .env en el backend
+backend-app-turiscool/.env
+
+# Ignorar .env en el frontend
+frontend-app-turiscool/.env

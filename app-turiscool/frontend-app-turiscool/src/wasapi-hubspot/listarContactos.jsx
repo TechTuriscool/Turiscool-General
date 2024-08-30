@@ -21,23 +21,37 @@ const ListarContactos = () => {
     const [isLoading, setIsLoading] = useState(true); 
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false); // Estado para el popup de edición
-
+    const [originalDataUsers, setOriginalDataUsers] = useState({});
+    
     const usersPerPage = 200;
 
-    const getUsers = useCallback(async () => {
+    const getUsers = useCallback(async (offset = 0, accumulatedData = []) => {
         try {
             setIsLoading(true);
-            const response = await fetch(`${baseURL}/hubspot/users`);
+            const limit = 500;
+            const response = await fetch(`${baseURL}/hubspot/users?limit=${limit}&offset=${offset}`, {
+                method: 'GET',
+            });
             const data = await response.json();
-            console.log('Users:', data);
-            setUsers(data);
-            setFilteredUsers(data);
-            setIsLoading(false);
+    
+            // Acumular los datos
+            const newAccumulatedData = [...accumulatedData, ...data];
+            setUsers(newAccumulatedData);
+            setFilteredUsers(newAccumulatedData);
+    
+            // Si el número de datos devueltos es menor que el límite, hemos terminado
+            if (data.length < limit) {
+                setIsLoading(false);
+            } else {
+                // Si aún hay más datos, solicitar la siguiente página
+                getUsers(offset + limit, newAccumulatedData);
+            }
         } catch (error) {
             console.error('Error fetching users:', error);
             setIsLoading(false);
         }
     }, [baseURL]);
+    
 
     useEffect(() => {
         getUsers();
@@ -99,6 +113,7 @@ const ListarContactos = () => {
     };
 
     const handleEditUser = (user) => {
+        setOriginalDataUsers(user); // Guardar los datos originales del usuario
         setSelectedUser(user);
         setIsEditPopupOpen(true); // Abre el popup de edición
     };
@@ -111,24 +126,47 @@ const ListarContactos = () => {
     const handleSaveEdit = async () => {
         if (!selectedUser) return;
 
+        // Filtrar solo las propiedades nombre, apellidos, teléfono y email
+        const { firstname, lastname, phone, email } = selectedUser.properties;
+        const filteredProperties = {
+            firstname,
+            lastname,
+            phone,
+            email
+        };
+
+        console.log('Updating user:', selectedUser);
+
         try {
             const response = await fetch(`${baseURL}/hubspot/users/${selectedUser.id}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    properties: selectedUser.properties,
+                    originalUser: originalDataUsers,
+                    properties: filteredProperties,
                 }),
             });
 
             if (response.ok) {
-                const updatedUsers = users.map(user => 
-                    user.id === selectedUser.id ? selectedUser : user
-                );
+                alert('Usuario actualizado correctamente.');
+                // Actualizar los datos del usuario en la lista
+                const updatedUsers = users.map(user => {
+                    if (user.id === selectedUser.id) {
+                        return {
+                            ...user,
+                            properties: {
+                                ...user.properties,
+                                ...filteredProperties,
+                            },
+                        };
+                    }
+                    return user;
+                });
                 setUsers(updatedUsers);
                 setFilteredUsers(updatedUsers);
-                alert('Usuario actualizado correctamente.');
+                
                 handleCloseEditPopup();
             } else {
                 console.error('Error updating user');

@@ -8,6 +8,7 @@ import unsuspend from './unsuspend-router.js';
 //import uploadFile from './files-router.js';
 import wasapi from './wasapi-hubspot-router.js';
 import hubspot from './hubspot-router.js';
+import FiltrarFundae from './filtrar-fundae-router.js';
 const router = express.Router();
 
 router.use('/courses', course);
@@ -18,6 +19,8 @@ router.use('/assessments', assessments);
 router.use('/firmafy', firmafy);
 router.use('/wasapi-hubspot', wasapi);
 router.use('/hubspot', hubspot);
+router.use('/filtrar-fundae', FiltrarFundae);
+
 //router.use('/files', uploadFile);
 
 export default router;

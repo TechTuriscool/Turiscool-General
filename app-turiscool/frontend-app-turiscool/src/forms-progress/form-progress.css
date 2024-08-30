@@ -15,9 +15,12 @@
     height: auto;
     background-color: #fff;
     border-radius: 8px;
-    margin: auto;
-    margin-bottom: 10vh;
+    margin-left: auto; /* Centrar solo horizontalmente */
+    margin-right: auto; /* Centrar solo horizontalmente */
+    margin-top: 0; /* Quitar el margen superior */
+    margin-bottom: 10vh; /* Mantener margen inferior si es necesario */
   }
+  
 
   .estrecho h1 {
     padding-bottom: 20px;
@@ -28,18 +31,30 @@
     max-width: 70vw;
     width: 70%;
     text-align: center;
-    margin: auto;
+    margin: 0px;
+    margin-top: 10vh;
     height: auto;
     box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.1);
   }
 
-  .containerFormProgress input,
+  .containerFormProgress input {
+    width: 90%;
+    height: 40px;
+    border: 1px solid #006791;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+
   .containerFormProgress select {
     width: 70%;
-    padding: 8px;
+    height: 40px;
+    border: 1px solid #006791;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
   }
   
   button:disabled {
