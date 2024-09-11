@@ -153,14 +153,39 @@ const FiltrarFundae = () => {
                             };
                             courseData[course.contents.title].rows.push(sectionRow);
                         }
+
+                        // Recorrer las unidades de aprendizaje
                         section.learningUnits.forEach(unit => {
+                            let unidadesCompletadas = 0;
+                            let unidadesTotales = 0;
+
+                            // Recorrer todos los usuarios y contar cuántos han completado la unidad
+                            for(let i = 0; i < data.length; i++) {
+                                for(let j = 0; j < data[i].courses.length; j++) {
+                                    if(data[i].courses[j].contents.title === course.contents.title) {
+                                        for(let k = 0; k < data[i].courses[j].progress.progress_per_section_unit.length; k++) {
+                                            for(let l = 0; l < data[i].courses[j].progress.progress_per_section_unit[k].units.length; l++) {
+                                                if(data[i].courses[j].progress.progress_per_section_unit[k].units[l].unit_name === unit.title) {
+                                                    if(data[i].courses[j].progress.progress_per_section_unit[k].units[l].unit_progress_rate >= '70') {
+                                                        unidadesCompletadas++;
+                                                        unidadesTotales++;
+                                                    } else {
+                                                        unidadesTotales++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                             const unitTitle = unit.title || '';
                             let row = courseData[course.contents.title].rows.find(r => r['Learning Activity'] === unitTitle);
                             if (!row) {
                                 row = {
                                     'Learning Activity': unitTitle,
                                     'Type': unit.type || '',
-                                    'Started/Completed': '1/1',
+                                    'Started/Completed': `${unidadesCompletadas}/${unidadesTotales}`,
                                 };
                                 courseData[course.contents.title].rows.push(row);
                             }
@@ -259,7 +284,7 @@ const FiltrarFundae = () => {
                         courseData[course.contents.title] = { rows: [], users: new Set() };
                     }
                     course.contents.sections.forEach(section => {
-                        if (!courseData[course.contents.title].rows.find(r => r['Learning Activity'] === `Sección: ${section.title}`)) {
+                        if (!courseData[course.contents.title].rows.find(r => r['Learning Activity'] === `Sección: ${section.title}`) || courseData[course.contents.title] === "📄Descargable del módulo	") {
                             const sectionRow = {
                                 'Learning Activity': `Sección: ${section.title}`,
                                 'Type': '',
@@ -270,11 +295,34 @@ const FiltrarFundae = () => {
                         section.learningUnits.forEach(unit => {
                             const unitTitle = unit.title || '';
                             let row = courseData[course.contents.title].rows.find(r => r['Learning Activity'] === unitTitle);
+                            let unidadesCompletadas = 0;
+                            let unidadesTotales = 0;
+
+                            // Recorrer todos los usuarios y contar cuántos han completado la unidad
+                            for(let i = 0; i < data.length; i++) {
+                                for(let j = 0; j < data[i].courses.length; j++) {
+                                    if(data[i].courses[j].contents.title === course.contents.title) {
+                                        for(let k = 0; k < data[i].courses[j].progress.progress_per_section_unit.length; k++) {
+                                            for(let l = 0; l < data[i].courses[j].progress.progress_per_section_unit[k].units.length; l++) {
+                                                if(data[i].courses[j].progress.progress_per_section_unit[k].units[l].unit_name === unit.title) {
+                                                    if(data[i].courses[j].progress.progress_per_section_unit[k].units[l].unit_progress_rate >= '70') {
+                                                        unidadesCompletadas++;
+                                                        unidadesTotales++;
+                                                    } else {
+                                                        unidadesTotales++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                           
                             if (!row) {
                                 row = {
                                     'Learning Activity': unitTitle,
                                     'Type': unit.type || '',
-                                    'Started/Completed': '1/1',
+                                    'Started/Completed': `${unidadesCompletadas}/${unidadesTotales}`,
                                 };
                                 courseData[course.contents.title].rows.push(row);
                             }

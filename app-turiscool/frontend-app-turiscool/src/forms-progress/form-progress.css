@@ -15,10 +15,9 @@
     height: auto;
     background-color: #fff;
     border-radius: 8px;
-    margin-left: auto; /* Centrar solo horizontalmente */
-    margin-right: auto; /* Centrar solo horizontalmente */
-    margin-top: 0; /* Quitar el margen superior */
-    margin-bottom: 10vh; /* Mantener margen inferior si es necesario */
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-top: 0; 
   }
   
 
@@ -35,6 +34,7 @@
     margin-top: 10vh;
     height: auto;
     box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.1);
+    padding-bottom: 100px;
   }
 
   .containerFormProgress input {
@@ -47,14 +47,31 @@
     margin-bottom: 10px;
   }
 
-  .containerFormProgress select {
-    width: 70%;
-    height: 40px;
-    border: 1px solid #006791;
-    border-radius: 5px;
-    padding: 3px;
-    padding-left: 10px;
-    margin-bottom: 10px;
+  .containerFormProgress #cotainerSelect {
+      width: 90%;
+      margin: auto;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+  }
+  
+  .containerFormProgress #cotainerSelect select {
+      width: 84%;
+      height: 40px;
+      border: 1px solid #006791;
+      border-radius: 5px;
+      padding: 3px;
+      padding-left: 10px;
+      margin: 0px;
+  }
+  
+  .containerFormProgress #cotainerSelect button {
+      width: 15%;
+      margin: 0px;
+  }
+  
+  .containerFormProgress label {
+    margin-top: 20px;
   }
   
   button:disabled {
@@ -75,7 +92,6 @@
   }
   
   #tablaDatos th {
-    background-color: #f2f2f2;
     font-weight: bold;
   }
   

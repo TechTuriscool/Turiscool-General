@@ -77,15 +77,7 @@
     border-bottom: 1px solid #f4f4f4;
 }
 
-.alumnosMenu li:hover {
-    background-color: #05BFAD;
-    color: white;
-}
 
-.alumnosMenu.active {
-    display: flex;
-    /* o `block` según lo que prefieras */
-}
 
 .notaMedia {
     display: flex;
@@ -132,18 +124,12 @@
     border-radius: 10px;
 }
 
-.opinionContainer {
+#opinionContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 70%;
-    padding: 20px;
-    text-align: left;
-    color: white;
-    text-align: center;
-    margin-top: 20px;
-    max-width: 1000px;
-    max-height: 600px;
+    min-width: auto;
+
 }
 
 
@@ -200,3 +186,31 @@
     transition: 0.5s;
 }
 
+.alumnosMenu li.low {
+    background-color: #ffc0cbbf; /* rojo claro */
+}
+
+.alumnosMenu li.medium {
+    background-color: #ffffcc; /* amarillo claro */
+}
+
+.alumnosMenu li.high {
+    background-color: #d0f0c0; /* verde claro */
+}
+
+.alumnosMenu li.no-nota {
+    background-color: #d3d3d3; /* gris claro */
+}
+
+.alumnosMenu li:hover {
+    background-color: #f0f0f0;
+    color: #101010;
+}
+
+
+
+.mensajeOpinion {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}

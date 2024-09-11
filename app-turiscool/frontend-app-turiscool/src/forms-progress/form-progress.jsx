@@ -239,6 +239,7 @@ const FormComponent = () => {
                 name="etiqueta"
                 id="etiqueta"
                 value={etiqueta}
+                placeholder="Etiqueta 1"
                 onChange={(e) => setEtiqueta(e.target.value)}
               />
               <p id="mensajeError1" style={{ color: "red" }}>{error1}</p>
@@ -247,16 +248,19 @@ const FormComponent = () => {
                 name="etiqueta2"
                 id="etiqueta2"
                 value={etiqueta2}
+                placeholder="Etiqueta 2"
                 onChange={(e) => setEtiqueta2(e.target.value)}
               />
               <p id="mensajeError2" style={{ color: "red" }}>{error2}</p>
               <label htmlFor="selectorCursos">Lista de Cursos:</label>
+              <div id="cotainerSelect">
               <select
                 name="selectorCursos"
                 id="selectorCursos"
                 value={selectorCursos}
                 onChange={(e) => setSelectorCursos(e.target.value)}
               >
+        
                 <option value="default">Default</option>
                 {cursos.map((curso) => (
                   <option key={curso} value={curso}>
@@ -264,10 +268,10 @@ const FormComponent = () => {
                   </option>
                 ))}
               </select>
-              <br />
               <button type="submit" disabled={isLoading || usersLoading}>
                 {isLoading ? "Buscando..." : "Buscar"}
               </button>
+                </div>
             </div>
 
             <div id="resultado" className="estrecho">

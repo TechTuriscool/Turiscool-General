@@ -39,24 +39,59 @@ const CourseInfo = () => {
         let dataAlumnos = localStorage.getItem('surveyInfo');
         if (dataAlumnos) {
             let dataAlumnosObj = JSON.parse(dataAlumnos);
-            let listadoAlumnos = dataAlumnosObj.data.map(alumno => alumno.email);
     
-            listadoAlumnos.forEach(email => {
+            dataAlumnosObj.data.forEach(alumno => {
                 let listItem = document.createElement('li');
-                listItem.textContent = email;
-                listItem.style.cursor = 'pointer';
+                let email = alumno.email;
+    
+                // Calcular la nota media de las respuestas del alumno
+                let notasAlumno = alumno.answers
+                    .map(answer => {
+                        if (answer.answer && answer.answer.includes('/')) {
+                            // Extraer los valores numéricos del formato "4 / 5"
+                            let [nota, max] = answer.answer.split('/').map(Number);
+                            return nota / max;  // Calcula la proporción
+                        }
+                        return null;
+                    })
+                    .filter(nota => nota !== null); // Filtrar valores nulos
+    
+                let notaMedia = notasAlumno.length > 0
+                    ? (notasAlumno.reduce((acc, nota) => acc + nota, 0) / notasAlumno.length * 5).toFixed(2)
+                    : 'sin respuestas';
+    
+                // Determinar la clase de fondo según la nota media
+                let className = '';
+                if (notaMedia === 'sin respuestas') {
+                    className = 'no-nota'; // gris claro
+                } else if (notaMedia >= 4) {
+                    className = 'high'; // verde claro
+                } else if (notaMedia >= 3 && notaMedia < 4) {
+                    className = 'medium'; // amarillo claro
+                } else {
+                    className = 'low'; // rojo claro
+                }
+    
+                // Mostrar email y nota media
+                listItem.textContent = `${email} - Nota media: ${notaMedia}`;
+                listItem.classList.add(className);
+                listItem.style.cursor = 'pointer';;
                 alumnosMenu.appendChild(listItem);
+    
                 listItem.addEventListener('click', () => {
                     let alumno = dataAlumnosObj.data.find(alumno => alumno.email === email);
                     localStorage.setItem("alumnoid", alumno.id);
                     recoveryDataSurveyforSpecificUser();
                 });
             });
+    
             alumnosMenu.classList.add('open');
         } else {
             alert("No hay alumnos en este curso");
         }
     }
+    
+    
 
     function recoveryDataSurveyforSpecificUser() {
         let surveyInfo = localStorage.getItem("surveyInfo");

@@ -56,13 +56,7 @@ const DropDown = () => {
                             <Link to='/hubspot/usuarios' className='buttonDropDown'>
                                 <p style={{color: location.pathname.includes('usuarios') ? '#fff' : '#333', background: location.pathname.includes('usuarios') ? '#006791' : '#fff'}}>Usuarios</p>
                             </Link>
-                            <Link to='/customer-success/companias' className='buttonDropDown'>
-                                <p style={{color: location.pathname.includes('companias') ? '#fff' : '#333', background: location.pathname.includes('companias') ? '#006791' : '#fff'}}>Compañias</p>
-                            </Link>
-                            <Link to='/hubspot/facturas' className='buttonDropDown'>
-                                <p style={{color: location.pathname.includes('facturas') ? '#fff' : '#333', background: location.pathname.includes('facturas') ? '#006791' : '#fff'}}>Facturas</p>
-                            </Link>
-                        </>
+                                                    </>
                 );
                 }
                 break;
@@ -77,6 +71,13 @@ const DropDown = () => {
     if (!content) {
         return null;
     }
+
+    /*<Link to='/customer-success/companias' className='buttonDropDown'>
+        <p style={{color: location.pathname.includes('companias') ? '#fff' : '#333', background: location.pathname.includes('companias') ? '#006791' : '#fff'}}>Compañias</p>
+    </Link>
+    <Link to='/hubspot/facturas' className='buttonDropDown'>
+        <p style={{color: location.pathname.includes('facturas') ? '#fff' : '#333', background: location.pathname.includes('facturas') ? '#006791' : '#fff'}}>Facturas</p>
+    </Link> */
 
     return (
         <div className='dropDown'>
