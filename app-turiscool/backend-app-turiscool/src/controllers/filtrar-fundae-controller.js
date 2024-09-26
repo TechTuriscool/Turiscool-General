@@ -29,6 +29,9 @@ const obtainTotalPages = async (tags) => {
 
 export const getData = async (req, res) => {
     const tags = req.headers.tags;
+    const number = req.headers.number;
+    let coursesArray = req.headers.courses;
+    coursesArray = JSON.parse(coursesArray);
     const totalPages = await obtainTotalPages(tags);
     const userList = [];
     console.log('Tags:', tags);
@@ -68,7 +71,7 @@ export const getData = async (req, res) => {
         for (let i = 0; i < uniqueUserList.length; i++) {
             const user = uniqueUserList[i];
             const userId = user.id;
-            const courses = await getCourses(userId);
+            const courses = await getCourses(userId, number, coursesArray);
             userData.push( {
                 id: userId,
                 username: user.username,
@@ -130,7 +133,7 @@ const obtainTotalPagesCourses = async (userId) => {
 };
 
 // Obtener los cursos de un usuario
-const getCourses = async (userId) => {
+const getCourses = async (userId, number, coursesArray) => {
     const totalPages = await obtainTotalPagesCourses(userId);
     const courseList = [];
 
@@ -160,14 +163,24 @@ const getCourses = async (userId) => {
 
         // Filtrar solo los cursos cuya id incluya "formacion"
         const filteredCourseList = courseList.filter(course => {
+            console.log(coursesArray);
             if (course) {
                 const courseId = course.course.id;
-                const courseFiltered = courseId.includes('formacion') ||
-                                       courseId.includes('habilidades-y-herramientas-para-la-gestion-del-estres') ||
-                                       courseId.includes('liderazgo-y-gestion-del-talento-en-alojamientos-turisticos') || 
-                                       courseId.includes('planificacion-optimizacion-ingresos-hoteles');
-                return courseFiltered;
+                if (courseId.includes('formacion') || courseId.includes('habilidades-y-herramientas-para-la-gestion-del-estres') || courseId.includes('liderazgo-y-gestion-del-talento-en-alojamientos-turisticos') || courseId.includes('planificacion-optimizacion-ingresos-hoteles')) {
+                    return true;
+
+                } else { 
+                    if (coursesArray){
+                        for (let i = 0; i < coursesArray.length; i++){
+                            if (courseId === coursesArray[i]){
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
+
+
             return false;
         });
 
@@ -183,7 +196,7 @@ const getCourses = async (userId) => {
             }
             const data = await response2.json();
             
-            if (data.progress_rate >= 80){
+            if (data.progress_rate >= number){
                 filteredCourseList[i].progress = data;
             } 
             

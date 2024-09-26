@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as XLSX from 'xlsx';
 import './filtrarFundae.css';
 import Navbar from '../navbar/navbar';
@@ -8,12 +8,41 @@ import LoadingGif from "../assets/Loading_2.gif";
 
 const FiltrarFundae = () => {
     const [inputValue, setInputValue] = useState('');
+    const [numberValue, setNumberValue] = useState('');
+    const [selectedCourses, setSelectedCourses] = useState([]);
+    const [currentCourse, setCurrentCourse] = useState('');
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const baseURL = import.meta.env.VITE_BASE_URL;
+    const [availableCourses, setAvailableCourses] = useState([]);
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
+    };
+
+    const removeCourse = (courseToRemove) => {
+        setSelectedCourses(selectedCourses.filter(course => course !== courseToRemove));
+        setAvailableCourses([...availableCourses, courseToRemove]);
+    };
+
+    const handleNumberChange = (event) => {
+        setNumberValue(event.target.value); 
+    };
+
+    const handleCourseSelect = (event) => {
+        setCurrentCourse(event.target.value);
+    };
+
+    const addCourse = () => {
+        if (currentCourse && !selectedCourses.includes(currentCourse)) {
+            setSelectedCourses([...selectedCourses, currentCourse]);
+    
+            // Eliminar el curso de la lista de cursos disponibles
+            setAvailableCourses(availableCourses.filter(course => course !== currentCourse));
+    
+            // Limpiar el curso seleccionado
+            setCurrentCourse('');
+        }
     };
 
     const handleButtonClick = async () => {
@@ -22,20 +51,57 @@ const FiltrarFundae = () => {
             return;
         }
 
+        // Aquí podrías incluir una validación para el número y los cursos seleccionados si es necesario
+
         setIsLoading(true);
-        await getFiltrarFundae(inputValue);
+        await getFiltrarFundae(inputValue, numberValue, selectedCourses);
         setIsLoading(false);
     };
 
-    const getFiltrarFundae = async (input) => {
+    useEffect(() => {
+        const fetchCursos = async () => {
+            try {
+                const response = await fetch(`${baseURL}/courses`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                }
+                
+                const responseData = await response.json();
+
+                let coursesArray = [];
+                responseData.forEach(course => {
+                    coursesArray.push(course.id);
+                });
+
+                console.log('Cursos recibidos de la API:', coursesArray);
+                setAvailableCourses(coursesArray); 
+            } catch (error) {
+                console.error('Error al obtener cursos:', error);
+            }
+        };
+    
+        fetchCursos();
+    }, []); 
+    
+    const getFiltrarFundae = async (input, number, coursesArray) => {
         try {
             console.log('Iniciando solicitud con input:', input);
+            console.log('Número enviado:', number);
+            console.log('Cursos seleccionados:', coursesArray); 
 
             const response = await fetch(`${baseURL}/filtrar-fundae/getData`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'tags': input
+                    'tags': input,
+                    'number': number,
+                    'courses': JSON.stringify(coursesArray)
                 }
             });
 
@@ -75,7 +141,7 @@ const FiltrarFundae = () => {
                                 const timeInPlatform = course.progress.time_on_course ? Math.round(course.progress.time_on_course / 60) : 0;
                                 let courseId = course.course.id.replace(/-/g, ' ');
                                 courseId = courseId.charAt(0).toUpperCase() + courseId.slice(1);
-                                courseId = courseId.replace(/Formación\s*/gi, '');
+                                //courseId = courseId.replace(/Formación\s*/gi, '');
     
                                 let date = new Date(course.created * 1000);
                                 date = date.toLocaleDateString('es-ES');
@@ -113,7 +179,7 @@ const FiltrarFundae = () => {
                 courseId = courseId.charAt(0).toUpperCase() + courseId.slice(1);
     
                 // Eliminar la palabra "Formación" del título del curso
-                courseId = courseId.replace(/Formación\s*/gi, '');
+                //courseId = courseId.replace(/Formación\s*/gi, '');
     
                 let date = new Date(course.created * 1000);
                 date = date.toLocaleDateString('es-ES');
@@ -221,8 +287,8 @@ const FiltrarFundae = () => {
         });
     
         Object.keys(courseData).forEach(courseTitle => {
-            let truncatedTitlePre = courseTitle.replace('Formación: ', '');
-            let truncatedTitle = truncatedTitlePre.length > 31 ? truncatedTitlePre.substring(0, 31) : truncatedTitlePre;
+            //let truncatedTitlePre = courseTitle.replace('Formación: ', '');
+            let truncatedTitle = courseTitle.length > 31 ? courseTitle.substring(0, 31) : courseTitle;
             const progressWorksheet = XLSX.utils.json_to_sheet(courseData[courseTitle].rows);
             XLSX.utils.book_append_sheet(workbook, progressWorksheet, truncatedTitle);
         });
@@ -358,7 +424,7 @@ const FiltrarFundae = () => {
     
             return (
                 <div key={courseTitle}>
-                    <h2>{courseTitle.replace('Formación: ', '').substring(0, 31)}</h2>
+                    <h2>{courseTitle.substring(0, 31)}</h2>
                     <div className="table-wrapper">
                         <table className="excel-table">
                             <thead>
@@ -463,9 +529,9 @@ const FiltrarFundae = () => {
                 </div>
                 <div className="rightBottomContainer">
                     <div className="filtrarFundaeContainer">
-                        <MoreInfo info='Aquí puedes filtrar usuarios por sus etiquetas y posteriormente visualizar.' />
+                        <MoreInfo info="Aquí puedes filtrar usuarios por sus etiquetas y posteriormente visualizar." />
+                        <h1>Filtrar Fundae</h1>
                         <div className="search-container">
-                            <h1>Filtrar Fundae</h1>
                             <input 
                                 type="text" 
                                 placeholder="Ingresa valores separados por comas" 
@@ -473,21 +539,68 @@ const FiltrarFundae = () => {
                                 onChange={handleInputChange} 
                                 className="search-bar2"
                             />
-                            <button className="search-button" onClick={handleButtonClick}>Filtrar</button>
-                            <button 
-                                className="download-button" 
-                                onClick={() => generateExcelFile()} 
-                                disabled={data.length === 0 || isLoading}
-                            >
-                                Descargar Excel
-                            </button>
+                            <input 
+                                type="number" 
+                                placeholder="Ingresa un número" 
+                                value={numberValue} 
+                                onChange={handleNumberChange} 
+                                className="number-input"
+                            />
+                            <select value={currentCourse} onChange={handleCourseSelect} className="course-select">
+                                <option value="">Selecciona un curso</option>
+                                {availableCourses.map((course, index) => {
+                                    // Eliminar guiones y capitalizar la primera letra de cada palabra
+                                    const formattedCourse = course.replace(/-/g, ' ').split(' ').map(word => 
+                                        word.charAt(0).toUpperCase() + word.slice(1)
+                                    ).join(' ');
+
+                                    return (
+                                        <option key={index} value={course}>
+                                            {formattedCourse}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <button onClick={addCourse} className="add-course-button">Añadir curso</button>
+                            </div>
+                            <div>
+                            <div className="selected-courses">
+                                <h3 className='title-courses'>Cursos seleccionados:</h3>
+                                <ul className='title-courses-ul'>
+                                {selectedCourses.map((course, index) => {
+                                    // Eliminar guiones y capitalizar la primera letra de cada palabra
+                                    const formattedCourse = course.replace(/-/g, ' ').split(' ').map(word => 
+                                        word.charAt(0).toUpperCase() + word.slice(1)
+                                    ).join(' ');
+
+                                    return (
+                                        <li key={index}>
+                                            {formattedCourse}
+                                            <button onClick={() => removeCourse(course)} className="remove-course-button">
+                                                X
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                                </ul>
+                            </div>
+                            <div className='container-buttons-Filter'>
+                                <button className="search-button" onClick={handleButtonClick}>Filtrar</button>
+                                <button 
+                                    className="download-button" 
+                                    onClick={() => generateExcelFile()} 
+                                    disabled={data.length === 0 || isLoading}
+                                >
+                                    Descargar Excel
+                                </button>
+                            </div>
+
                             {isLoading && (
                                 <div className="loader-container">
                                     <img src={LoadingGif} alt="Loading..." className="loader-gif" />
                                 </div>
                             )}
                         </div>
-
                         {!isLoading && data.length > 0 && (
                             <div className="tables-container">
                                 {renderPersonalDataTable()}
@@ -500,6 +613,5 @@ const FiltrarFundae = () => {
             </div>
         </div>
     );
-}
-
+};
 export default FiltrarFundae;

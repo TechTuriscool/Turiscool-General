@@ -7,13 +7,79 @@
     margin-top: 10vh;
 }
 
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+
 .search-bar2 {
-    width: 70%;
+    width: 43%;
     height: 40px;
     border: 1px solid #006791;
     border-radius: 5px;
     padding: 3px;
     padding-left: 10px;
+}
+
+.number-input {
+    width: 15%;
+    height: 40px;
+    border: 1px solid #006791;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 10px;
+}
+
+.course-select {
+    width: 30%;
+    height: 40px;
+    border: 1px solid #006791;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 10px;
+}
+
+.title-courses {
+    width: 100%;
+    background-color: #006791;
+    margin: 0px;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+.selected-courses {
+    margin-top: 20px;
+    border: 1px solid #006791;
+    border-radius: 5px;
+    padding: 10px;
+    height: 200px;
+    overflow-y: scroll;
+}	
+
+.remove-course-button {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.remove-course-button:hover {
+    background-color: #ff4d4d;
+    color: black
+}
+.title-courses-ul {
+    margin-top: 10px;
+}
+
+.add-course-button {
+    margin: 0px;
 }
 
 /* Estilo para la tabla con scroll horizontal */
@@ -42,4 +108,20 @@
 
 .table-wrapper::-webkit-scrollbar-thumb:hover {
     background-color: #555;
+}
+
+.search-button {
+    background-color: #006791;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.container-buttons-Filter {
+    justify-content: space-between;
+    margin-top: 20px;
+    text-align: right;
 }
